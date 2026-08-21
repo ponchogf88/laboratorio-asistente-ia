@@ -1,0 +1,254 @@
+{
+  "name": "02 - Lead Scraper & Gemini Pro Enricher (B2B Cold Outreach)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "1a2b3c4d-0001-4000-8000-000000000001",
+      "name": "Al presionar 'Test step'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        220,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "enrich-lead",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "1a2b3c4d-0002-4000-8000-000000000002",
+      "name": "Webhook Inbound Lead",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        220,
+        460
+      ],
+      "webhookId": "webhook-enrich-lead-b2b"
+    },
+    {
+      "parameters": {
+        "jsCode": "const incoming = $input.first()?.json?.body || $input.first()?.json || {};\n\n// Si no se envían datos vía Webhook, usamos datos de prueba realistas para test manual\nconst lead = {\n  company_name: incoming.company_name || 'Inmobiliaria Delta Horizon',\n  website: incoming.website || 'https://deltahorizon-inmuebles.com',\n  industry: incoming.industry || 'Bienes Raíces / Real Estate',\n  contact_name: incoming.contact_name || 'Rodrigo Valenzuela',\n  contact_role: incoming.contact_role || 'Director Comercial & Co-Founder',\n  contact_email: incoming.contact_email || 'rodrigo.v@deltahorizon.com',\n  company_size: incoming.company_size || '30 empleados',\n  current_challenge: incoming.current_challenge || 'Reciben más de 80 leads diarios de Facebook Ads pero tardan 5 horas en contactarlos y los comerciales pierden tiempo con curiosos sin presupuesto.',\n  target_service: incoming.target_service || 'Agente SDR IA en Telegram/WhatsApp con calificación BANT en <60s y sincronización directa a CRM.'\n};\n\nreturn [{ json: lead }];"
+      },
+      "id": "1a2b3c4d-0003-4000-8000-000000000003",
+      "name": "Normalizar Datos del Lead",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        460,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const lead = $input.first().json;\n\nconst systemInstruction = `Eres un Estratega Senior de Outbound B2B, Copywriter de Respuesta Directa (seguidor del marco PAS y Alex Hormozi) y Arquitecto de Soluciones de Inteligencia Artificial.\n\nTu tarea es analizar los datos de la empresa objetivo, detectar sus puntos de dolor operativos y comerciales más críticos, y redactar un Cold Email hiper-personalizado y de altísima conversión para ofrecer una solución de automatización con IA / n8n.\n\nEstructura de salida JSON requerida:\n{\n  \"executive_diagnosis\": \"Diagnóstico de 2 líneas sobre la fuga de capital o ineficiencia de la empresa\",\n  \"pain_points\": [\n    \"Punto de dolor 1: Tiempo de respuesta lento y pérdida de velocidad de lead\",\n    \"Punto de dolor 2: Costo de oportunidad del equipo de ventas en tareas repetitivas\",\n    \"Punto de dolor 3: Falta de trazabilidad y calificación temprana de prospectos\"\n  ],\n  \"ai_solution_pitch\": \"Propuesta de valor concreta (ej. Agente SDR en Telegram/WhatsApp integrado con n8n y Google Sheets)\",\n  \"linkedin_icebreaker\": \"Frase corta, directa y sin clichés para iniciar conversación en LinkedIn DM\",\n  \"cold_email\": {\n    \"subject_options\": [\n      \"Opción 1 con curiosidad\",\n      \"Opción 2 con métrica/beneficio\",\n      \"Opción 3 directa\"\n    ],\n    \"body_pas\": \"Cuerpo del email estructurado en Problema -> Agitación -> Solución -> Llamado a la acción de baja fricción (ej. video loom de 3 min o demo interactiva)\",\n    \"cta\": \"¿Te parecería bien si te comparto un video de 3 minutos mostrando la arquitectura en vivo?\"\n  },\n  \"fit_score\": 92, // Número del 1 al 100\n  \"icp_tier\": \"Tier A (Hot - Alta Probabilidad de Cierre)\" // Tier A | Tier B | Tier C\n}`;\n\nconst prompt = `Analiza la siguiente empresa y prospecto B2B:\n- Empresa: ${lead.company_name}\n- Sitio Web: ${lead.website}\n- Industria: ${lead.industry}\n- Contacto: ${lead.contact_name} (${lead.contact_role})\n- Tamaño estimado: ${lead.company_size}\n- Cuello de botella actual: ${lead.current_challenge}\n- Servicio objetivo: ${lead.target_service}`;\n\nreturn [{\n  json: {\n    lead_data: lead,\n    payload: {\n      contents: [\n        {\n          role: \"user\",\n          parts: [\n            {\n              text: `${systemInstruction}\\n\\n--- DATOS DE ENTRADA ---\\n${prompt}`\n            }\n          ]\n        }\n      ],\n      generationConfig: {\n        temperature: 0.6,\n        topP: 0.9,\n        responseMimeType: \"application/json\"\n      }\n    }\n  }\n}];"
+      },
+      "id": "1a2b3c4d-0004-4000-8000-000000000004",
+      "name": "Preparar Prompt Gemini Pro",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        700,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key={{ $env.GEMINI_API_KEY || 'AIzaSy_TU_API_KEY_AQUI' }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.payload) }}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": false
+            }
+          }
+        }
+      },
+      "id": "1a2b3c4d-0005-4000-8000-000000000005",
+      "name": "Google Gemini Pro API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        940,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nconst lead = $('Preparar Prompt Gemini Pro').first().json.lead_data;\n\nlet aiResult = {\n  executive_diagnosis: 'Diagnóstico en proceso',\n  pain_points: [],\n  ai_solution_pitch: '',\n  linkedin_icebreaker: '',\n  cold_email: {\n    subject_options: [],\n    body_pas: '',\n    cta: ''\n  },\n  fit_score: 80,\n  icp_tier: 'Tier B'\n};\n\ntry {\n  const rawText = item.candidates?.[0]?.content?.parts?.[0]?.text || '{}';\n  const cleaned = rawText.replace(/```json\\n?/g, '').replace(/```/g, '').trim();\n  const parsed = JSON.parse(cleaned);\n  aiResult = { ...aiResult, ...parsed };\n} catch (e) {\n  aiResult.executive_diagnosis = 'Error al parsear JSON de Gemini: ' + e.message;\n}\n\nreturn [{\n  json: {\n    fecha: new Date().toISOString(),\n    empresa: lead.company_name,\n    contacto: lead.contact_name,\n    cargo: lead.contact_role,\n    email: lead.contact_email,\n    industria: lead.industry,\n    sitio_web: lead.website,\n    tamano: lead.company_size,\n    desafio_inicial: lead.current_challenge,\n    diagnostico_ejecutivo: aiResult.executive_diagnosis,\n    puntos_de_dolor: Array.isArray(aiResult.pain_points) ? aiResult.pain_points.join(' | ') : aiResult.pain_points,\n    solucion_propuesta: aiResult.ai_solution_pitch,\n    linkedin_icebreaker: aiResult.linkedin_icebreaker,\n    asunto_email: aiResult.cold_email?.subject_options?.[0] || 'Optimización con IA',\n    asuntos_alternativos: aiResult.cold_email?.subject_options?.join(' || ') || '',\n    cuerpo_cold_email: aiResult.cold_email?.body_pas || '',\n    cta_email: aiResult.cold_email?.cta || '',\n    fit_score: aiResult.fit_score,\n    icp_tier: aiResult.icp_tier\n  }\n}];"
+      },
+      "id": "1a2b3c4d-0006-4000-8000-000000000006",
+      "name": "Procesar y Estructurar Propuesta",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1180,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1A2B3C4D5E6F7G8H9I0J_ID_DE_TU_GOOGLE_SHEET",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Leads_Enriquecidos_B2B",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Fecha": "={{ $json.fecha }}",
+            "Empresa": "={{ $json.empresa }}",
+            "Contacto": "={{ $json.contacto }}",
+            "Cargo": "={{ $json.cargo }}",
+            "Email": "={{ $json.email }}",
+            "Industria": "={{ $json.industria }}",
+            "Sitio_Web": "={{ $json.sitio_web }}",
+            "Desafio_Inicial": "={{ $json.desafio_inicial }}",
+            "Diagnostico": "={{ $json.diagnostico_ejecutivo }}",
+            "Puntos_Dolor": "={{ $json.puntos_de_dolor }}",
+            "Solucion_IA": "={{ $json.solucion_propuesta }}",
+            "Icebreaker_LinkedIn": "={{ $json.linkedin_icebreaker }}",
+            "Asunto_Principal": "={{ $json.asunto_email }}",
+            "Cold_Email_Copy": "={{ $json.cuerpo_cold_email }}",
+            "Score_Fit": "={{ $json.fit_score }}",
+            "Tier_ICP": "={{ $json.icp_tier }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "1a2b3c4d-0007-4000-8000-000000000007",
+      "name": "Registrar en Google Sheets CRM",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1420,
+        240
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google-sheets-creds-id",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "1a2b3c4d-0008-4000-8000-000000000008",
+      "name": "Responder al Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1420,
+        460
+      ]
+    }
+  ],
+  "connections": {
+    "Al presionar 'Test step'": {
+      "main": [
+        [
+          {
+            "node": "Normalizar Datos del Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Inbound Lead": {
+      "main": [
+        [
+          {
+            "node": "Normalizar Datos del Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalizar Datos del Lead": {
+      "main": [
+        [
+          {
+            "node": "Preparar Prompt Gemini Pro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Prompt Gemini Pro": {
+      "main": [
+        [
+          {
+            "node": "Google Gemini Pro API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Pro API": {
+      "main": [
+        [
+          {
+            "node": "Procesar y Estructurar Propuesta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Procesar y Estructurar Propuesta": {
+      "main": [
+        [
+          {
+            "node": "Registrar en Google Sheets CRM",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Responder al Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2a3b4c5d-6e7f-8a9b-0c1d-2e3f4a5b6c7d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "laboratorio-ia-n8n-instance"
+  },
+  "id": "lead-scraper-gemini-enricher",
+  "tags": [
+    "Gemini Pro",
+    "B2B",
+    "Cold Outreach",
+    "Lead Enrichment",
+    "Google Sheets"
+  ]
+}

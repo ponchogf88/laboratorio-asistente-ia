@@ -539,6 +539,377 @@
             border-color: var(--primary);
             color: var(--text-main);
         }
+
+        /* Engine & Model Selection Bar */
+        .engine-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 18px;
+            margin-bottom: 20px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .engine-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .engine-badge {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.2), rgba(139, 92, 246, 0.2));
+            border: 1px solid var(--accent-teal);
+            color: var(--accent-teal);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 0 12px var(--accent-teal-glow);
+        }
+
+        .model-select {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .model-select:focus, .model-select:hover {
+            border-color: var(--accent-teal);
+            box-shadow: 0 0 10px var(--accent-teal-glow);
+        }
+
+        .engine-specs {
+            display: flex;
+            gap: 14px;
+            font-size: 12px;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Stack Toggle Buttons */
+        .stack-toggle-container {
+            display: flex;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 6px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            gap: 8px;
+            margin-bottom: 24px;
+            max-width: 650px;
+        }
+
+        .stack-toggle-btn {
+            flex: 1;
+            padding: 10px 16px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .stack-toggle-btn:hover {
+            color: var(--text-main);
+        }
+
+        .stack-toggle-btn.active {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.2), rgba(139, 92, 246, 0.2));
+            border-color: var(--accent-teal);
+            color: var(--text-main);
+            box-shadow: 0 4px 12px var(--accent-teal-glow);
+        }
+
+        /* ROI Comparison Card */
+        .roi-comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .roi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .roi-card.recommended {
+            border-color: var(--accent-teal);
+            box-shadow: 0 0 20px var(--accent-teal-glow);
+        }
+
+        .roi-card.recommended::before {
+            content: 'STACK 2026 (RECOMENDADO)';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--accent-teal);
+            color: #020617;
+            font-size: 9px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .roi-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .roi-price {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--accent-teal);
+            margin-bottom: 12px;
+        }
+
+        .roi-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .roi-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Workflows Tab Styling */
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+            gap: 24px;
+        }
+
+        .workflow-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(8px);
+        }
+
+        .workflow-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 12px 30px rgba(139, 92, 246, 0.2);
+        }
+
+        .workflow-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .workflow-title-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .workflow-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .workflow-version {
+            font-size: 11px;
+            color: var(--accent-teal);
+            font-family: monospace;
+        }
+
+        .node-pipeline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .node-pill {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border);
+            color: #cbd5e1;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .node-pill.gemini {
+            background: rgba(20, 184, 166, 0.15);
+            border-color: var(--accent-teal);
+            color: var(--accent-teal);
+        }
+
+        .node-pill.telegram {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: #38bdf8;
+            color: #38bdf8;
+        }
+
+        .node-pill.discord {
+            background: rgba(139, 92, 246, 0.15);
+            border-color: var(--primary);
+            color: #c084fc;
+        }
+
+        .pipeline-arrow {
+            color: var(--text-muted);
+            font-size: 10px;
+        }
+
+        .workflow-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .workflow-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .btn-action {
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid var(--border);
+            text-decoration: none;
+        }
+
+        .btn-copy-json {
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .btn-copy-json:hover {
+            box-shadow: 0 0 12px var(--primary-glow);
+            opacity: 0.95;
+        }
+
+        .btn-download-json {
+            background: rgba(20, 184, 166, 0.15);
+            border-color: var(--accent-teal);
+            color: var(--accent-teal);
+        }
+
+        .btn-download-json:hover {
+            background: var(--accent-teal);
+            color: #020617;
+            box-shadow: 0 0 12px var(--accent-teal-glow);
+        }
+
+        .btn-view-json {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+        }
+
+        .btn-view-json:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .json-code-container {
+            display: none;
+            background: #020617;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            max-height: 220px;
+            overflow-y: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 11px;
+            color: #38bdf8;
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        .json-code-container.show {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @media (max-width: 900px) {
+            .app-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            .chat-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            .roi-comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            .workflow-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -555,11 +926,14 @@
                     <li class="nav-item active" onclick="switchTab('chat-tab', this)">
                         <span>💬</span> Enjambre Chat
                     </li>
+                    <li class="nav-item" onclick="switchTab('funnel-tab', this)">
+                        <span>⚡</span> Simulador Embudo
+                    </li>
+                    <li class="nav-item" onclick="switchTab('workflows-tab', this)">
+                        <span>📦</span> Workflows n8n (JSON)
+                    </li>
                     <li class="nav-item" onclick="switchTab('curriculum-tab', this)">
                         <span>📚</span> Temario Académico
-                    </li>
-                    <li class="nav-item" onclick="switchTab('funnel-tab', this)">
-                        <span>⚙️</span> Embudo ManyChat
                     </li>
                     <li class="nav-item" onclick="switchTab('vault-tab', this)">
                         <span>🔑</span> Bóveda Prompts
@@ -568,7 +942,7 @@
             </div>
             <div class="sidebar-footer">
                 <p>© 2026 Academia AAA</p>
-                <p style="font-size: 10px; margin-top: 4px;">Edición Masterclass</p>
+                <p style="font-size: 10px; margin-top: 4px;">Stack Google Gemini 2M + Telegram</p>
             </div>
         </aside>
 
@@ -578,36 +952,60 @@
             <div id="chat-tab" class="tab-content active">
                 <div class="section-header">
                     <h2 class="section-title">Enjambre de Agentes Multi-Modelo</h2>
-                    <p class="section-desc">Selecciona un agente especializado para simular e interactuar con sus flujos de decisión y herramientas automatizadas en tiempo real.</p>
+                    <p class="section-desc">Interactúa con agentes autónomos especializados impulsados por Google Gemini Pro/Flash (2M Context) para simular flujos de Telegram SDR, Comunidad Discord y generación de contenido.</p>
+                </div>
+
+                <!-- Engine Selection & Specs Bar -->
+                <div class="engine-bar">
+                    <div class="engine-left">
+                        <span style="font-weight: 700; font-size: 13px;">Motor de Inferencia:</span>
+                        <select class="model-select" id="model-select" onchange="onModelChanged()">
+                            <option value="gemini-flash" selected>🌟 Google Gemini 1.5 Flash (2M Context - Recomendado)</option>
+                            <option value="gemini-pro">💎 Google Gemini 1.5 Pro (2M Context - Razonamiento Profundo)</option>
+                            <option value="claude-sonnet">🧠 Claude 3.5 Sonnet (Especialista en Código)</option>
+                            <option value="deepseek-r1">⚡ DeepSeek V3 / R1 (Lógica & Matemáticas)</option>
+                            <option value="gpt-4o">🤖 OpenAI GPT-4o (Multimodal)</option>
+                        </select>
+                        <span class="engine-badge" id="engine-badge">⚡ 2M TOKENS NATIVOS</span>
+                    </div>
+                    <div class="engine-specs">
+                        <div class="spec-item"><span style="color: var(--accent-teal);">●</span> Latencia: <strong id="spec-latency">~320ms</strong></div>
+                        <div class="spec-item"><span style="color: var(--primary);">●</span> Context Window: <strong id="spec-context">2,097,152 tokens</strong></div>
+                        <div class="spec-item"><span style="color: var(--success);">●</span> Costo API: <strong>$0.00 / Free Tier</strong></div>
+                    </div>
                 </div>
 
                 <div class="chat-container">
                     <!-- Dialogue Panel -->
                     <div class="chat-panel">
                         <div class="chat-header">
-                            <span style="font-weight: 700;">Canal de Comunicación</span>
+                            <span style="font-weight: 700;">Canal & Agente Activo</span>
                             <select class="agent-selector" id="agent-selector" onchange="onAgentChanged()">
-                                <option value="orquestador">Agente 0: Orquestador Maestro</option>
-                                <option value="scraper">Agente 1: Scraper & Trend Intelligence</option>
-                                <option value="creativo">Agente 3: Estudio Creativo Copy</option>
-                                <option value="sdr">Agente 5: Asistente SDR WhatsApp</option>
+                                <option value="telegram-sdr" selected>🤖 Bot Telegram SDR (Google Gemini 2M Context)</option>
+                                <option value="discord-manager">🛡️ Comunidad Discord (Auto-Moderador & Éxito)</option>
+                                <option value="orquestador">👑 Agente 0: Orquestador Maestro (Gemini Swarm)</option>
+                                <option value="scraper">🔍 Agente 1: Scraper & Trend Intelligence</option>
+                                <option value="creativo">✍️ Agente 3: Estudio Creativo Copy & Reels</option>
+                                <option value="sdr-whatsapp">💬 Agente 5: Asistente SDR WhatsApp</option>
                             </select>
                         </div>
                         <div class="chat-messages" id="chat-messages">
                             <div class="msg msg-agent">
-                                ¡Hola! 👋 Eres parte del Laboratorio del Máster AAA. Selecciona un agente de arriba para simular sus decisiones autónomas de negocio. ¿Qué deseas hacer hoy?
+                                ¡Hola! 👋 Soy el <strong>Bot Telegram SDR</strong> potenciado por <strong>Google Gemini 1.5 Flash (2M Context)</strong>.<br><br>
+                                Recibo mensajes en Telegram, califico prospectos con BANT en JSON estructurado, entrego workflows de n8n y notifico en tiempo real a nuestra <strong>Comunidad de Discord</strong>. ¿Qué deseas simular?
                             </div>
                         </div>
                         <div class="chat-input-area" style="flex-direction: column;">
                             <div style="display: flex; width: 100%; gap: 12px;">
-                                <input type="text" class="chat-input" id="chat-input" placeholder="Pregúntale algo a tu agente de IA..." onkeydown="if(event.key === 'Enter') sendUserMessage()">
+                                <input type="text" class="chat-input" id="chat-input" placeholder="Escribe un mensaje o prueba una simulación..." onkeydown="if(event.key === 'Enter') sendUserMessage()">
                                 <button class="chat-send-btn" onclick="sendUserMessage()">Enviar</button>
                             </div>
                             <div class="quick-tags" id="quick-tags">
-                                <span class="quick-tag" onclick="useQuickTag('Simular agendamiento WhatsApp')">Simular WhatsApp SDR</span>
-                                <span class="quick-tag" onclick="useQuickTag('Generar Guion Viral')">Generar Guion Reel</span>
-                                <span class="quick-tag" onclick="useQuickTag('Escanear tendencias IA')">Escanear Tendencias</span>
-                                <span class="quick-tag" onclick="useQuickTag('Calificar un lead')">Calificar Lead BANT</span>
+                                <span class="quick-tag" onclick="useQuickTag('Simular Bot Telegram SDR')">🤖 Simular Telegram SDR (Gemini)</span>
+                                <span class="quick-tag" onclick="useQuickTag('Simular Comunidad Discord')">🛡️ Simular Onboarding Discord</span>
+                                <span class="quick-tag" onclick="useQuickTag('Generar Guion Viral con Gemini')">🎬 Guion Viral Reel (2M)</span>
+                                <span class="quick-tag" onclick="useQuickTag('Calificar Lead High-Ticket BANT')">🎯 Calificar Lead High-Ticket</span>
+                                <span class="quick-tag" onclick="useQuickTag('Probar Memoria 2M Tokens')">⚡ Cargar 2M Context Window</span>
                             </div>
                         </div>
                     </div>
@@ -618,17 +1016,334 @@
                             <div class="terminal-dot" style="background-color: #ef4444;"></div>
                             <div class="terminal-dot" style="background-color: #eab308;"></div>
                             <div class="terminal-dot" style="background-color: #22c55e;"></div>
-                            <span style="font-family: monospace; font-size: 11px; margin-left: 10px; color: var(--text-muted);">MONITOR_PENSAMIENTOS.log</span>
+                            <span style="font-family: monospace; font-size: 11px; margin-left: 10px; color: var(--text-muted);">MONITOR_PENSAMIENTOS.log [GEMINI_2M_ACTIVE]</span>
                         </div>
                         <div class="terminal-body" id="terminal-body">
-                            [INFO] Consola de Razonamiento del Enjambre conectada.<br>
-                            [SYSTEM] Esperando inputs de usuario para disparar triggers...<br>
+                            [INFO] Motor Google Gemini 1.5 Flash (2M Context) inicializado.<br>
+                            [SYSTEM] Webhook Telegram conectado en /api/telegram-webhook.<br>
+                            [DISCORD] Bot de Comunidad conectado a servidor Discord (#leads-vip).<br>
+                            [READY] Esperando interacciones de prospectos en tiempo real...<br>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 2. CURRICULUM TAB CONTENT -->
+            <!-- 2. FUNNEL TAB CONTENT -->
+            <div id="funnel-tab" class="tab-content">
+                <div class="section-header">
+                    <h2 class="section-title">Estructura del Embudo Automatizado</h2>
+                    <p class="section-desc">Compara la arquitectura moderna sin comisiones (Telegram + Gemini 2M + Discord) frente al stack clásico (ManyChat + Skool).</p>
+                </div>
+
+                <!-- Funnel Stack Toggle -->
+                <div class="stack-toggle-container">
+                    <button class="stack-toggle-btn active" id="btn-stack-modern" onclick="switchFunnelStack('modern')">
+                        <span>⚡</span> Stack Moderno: Telegram + Gemini + Discord (Zero-Fee)
+                    </button>
+                    <button class="stack-toggle-btn" id="btn-stack-classic" onclick="switchFunnelStack('classic')">
+                        <span>📜</span> Stack Histórico: ManyChat + Skool
+                    </button>
+                </div>
+
+                <!-- Modern Stack View (Default) -->
+                <div id="modern-funnel-view">
+                    <div class="funnel-flow">
+                        <!-- Step 1 -->
+                        <div class="funnel-step" onclick="showModernFunnelModal('reel_telegram')">
+                            <div class="step-number" style="background: #38bdf8;">1</div>
+                            <div class="step-info">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                    <span class="node-pill telegram">Telegram Link / Bio</span>
+                                    <h4 class="step-title" style="margin: 0;">Tracción Viral en Reel / TikTok / Shorts</h4>
+                                </div>
+                                <p class="step-desc">El creador comparte contenido de alto valor y ofrece la Bóveda de Workflows JSON. CTA directo al canal o bot privado de Telegram (sin costo por contacto de ManyChat).</p>
+                            </div>
+                            <span style="font-size: 12px; color: var(--accent-teal);">🔍 Ver Payload</span>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="funnel-step" onclick="showModernFunnelModal('telegram_gemini_bot')">
+                            <div class="step-number" style="background: var(--accent-teal);">2</div>
+                            <div class="step-info">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                    <span class="node-pill gemini">Google Gemini 2M Context</span>
+                                    <h4 class="step-title" style="margin: 0;">Bot Telegram SDR Autónomo</h4>
+                                </div>
+                                <p class="step-desc">Webhook instantáneo en n8n. Gemini procesa audio, texto y documentos con ventana masiva de 2M tokens recordando todo el historial del usuario sin alucinaciones.</p>
+                            </div>
+                            <span style="font-size: 12px; color: var(--accent-teal);">🔍 Ver Payload</span>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="funnel-step" onclick="showModernFunnelModal('bant_json_qualification')">
+                            <div class="step-number" style="background: var(--primary);">3</div>
+                            <div class="step-info">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                    <span class="node-pill">JSON Schema Parser</span>
+                                    <h4 class="step-title" style="margin: 0;">Calificación Inteligente BANT en JSON</h4>
+                                </div>
+                                <p class="step-desc">Gemini extrae deterministamente: Presupuesto (> $1,500 High-Ticket vs Alumno), Rol (Agencia/Empresario), Urgencia y Cuello de Botella técnico en un objeto JSON estricto.</p>
+                            </div>
+                            <span style="font-size: 12px; color: var(--accent-teal);">🔍 Ver Payload</span>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="funnel-step" onclick="showModernFunnelModal('json_delivery_calendar')">
+                            <div class="step-number" style="background: #eab308;">4</div>
+                            <div class="step-info">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                    <span class="node-pill">Google Calendar API</span>
+                                    <h4 class="step-title" style="margin: 0;">Entrega Automatizada de Bóveda JSON & Agendamiento</h4>
+                                </div>
+                                <p class="step-desc">Envío inmediato del archivo .json de n8n por Telegram. Si es lead High-Ticket, se ofrece ranura directa en Google Calendar sincronizada en tiempo real.</p>
+                            </div>
+                            <span style="font-size: 12px; color: var(--accent-teal);">🔍 Ver Payload</span>
+                        </div>
+
+                        <!-- Step 5 -->
+                        <div class="funnel-step" onclick="showModernFunnelModal('discord_community_onboarding')">
+                            <div class="step-number" style="background: #8b5cf6;">5</div>
+                            <div class="step-info">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                    <span class="node-pill discord">Discord Webhook + Bot</span>
+                                    <h4 class="step-title" style="margin: 0;">Comunidad Discord (Onboarding & Gamificación)</h4>
+                                </div>
+                                <p class="step-desc">Disparo de Webhook a canal `#leads-vip`, bienvenida interactiva, auto-asignación de roles (`@Alumno-VIP`, `@Dev-Agencia`), y canales de `#victorias` y `#debugging-en-vivo`.</p>
+                            </div>
+                            <span style="font-size: 12px; color: var(--accent-teal);">🔍 Ver Payload</span>
+                        </div>
+                    </div>
+
+                    <!-- Cost & ROI Comparative Cards -->
+                    <div class="roi-comparison-grid">
+                        <div class="roi-card recommended">
+                            <div class="roi-title">
+                                <span>⚡</span> Stack Telegram + Gemini + Discord (2026)
+                            </div>
+                            <div class="roi-price">$5 USD / mes <span style="font-size: 12px; color: var(--text-muted); font-weight: normal;">(VPS Hetzner propio)</span></div>
+                            <ul class="roi-list">
+                                <li>✅ <strong>Contactos ilimitados:</strong> Sin coste por suscriptor en Telegram ni Discord.</li>
+                                <li>✅ <strong>Google Gemini 2M Context:</strong> Memoria infinita y comprensión multimodal casi gratuita.</li>
+                                <li>✅ <strong>Webhook directo a Discord:</strong> Notificaciones a `#leads-vip` con embeds visuales en 0.2s.</li>
+                                <li>✅ <strong>Soberanía total:</strong> Los datos y workflows corren en tu propio servidor n8n en Docker.</li>
+                            </ul>
+                        </div>
+
+                        <div class="roi-card">
+                            <div class="roi-title">
+                                <span>📜</span> Stack Clásico ManyChat + Skool
+                            </div>
+                            <div class="roi-price">$150 - $350+ USD / mes <span style="font-size: 12px; color: var(--text-muted); font-weight: normal;">(Suscripciones acumuladas)</span></div>
+                            <ul class="roi-list">
+                                <li>⚠️ <strong>ManyChat:</strong> Tarifa sube drásticamente a medida que crecen tus contactos en IG/WhatsApp.</li>
+                                <li>⚠️ <strong>Skool:</strong> $99 USD/mes fijos + tarifas de transacción por procesar pagos.</li>
+                                <li>⚠️ <strong>Límites en Meta API:</strong> Riesgo de bloqueos de cuenta o demoras en la ventana de 24 horas.</li>
+                                <li>⚠️ <strong>Dependencia de terceros:</strong> No tienes acceso directo a la base de datos SQL.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Classic Stack View (Hidden by default) -->
+                <div id="classic-funnel-view" style="display: none;">
+                    <div class="funnel-flow">
+                        <!-- Step 1 -->
+                        <div class="funnel-step" onclick="showFunnelModal('instagram')">
+                            <div class="step-number">1</div>
+                            <div class="step-info">
+                                <h4 class="step-title">Comentario en Reel ("Comment-to-DM")</h4>
+                                <p class="step-desc">El usuario comenta la palabra clave "AGENTE". ManyChat dispara una respuesta automática al post y un mensaje directo personalizado.</p>
+                            </div>
+                            <span>🔍 Ver detalles</span>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="funnel-step" onclick="showFunnelModal('calificacion')">
+                            <div class="step-number">2</div>
+                            <div class="step-info">
+                                <h4 class="step-title">Calificación Automática BANT</h4>
+                                <p class="step-desc">El bot del chat califica de forma natural el perfil: Presupuesto, Urgencia, Necesidad y Rol del usuario.</p>
+                            </div>
+                            <span>🔍 Ver detalles</span>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="funnel-step" onclick="showFunnelModal('calendario')">
+                            <div class="step-number">3</div>
+                            <div class="step-info">
+                                <h4 class="step-title">Entrega de Recurso & Agendamiento</h4>
+                                <p class="step-desc">Se entrega el enlace a la bóveda de plantillas y se ofrece agendar una auditoría en Google Calendar / Calendly de forma directa si califica.</p>
+                            </div>
+                            <span>🔍 Ver detalles</span>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="funnel-step" onclick="showFunnelModal('comunidad')">
+                            <div class="step-number">4</div>
+                            <div class="step-info">
+                                <h4 class="step-title">Onboarding e Integración en Skool</h4>
+                                <p class="step-desc">El alumno se registra en Skool donde accede al nivel gratuito, gana niveles por gamificación y escala a la oferta paga.</p>
+                            </div>
+                            <span>🔍 Ver detalles</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detalle modal simulado visualmente abajo del flujo -->
+                <div class="glass-card" id="funnel-detail-card" style="margin-top: 40px; display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <h3 id="funnel-detail-title" style="color: var(--accent-teal);">Detalles del Paso</h3>
+                        <button class="copy-btn" onclick="document.getElementById('funnel-detail-card').style.display='none'">✕ Cerrar</button>
+                    </div>
+                    <div id="funnel-detail-body" style="font-size: 14px; line-height: 1.6;">Selecciona un paso del embudo para auditar sus automaciones y payloads.</div>
+                </div>
+            </div>
+
+            <!-- 3. WORKFLOWS JSON TAB CONTENT (NEW) -->
+            <div id="workflows-tab" class="tab-content">
+                <div class="section-header">
+                    <h2 class="section-title">Bóveda de Workflows n8n (JSON Listos para Importar)</h2>
+                    <p class="section-desc">Copia o descarga directamente las arquitecturas en formato JSON de n8n para implementarlas en tu servidor VPS con un solo clic.</p>
+                </div>
+
+                <div class="workflow-grid" id="workflow-grid">
+                    <!-- Workflow 1 -->
+                    <div class="workflow-card">
+                        <div class="workflow-header">
+                            <div class="workflow-title-wrap">
+                                <h3 class="workflow-title">🤖 Bot Telegram SDR + Google Gemini 2M</h3>
+                                <span class="workflow-version">v2.4 • Producción n8n</span>
+                            </div>
+                            <span class="engine-badge" style="font-size: 10px;">TELEGRAM + GEMINI</span>
+                        </div>
+
+                        <div class="node-pipeline">
+                            <span class="node-pill telegram">Telegram Trigger</span>
+                            <span class="pipeline-arrow">➔</span>
+                            <span class="node-pill gemini">Gemini 1.5 Flash (2M)</span>
+                            <span class="pipeline-arrow">➔</span>
+                            <span class="node-pill">JSON Parser BANT</span>
+                            <span class="pipeline-arrow">➔</span>
+                            <span class="node-pill telegram">Telegram Response</span>
+                            <span class="pipeline-arrow">➔</span>
+                            <span class="node-pill discord">Discord #leads-vip</span>
+                        </div>
+
+                        <p class="workflow-desc">
+                            Flujo de prospección 24/7 en Telegram. Recibe mensajes, califica con BANT mediante Gemini 1.5 Flash con memoria masiva, entrega la Bóveda JSON y envía una alerta instantánea con Embed a Discord si el prospecto tiene presupuesto High-Ticket (> $1,500).
+                        </p>
+
+                        <div class="workflow-actions">
+                            <button class="btn-action btn-copy-json" onclick="copyWorkflowJson('wf_telegram_sdr', event)">📋 Copiar JSON para n8n</button>
+                            <button class="btn-action btn-download-json" onclick="downloadWorkflowJson('wf_telegram_sdr')">⬇️ Descargar .json</button>
+                            <button class="btn-action btn-view-json" onclick="toggleWorkflowCode('wf_telegram_sdr')">👁️ Ver Payload</button>
+                        </div>
+
+                        <pre class="json-code-container" id="code-wf_telegram_sdr"></pre>
+                    </div>
+
+                    <!-- Workflow 2 -->
+                    <div class="workflow-card">
+                        <div class="workflow-header">
+                            <div class="workflow-title-wrap">
+                                <h3 class="workflow-title">🛡️ Comunidad Discord: Onboarding & Auto-Moderador</h3>
+                                <span class="workflow-version">v1.8 • Producción n8n</span>
+                            </div>
+                            <span class="engine-badge" style="font-size: 10px; border-color: #8b5cf6; color: #c084fc;">DISCORD BOT</span>
+                        </div>
+
+                        <div class="node-pipeline">
+                            <span class="node-pill discord">Discord Webhook / Event</span>
+                            <span class="pipeline-arrow">➔</span>
+                            <span class="node-pill gemini">Gemini FAQ & Rules RAG</span>
+                            <span class="pipeline-arrow">➔</span>
+                            <span class="node-pill">Role Assignment Router</span>
+                            <span class="pipeline-arrow">➔</span>
+                            <span class="node-pill discord">Discord Send Embed</span>
+                        </div>
+
+                        <p class="workflow-desc">
+                            Sistema de gestión comunitaria para Discord. Da la bienvenida a nuevos miembros, asigna automáticamente roles (`@Alumno-VIP`, `@Dev-Agencia`), modera mensajes ofensivos y responde dudas técnicas sobre n8n consultando la base de conocimiento con Gemini.
+                        </p>
+
+                        <div class="workflow-actions">
+                            <button class="btn-action btn-copy-json" onclick="copyWorkflowJson('wf_discord_community', event)">📋 Copiar JSON para n8n</button>
+                            <button class="btn-action btn-download-json" onclick="downloadWorkflowJson('wf_discord_community')">⬇️ Descargar .json</button>
+                            <button class="btn-action btn-view-json" onclick="toggleWorkflowCode('wf_discord_community')">👁️ Ver Payload</button>
+                        </div>
+
+                        <pre class="json-code-container" id="code-wf_discord_community"></pre>
+                    </div>
+
+                    <!-- Workflow 3 -->
+                    <div class="workflow-card">
+                        <div class="workflow-header">
+                            <div class="workflow-title-wrap">
+                                <h3 class="workflow-title">🎬 Generador de Guiones Virales Multiplataforma</h3>
+                                <span class="workflow-version">v3.0 • Producción n8n</span>
+                            </div>
+                            <span class="engine-badge" style="font-size: 10px;">CREATIVE STUDIO</span>
+                        </div>
+
+                        <div class="node-pipeline">
+                            <span class="node-pill">Cron / Manual Trigger</span>
+                            <span class="pipeline-arrow">➔</span>
+                            <span class="node-pill">Trend Scraper API</span>
+                            <span class="pipeline-arrow">➔</span>
+                            <span class="node-pill gemini">Gemini 1.5 Pro Long-Form</span>
+                            <span class="pipeline-arrow">➔</span>
+                            <span class="node-pill">Multi-Format Copy Splitter</span>
+                        </div>
+
+                        <p class="workflow-desc">
+                            A partir de un tema de tendencia o video de YouTube, Google Gemini Pro 1.5 sintetiza la información y genera: Guion de Reel de 50s (con la fórmula Hook-Prueba-Valor-CTA), Carrusel de Instagram de 7 diapositivas, Hilo de X y Newsletter lista para publicar en Discord.
+                        </p>
+
+                        <div class="workflow-actions">
+                            <button class="btn-action btn-copy-json" onclick="copyWorkflowJson('wf_content_generator', event)">📋 Copiar JSON para n8n</button>
+                            <button class="btn-action btn-download-json" onclick="downloadWorkflowJson('wf_content_generator')">⬇️ Descargar .json</button>
+                            <button class="btn-action btn-view-json" onclick="toggleWorkflowCode('wf_content_generator')">👁️ Ver Payload</button>
+                        </div>
+
+                        <pre class="json-code-container" id="code-wf_content_generator"></pre>
+                    </div>
+
+                    <!-- Workflow 4 -->
+                    <div class="workflow-card">
+                        <div class="workflow-header">
+                            <div class="workflow-title-wrap">
+                                <h3 class="workflow-title">👑 Orquestador Central de Enjambre Multi-Agente</h3>
+                                <span class="workflow-version">v4.2 • Enterprise VPS</span>
+                            </div>
+                            <span class="engine-badge" style="font-size: 10px; border-color: #eab308; color: #facc15;">MULTI-AGENT SWARM</span>
+                        </div>
+
+                        <div class="node-pipeline">
+                            <span class="node-pill">Swarm Webhook Router</span>
+                            <span class="pipeline-arrow">➔</span>
+                            <span class="node-pill">PostgreSQL + pgvector</span>
+                            <span class="pipeline-arrow">➔</span>
+                            <span class="node-pill gemini">Gemini Swarm Supervisor</span>
+                            <span class="pipeline-arrow">➔</span>
+                            <span class="node-pill">Sub-Agent Task Queues</span>
+                        </div>
+
+                        <p class="workflow-desc">
+                            Cerebro central del enjambre corporativo. Conecta 8 agentes autónomos con memoria vectorial persistente en PostgreSQL, gestiona asignaciones asíncronas de tareas complejas y emite reportes ejecutivos semanales de conversión y pauta directamente a Discord.
+                        </p>
+
+                        <div class="workflow-actions">
+                            <button class="btn-action btn-copy-json" onclick="copyWorkflowJson('wf_swarm_orchestrator', event)">📋 Copiar JSON para n8n</button>
+                            <button class="btn-action btn-download-json" onclick="downloadWorkflowJson('wf_swarm_orchestrator')">⬇️ Descargar .json</button>
+                            <button class="btn-action btn-view-json" onclick="toggleWorkflowCode('wf_swarm_orchestrator')">👁️ Ver Payload</button>
+                        </div>
+
+                        <pre class="json-code-container" id="code-wf_swarm_orchestrator"></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. CURRICULUM TAB CONTENT -->
             <div id="curriculum-tab" class="tab-content">
                 <div class="section-header">
                     <h2 class="section-title">Temario y Plan de Estudios</h2>
@@ -645,13 +1360,13 @@
                         <div class="accordion-content">
                             <ul class="lesson-list">
                                 <li class="lesson-item">
-                                    <strong>Lección 0.1:</strong> El nuevo paradigma: De Chatbots Reactivos a Agentes Autónomos Multi-Modelo.
+                                    <strong>Lección 0.1:</strong> El nuevo paradigma: De Chatbots Reactivos a Agentes Autónomos Multi-Modelo con Google Gemini 2M Context.
                                 </li>
                                 <li class="lesson-item">
                                     <strong>Lección 0.2:</strong> Configuración de n8n en servidor VPS propio (Hetzner + Docker) por $5/mes (Flujos ilimitados sin comisiones).
                                 </li>
                                 <li class="lesson-item">
-                                    <strong>Lección 0.3:</strong> Conexión de Modelos y APIs: Anthropic (Claude), OpenAI, DeepSeek y Gemini.
+                                    <strong>Lección 0.3:</strong> Conexión de Modelos y APIs: Google Gemini (Pro/Flash), Anthropic (Claude), OpenAI y DeepSeek.
                                 </li>
                                 <li class="lesson-item">
                                     <strong>Lección 0.4:</strong> Entornos de desarrollo asistidos por IA: Uso de Cursor AI y Claude Code para programar sin ser programador senior.
@@ -669,10 +1384,10 @@
                         <div class="accordion-content">
                             <ul class="lesson-list">
                                 <li class="lesson-item">
-                                    <strong>Lección 1.1:</strong> Estructura de un Agente Autónomo: Percepción (Triggers/Webhooks) ➔ Razonamiento (LLM) ➔ Acción (Tools/APIs).
+                                    <strong>Lección 1.1:</strong> Estructura de un Agente Autónomo: Percepción (Triggers/Webhooks) ➔ Razonamiento (Gemini 2M) ➔ Acción (Tools/APIs).
                                 </li>
                                 <li class="lesson-item">
-                                    <strong>Lección 1.2:</strong> Gestión de Contexto, Memoria a Corto y Largo Plazo (PostgreSQL + pgvector / Supabase).
+                                    <strong>Lección 1.2:</strong> Gestión de Contexto Masivo, Memoria a Corto y Largo Plazo (PostgreSQL + pgvector / Supabase).
                                 </li>
                                 <li class="lesson-item">
                                     <strong>Lección 1.3:</strong> RAG Empresarial (Retrieval-Augmented Generation): Conectando PDFs, bases de datos y Notion sin alucinaciones.
@@ -693,16 +1408,16 @@
                         <div class="accordion-content">
                             <ul class="lesson-list">
                                 <li class="lesson-item">
-                                    <strong>Proyecto 1: Agente SDR de WhatsApp Business (24/7):</strong> Conexión con WhatsApp Cloud API, calificación automática BANT (Presupuesto, Urgencia, Necesidad) y agendamiento en Google Calendar / Calendly con confirmación instantánea.
+                                    <strong>Proyecto 1: Bot Telegram SDR Autónomo (24/7):</strong> Conexión con Telegram Bot API, calificación automática BANT con Gemini 1.5 Flash y agendamiento en Google Calendar con alertas a Discord.
                                 </li>
                                 <li class="lesson-item">
-                                    <strong>Proyecto 2: Agente Scraper y Prospección en Frío B2B:</strong> Extracción automática de datos de Google Maps, LinkedIn y sitios web, análisis de puntos de dolor de negocios y generación de Cold Emails hiper-personalizados.
+                                    <strong>Proyecto 2: Agente Scraper y Prospección en Frío B2B:</strong> Extracción automática de datos de Google Maps, LinkedIn y sitios web, análisis de puntos de dolor y generación de Cold Emails hiper-personalizados.
                                 </li>
                                 <li class="lesson-item">
-                                    <strong>Proyecto 3: Agente de Soporte al Cliente y Resolución de Tickets:</strong> Integración con Zendesk / Slack / Notion para responder consultas frecuentes y escalar casos críticos.
+                                    <strong>Proyecto 3: Agente de Soporte al Cliente y Resolución en Discord:</strong> Integración con Discord Webhooks / Slack / Notion para responder consultas frecuentes y auto-asignar roles.
                                 </li>
                                 <li class="lesson-item">
-                                    <strong>Proyecto 4: Agente de Creación y Programación de Contenido Multiplataforma:</strong> De una idea de voz en audio a: Guion de Reel + Carrusel de Instagram + Newsletter + Hilo de X.
+                                    <strong>Proyecto 4: Agente de Creación y Programación de Contenido Multiplataforma:</strong> De una idea de voz en audio a: Guion de Reel + Carrusel de Instagram + Newsletter + Hilo de X con Gemini Pro.
                                 </li>
                             </ul>
                         </div>
@@ -755,67 +1470,11 @@
                 </div>
             </div>
 
-            <!-- 3. FUNNEL TAB CONTENT -->
-            <div id="funnel-tab" class="tab-content">
-                <div class="section-header">
-                    <h2 class="section-title">Estructura del Embudo Automatizado</h2>
-                    <p class="section-desc">Entiende visualmente la lógica del embudo de adquisición del curso, el flujo de ManyChat ("Comment-to-DM") y la integración con la comunidad de Skool.</p>
-                </div>
-
-                <div class="funnel-flow">
-                    <!-- Step 1 -->
-                    <div class="funnel-step" onclick="showFunnelModal('instagram')">
-                        <div class="step-number">1</div>
-                        <div class="step-info">
-                            <h4 class="step-title">Comentario en Reel ("Comment-to-DM")</h4>
-                            <p class="step-desc">El usuario comenta la palabra clave "AGENTE". ManyChat dispara una respuesta automática al post y un mensaje directo personalizado.</p>
-                        </div>
-                        <span>🔍 Ver detalles</span>
-                    </div>
-
-                    <!-- Step 2 -->
-                    <div class="funnel-step" onclick="showFunnelModal('calificacion')">
-                        <div class="step-number">2</div>
-                        <div class="step-info">
-                            <h4 class="step-title">Calificación Automática BANT</h4>
-                            <p class="step-desc">El bot del chat califica de forma natural el perfil: Presupuesto, Urgencia, Necesidad y Rol del usuario.</p>
-                        </div>
-                        <span>🔍 Ver detalles</span>
-                    </div>
-
-                    <!-- Step 3 -->
-                    <div class="funnel-step" onclick="showFunnelModal('calendario')">
-                        <div class="step-number">3</div>
-                        <div class="step-info">
-                            <h4 class="step-title">Entrega de Recurso & Agendamiento</h4>
-                            <p class="step-desc">Se entrega el enlace a la bóveda de plantillas y se ofrece agendar una auditoría en Google Calendar / Calendly de forma directa si califica.</p>
-                        </div>
-                        <span>🔍 Ver detalles</span>
-                    </div>
-
-                    <!-- Step 4 -->
-                    <div class="funnel-step" onclick="showFunnelModal('comunidad')">
-                        <div class="step-number">4</div>
-                        <div class="step-info">
-                            <h4 class="step-title">Onboarding e Integración en Skool</h4>
-                            <p class="step-desc">El alumno se registra en Skool donde accede al nivel gratuito, gana niveles por gamificación y escala a la oferta paga.</p>
-                        </div>
-                        <span>🔍 Ver detalles</span>
-                    </div>
-                </div>
-
-                <!-- Detalle modal simulado visualmente abajo del flujo -->
-                <div class="glass-card" id="funnel-detail-card" style="margin-top: 40px; display: none;">
-                    <h3 id="funnel-detail-title" style="margin-bottom: 12px; color: var(--accent-teal);">Detalles del Paso</h3>
-                    <div id="funnel-detail-body" style="font-size: 14px; line-height: 1.6;">Selecciona un paso del embudo para auditar sus automaciones y payloads.</div>
-                </div>
-            </div>
-
-            <!-- 4. VAULT TAB CONTENT -->
+            <!-- 5. VAULT TAB CONTENT -->
             <div id="vault-tab" class="tab-content">
                 <div class="section-header">
                     <h2 class="section-title">Bóveda de Prompts y Configuración de Agentes</h2>
-                    <p class="section-desc">Copia directamente las configuraciones del sistema y prompts maestros utilizados en la arquitectura del enjambre empresarial.</p>
+                    <p class="section-desc">Copia directamente las configuraciones del sistema y prompts maestros optimizados para Google Gemini 2M Context y la orquestación del enjambre empresarial.</p>
                 </div>
 
                 <div class="prompt-grid" id="prompt-grid">
@@ -827,88 +1486,320 @@
 
     <!-- JavaScript logic -->
     <script>
+        // Production n8n Workflows JSON Database
+        const workflowsData = {
+            wf_telegram_sdr: {
+                filename: "workflow-telegram-gemini-sdr.json",
+                json: {
+                    "name": "Bot Telegram SDR - Google Gemini 2M Context + Discord Webhook",
+                    "nodes": [
+                        {
+                            "parameters": { "updates": ["message"] },
+                            "id": "1",
+                            "name": "Telegram Trigger (Inbound Message)",
+                            "type": "n8n-nodes-base.telegramTrigger",
+                            "typeVersion": 1.1,
+                            "position": [240, 300]
+                        },
+                        {
+                            "parameters": {
+                                "model": "gemini-1.5-flash",
+                                "options": {
+                                    "temperature": 0.3,
+                                    "systemMessage": "Eres el Asistente SDR de la Academia AAA en Telegram. Tu objetivo es calificar al usuario con BANT, responder dudas técnicas sobre automatización con n8n y entregar la Bóveda de Workflows JSON. Si el usuario califica como High-Ticket (presupuesto > $1,500 USD), ofrece agendamiento de auditoría en Google Calendar."
+                                }
+                            },
+                            "id": "2",
+                            "name": "Google Gemini (2M Context Memory)",
+                            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+                            "typeVersion": 1,
+                            "position": [480, 300]
+                        },
+                        {
+                            "parameters": {
+                                "jsCode": "const text = $input.first().json.message.text || '';\nconst fromUser = $input.first().json.message.from || {};\nconst isHighTicket = text.toLowerCase().includes('agencia') || text.toLowerCase().includes('empresa') || text.toLowerCase().includes('cliente') || text.toLowerCase().includes('presupuesto');\n\nreturn {\n  json: {\n    userId: fromUser.id,\n    username: fromUser.username || fromUser.first_name,\n    userMessage: text,\n    isHighTicket: isHighTicket,\n    qualification: isHighTicket ? 'HIGH_TICKET_PROSPECT' : 'COMMUNITY_STUDENT',\n    timestamp: new Date().toISOString(),\n    downloadLink: 'https://discord.gg/academia-aaa-laboratorio'\n  }\n};"
+                            },
+                            "id": "3",
+                            "name": "JSON Lead Qualification & Parsing",
+                            "type": "n8n-nodes-base.code",
+                            "typeVersion": 2,
+                            "position": [720, 300]
+                        },
+                        {
+                            "parameters": {
+                                "chatId": "={{ $node[\"Telegram Trigger (Inbound Message)\"].json[\"message\"][\"chat\"][\"id\"] }}",
+                                "text": "={{ \"⚡ ¡Hola \" + ($node[\"Telegram Trigger (Inbound Message)\"].json[\"message\"][\"from\"][\"first_name\"] || \"colega\") + \"! Aquí tienes tu acceso directo a la Bóveda de Workflows n8n y a nuestra Comunidad Oficial en Discord:\\n\\n🔗 \" + $json.downloadLink + \"\\n\\n¿Te gustaría implementar este sistema en tu propio negocio o aprender a venderlos como servicio a clientes?\" }}"
+                            },
+                            "id": "4",
+                            "name": "Telegram Send Response",
+                            "type": "n8n-nodes-base.telegram",
+                            "typeVersion": 1.2,
+                            "position": [960, 200]
+                        },
+                        {
+                            "parameters": {
+                                "method": "POST",
+                                "url": "https://discord.com/api/webhooks/DISCORD_WEBHOOK_LEADS_URL",
+                                "sendBody": true,
+                                "specifyBody": "json",
+                                "jsonBody": "={\n  \"content\": \"🚀 **Nuevo Lead Calificado vía Telegram (Gemini SDR)**\",\n  \"embeds\": [{\n    \"title\": \"Lead: @\" + $json.username,\n    \"description\": \"**Mensaje:** \" + $json.userMessage + \"\\n**Calificación:** \" + $json.qualification,\n    \"color\": $json.isHighTicket ? 16766720 : 3447003,\n    \"footer\": { \"text\": \"Laboratorio Asistente IA - Enjambre Gemini 2M\" },\n    \"timestamp\": $json.timestamp\n  }]\n}"
+                            },
+                            "id": "5",
+                            "name": "Discord Webhook Notification (#leads-vip)",
+                            "type": "n8n-nodes-base.httpRequest",
+                            "typeVersion": 4.2,
+                            "position": [960, 420]
+                        }
+                    ],
+                    "connections": {
+                        "Telegram Trigger (Inbound Message)": { "main": [[{ "node": "Google Gemini (2M Context Memory)", "type": "main", "index": 0 }]] },
+                        "Google Gemini (2M Context Memory)": { "main": [[{ "node": "JSON Lead Qualification & Parsing", "type": "main", "index": 0 }]] },
+                        "JSON Lead Qualification & Parsing": { "main": [[{ "node": "Telegram Send Response", "type": "main", "index": 0 }, { "node": "Discord Webhook Notification (#leads-vip)", "type": "main", "index": 0 }]] }
+                    }
+                }
+            },
+            wf_discord_community: {
+                filename: "workflow-discord-community-manager.json",
+                json: {
+                    "name": "Comunidad Discord - Onboarding, Moderación & FAQ con Gemini",
+                    "nodes": [
+                        {
+                            "parameters": { "httpMethod": "POST", "path": "discord-events-webhook" },
+                            "id": "1",
+                            "name": "Discord Webhook Listener",
+                            "type": "n8n-nodes-base.webhook",
+                            "typeVersion": 2,
+                            "position": [240, 300]
+                        },
+                        {
+                            "parameters": {
+                                "model": "gemini-1.5-flash",
+                                "options": {
+                                    "systemMessage": "Eres el Community Coach & Moderador de la Academia AAA en Discord. Clasifica los mensajes: Si es bienvenida, genera un saludo cálido y recomienda el canal #workflows-json. Si es pregunta técnica de n8n, responde con precisión. Si infringe normas, emite alerta."
+                                }
+                            },
+                            "id": "2",
+                            "name": "Google Gemini Community AI",
+                            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+                            "typeVersion": 1,
+                            "position": [480, 300]
+                        },
+                        {
+                            "parameters": {
+                                "method": "POST",
+                                "url": "https://discord.com/api/webhooks/DISCORD_BOT_CHANNEL_URL",
+                                "sendBody": true,
+                                "specifyBody": "json",
+                                "jsonBody": "={\n  \"content\": $json.response\n}"
+                            },
+                            "id": "3",
+                            "name": "Discord Send Message",
+                            "type": "n8n-nodes-base.httpRequest",
+                            "typeVersion": 4.2,
+                            "position": [720, 300]
+                        }
+                    ],
+                    "connections": {
+                        "Discord Webhook Listener": { "main": [[{ "node": "Google Gemini Community AI", "type": "main", "index": 0 }]] },
+                        "Google Gemini Community AI": { "main": [[{ "node": "Discord Send Message", "type": "main", "index": 0 }]] }
+                    }
+                }
+            },
+            wf_content_generator: {
+                filename: "workflow-content-generator-gemini.json",
+                json: {
+                    "name": "Generador de Guiones Virales Multiplataforma - Gemini Pro",
+                    "nodes": [
+                        {
+                            "parameters": { "rule": { "interval": [{ "field": "cronExpression", "expression": "0 9 * * 1,4" }] } },
+                            "id": "1",
+                            "name": "Bi-Weekly Schedule Trigger",
+                            "type": "n8n-nodes-base.scheduleTrigger",
+                            "typeVersion": 1.2,
+                            "position": [240, 300]
+                        },
+                        {
+                            "parameters": {
+                                "model": "gemini-1.5-pro",
+                                "options": {
+                                    "temperature": 0.7,
+                                    "systemMessage": "Eres el Director Creativo de Contenido Viral. Genera un paquete de contenido con la fórmula Hook 4s + Demostración 20s + Valor 15s + CTA 10s: 1 Guion de Reel de 50s + 1 Carrusel de Instagram + 1 Hilo de X + 1 Anuncio para Discord."
+                                }
+                            },
+                            "id": "2",
+                            "name": "Gemini 1.5 Pro Long-Form Synthesis",
+                            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+                            "typeVersion": 1,
+                            "position": [500, 300]
+                        },
+                        {
+                            "parameters": {
+                                "method": "POST",
+                                "url": "https://discord.com/api/webhooks/DISCORD_MARKETING_VAULT_URL",
+                                "sendBody": true,
+                                "specifyBody": "json",
+                                "jsonBody": "={\n  \"content\": \"🎬 **Nuevos Guiones Virales Generados con Gemini Pro**\",\n  \"embeds\": [{\n    \"title\": \"Pack Semanal de Contenido Multiplataforma\",\n    \"description\": $json.output,\n    \"color\": 15844367\n  }]\n}"
+                            },
+                            "id": "3",
+                            "name": "Publish to Discord (#marketing-vault)",
+                            "type": "n8n-nodes-base.httpRequest",
+                            "typeVersion": 4.2,
+                            "position": [760, 300]
+                        }
+                    ],
+                    "connections": {
+                        "Bi-Weekly Schedule Trigger": { "main": [[{ "node": "Gemini 1.5 Pro Long-Form Synthesis", "type": "main", "index": 0 }]] },
+                        "Gemini 1.5 Pro Long-Form Synthesis": { "main": [[{ "node": "Publish to Discord (#marketing-vault)", "type": "main", "index": 0 }]] }
+                    }
+                }
+            },
+            wf_swarm_orchestrator: {
+                filename: "workflow-swarm-orchestrator-enterprise.json",
+                json: {
+                    "name": "Orquestador Central de Enjambre Multi-Agente - Enterprise",
+                    "nodes": [
+                        {
+                            "parameters": { "path": "swarm-router", "responseMode": "lastNode" },
+                            "id": "1",
+                            "name": "Swarm Central Webhook",
+                            "type": "n8n-nodes-base.webhook",
+                            "typeVersion": 2,
+                            "position": [240, 300]
+                        },
+                        {
+                            "parameters": {
+                                "model": "gemini-1.5-pro",
+                                "options": {
+                                    "systemMessage": "Eres el Supervisor del Enjambre de Agentes de la Academia de IA. Canaliza la solicitud al agente adecuado: [Agente 1 Scraper, Agente 3 Creativo, Agente 5 Telegram SDR, Agente 7 Discord Community]. Si el lead es High-Ticket (> $1,500), activa alerta inmediata."
+                                }
+                            },
+                            "id": "2",
+                            "name": "Gemini Swarm Supervisor",
+                            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+                            "typeVersion": 1,
+                            "position": [500, 300]
+                        },
+                        {
+                            "parameters": {
+                                "operation": "executeQuery",
+                                "query": "INSERT INTO agent_memory (agent_id, session_id, memory_payload, created_at) VALUES ($1, $2, $3, NOW());"
+                            },
+                            "id": "3",
+                            "name": "PostgreSQL Vector Memory Log",
+                            "type": "n8n-nodes-base.postgres",
+                            "typeVersion": 2.5,
+                            "position": [760, 300]
+                        }
+                    ],
+                    "connections": {
+                        "Swarm Central Webhook": { "main": [[{ "node": "Gemini Swarm Supervisor", "type": "main", "index": 0 }]] },
+                        "Gemini Swarm Supervisor": { "main": [[{ "node": "PostgreSQL Vector Memory Log", "type": "main", "index": 0 }]] }
+                    }
+                }
+            }
+        };
+
         // Data containing all the prompts and information
         const agentsData = [
             {
+                id: 'telegram_sdr',
+                title: '🤖 Bot Telegram SDR (Gemini 2M)',
+                desc: 'Gestor autónomo de Telegram en tiempo real. Califica con BANT, entrega Bóvedas JSON y notifica a Discord (#leads-vip).',
+                prompt: `Eres el Asistente SDR de la Academia AAA en Telegram (Motor: Google Gemini 1.5 Flash - 2M Context):
+1. Al recibir un mensaje o la palabra "TELEGRAM" / "AGENTE", saludas amigablemente y entregas el acceso a la Bóveda de Workflows JSON.
+2. Calificas con BANT de forma conversacional:
+   - ¿Qué tipo de negocio tienes o planeas montar? (Agencia, Dueño de Empresa, Profesional Freelance).
+   - ¿Cuál es tu presupuesto de inversión para automatizaciones? (Si > $1,500 USD, marcas HIGH_TICKET_PROSPECT).
+3. Entregas el enlace a la Comunidad de Discord (#leads-vip).
+4. Si es High-Ticket, ofreces agendar una Auditoría Estratégica en Google Calendar en menos de 60 segundos.`
+            },
+            {
+                id: 'discord_coach',
+                title: '🛡️ Comunidad Discord Coach & Moderador',
+                desc: 'Moderación 24/7, bienvenida de alumnos, auto-asignación de roles (@Alumno-VIP) y resolución de dudas de n8n.',
+                prompt: `Eres el Community Coach & Moderador de la Academia AAA en Discord (Motor: Google Gemini):
+1. Das la bienvenida a cada nuevo miembro en el canal #general y le indicas cómo descargar las plantillas en #workflows-json.
+2. Resuelves dudas técnicas sobre n8n, Docker, Hetzner VPS y conexión de APIs (Gemini, OpenAI, Anthropic).
+3. Celebras y destacas cuando un alumno comparte una victoria o cliente cerrado en #victorias.
+4. Moderas cualquier spam o comportamiento no ético de forma automática.`
+            },
+            {
                 id: 'orquestador',
-                title: 'Agente 0: Orquestador Maestro',
-                desc: 'Director de Operaciones encargado de canalizar leads, orquestar workflows de n8n y delegar llamadas de alto presupuesto.',
-                prompt: `Eres el Orquestador Maestro de la Academia de IA. Tu misión es coordinar el enjambre de agentes:
-1. Recibes métricas del Agente de Pauta (CAC, CTR, CPL, ROAS).
-2. Verificas que el Agente SDR esté respondiendo a los leads en menos de 60 segundos.
-3. Si un lead es calificado como High-Ticket (> $1,500 presupuesto), disparas una notificación urgente al equipo de ventas humano.
-4. Mantienes la base de datos de alumnos y leads sincronizada entre CRM, ManyChat y Skool.`
+                title: '👑 Agente 0: Orquestador Maestro',
+                desc: 'Director de Operaciones encargado de canalizar leads, orquestar workflows de n8n y supervisar el enjambre.',
+                prompt: `Eres el Orquestador Maestro de la Academia de IA (Motor: Google Gemini 1.5 Pro):
+1. Recibes métricas de pauta (CAC, CTR, CPL, ROAS).
+2. Verificas que el Bot Telegram SDR esté respondiendo a los prospectos en menos de 5 segundos.
+3. Si un lead es calificado como High-Ticket (> $1,500 presupuesto), disparas un Webhook prioritario a Discord y notificación al equipo comercial.
+4. Mantienes la base de datos de PostgreSQL sincronizada entre Telegram, Discord y n8n.`
             },
             {
                 id: 'scraper',
-                title: 'Agente 1: Scraper & Trend Intelligence',
-                desc: 'Encargado de escanear Meta Ads, YouTube y redes sociales para detectar dolores e ideas virales de pauta.',
-                prompt: `Eres el Agente de Inteligencia de Mercado. Tu tarea es analizar contenido viral sobre IA y automatizaciones:
+                title: '🔍 Agente 1: Scraper & Trend Intelligence',
+                desc: 'Escanea YouTube, TikTok y redes sociales con visión multimodal de Gemini para detectar dolores e ideas virales.',
+                prompt: `Eres el Agente de Inteligencia de Mercado (Motor: Google Gemini 1.5 Pro Vision):
+- Analiza videos virales y comentarios de la competencia sobre automatizaciones con IA y agentes.
 - Identifica los 5 ganchos (hooks) con mayor retención de la semana.
-- Clasifica las dudas y quejas de los usuarios en 3 categorías: Técnicas, Monetización y Confianza.
-- Genera un resumen semanal para el Agente Creativo con recomendaciones de nuevos temas a grabar.`
+- Clasifica las objeciones más frecuentes: Miedo a programar, costos de software y cómo conseguir clientes.
+- Genera un reporte resumido para el Agente Creativo.`
             },
             {
                 id: 'pedagogico',
-                title: 'Agente 2: Arquitecto Pedagógico',
-                desc: 'Encargado de diseñar planes de lección, bóvedas JSON y diagramas de arquitectura sin frustración técnica.',
+                title: '📚 Agente 2: Arquitecto Pedagógico',
+                desc: 'Diseña planes de lección, bóvedas JSON y tutoriales paso a paso para n8n sin fricción técnica.',
                 prompt: `Eres el Arquitecto Pedagógico de IA. Diseñas el contenido formativo:
-- Cada lección debe tener: Objetivo de negocio, diagrama de arquitectura, plantilla JSON lista para importar y guía de solución de errores comunes.
-- Neutraliza la frustración técnica asegurando que los alumnos consigan su primer flujo funcional en menos de 45 minutos.`
+- Cada lección debe tener: Objetivo de negocio, diagrama de arquitectura, plantilla JSON lista para importar en n8n y guía de solución de errores.
+- Asegura que cualquier alumno configure su primer bot funcional en menos de 30 minutos usando Google Gemini y Telegram.`
             },
             {
                 id: 'creativo',
-                title: 'Agente 3: Estudio Creativo Copy',
-                desc: 'Especialista en redactar copys persuasivos siguiendo fórmulas de Alex Hormozi y Russell Brunson.',
-                prompt: `Eres el Copywriter y Diseñador de Estrategia Creativa. Sigues las fórmulas de Russell Brunson y Alex Hormozi:
-- Estructura de guiones: Gancho polarizante (0-4s) + Prueba visual/Demostración (5-25s) + Valor educativo (26-40s) + CTA específico a palabra clave (41-50s).
-- Escribe copys directos, sin tecnicismos innecesarios, enfocados en resultados económicos y ahorro de tiempo.`
+                title: '✍️ Agente 3: Estudio Creativo Copy & Reels',
+                desc: 'Especialista en redactar copys de alta retención siguiendo fórmulas de Alex Hormozi y Russell Brunson.',
+                prompt: `Eres el Copywriter y Diseñador de Estrategia Creativa:
+- Estructura de guiones virales: Gancho polarizante (0-4s) + Prueba visual en pantalla (5-25s) + Valor educativo (26-40s) + CTA a Telegram (41-50s).
+- Redacta copys directos, sin tecnicismos innecesarios, enfocados en ahorro de tiempo y facturación de servicios de IA.`
             },
             {
                 id: 'ads',
-                title: 'Agente 4: Growth & Media Buyer',
-                desc: 'Encargado de monitorizar y optimizar pautas en Meta Ads y Google Ads controlando costos de CPL.',
-                prompt: `Eres el Media Buyer y Analista de Ads. Tu enfoque es maximizar el ROAS y mantener el Costo Por Lead (CPL) por debajo del benchmark ($0.50 - $0.80 USD).
-- Si un anuncio tiene CTR < 1.5%, recomiendas cambiar el gancho de los primeros 3 segundos.
-- Si una campaña genera leads a buen costo pero no convierte en el Tripwire, recomiendas optimizar la Thank You Page.`
+                title: '📈 Agente 4: Growth & Media Buyer',
+                desc: 'Optimización de campañas en Meta Ads y TikTok Ads para maximizar tráfico hacia Telegram y Discord.',
+                prompt: `Eres el Media Buyer y Analista de Ads. Tu enfoque es maximizar el ROAS y mantener el Costo Por Lead (CPL) por debajo de $0.50 USD hacia el canal de Telegram.`
             },
             {
-                id: 'sdr',
-                title: 'Agente 5: Asistente SDR Conversacional',
-                desc: 'Gestor automático de WhatsApp, calificador natural BANT y agendador en Google Calendar.',
-                prompt: `Eres el Asistente SDR de la Academia. Atiendes prospectos por DM con tono cercano, profesional y entusiasta:
-1. Al recibir la palabra "AGENTE", entregas inmediatamente el enlace al recurso gratuito.
-2. Tras 5 minutos, preguntas: "¿Te gustaría implementar este agente en tu propio negocio o aprender a venderlos como servicio?".
-3. Según la respuesta, ofreces la entrada al Bootcamp o agendamiento para el programa High-Ticket.`
-            },
-            {
-                id: 'conversion',
-                title: 'Agente 6: Conversión de Carritos',
-                desc: 'Seguimiento automatizado para ventas High-Ticket y derribo de objeciones comerciales.',
-                prompt: `Eres el Especialista de Conversión. Tu labor es derribar objeciones y cerrar ventas:
-- Analizas el perfil del prospecto antes de la llamada (negocio, volumen actual, cuello de botella).
-- Envías casos de estudio similares para generar prueba social irrefutable.`
-            },
-            {
-                id: 'retencion',
-                title: 'Agente 7: Community & Student Success',
-                desc: 'Gestión activa en la comunidad de Skool, moderación técnica y recolección de testimonios de alumnos.',
-                prompt: `Eres el Community Manager & Coach de Éxito.
-- Das la bienvenida a cada nuevo miembro en Skool.
-- Monitoreas las preguntas técnicas no respondidas y conectas a los alumnos con las plantillas adecuadas.
-- Cuando un alumno comparte su primer cobro o cliente cerrado, documentas el caso para usarlo como testimonio de marketing.`
+                id: 'sdr_whatsapp',
+                title: '💬 Agente 5: Asistente SDR WhatsApp',
+                desc: 'Calificador BANT en WhatsApp Cloud API para clientes corporativos de alto presupuesto.',
+                prompt: `Eres el Asistente SDR Corporativo en WhatsApp Business Cloud API. Atiendes empresas que buscan automatizaciones llave en mano, agendas diagnósticos comerciales y envías cotizaciones automáticas.`
             }
         ];
 
         // Tab Switch Logic
         function switchTab(tabId, el) {
-            // Remove active classes
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
 
-            // Add active to current
             document.getElementById(tabId).classList.add('active');
             el.classList.add('active');
+        }
+
+        // Funnel Stack Toggle Logic
+        function switchFunnelStack(stackType) {
+            const modernBtn = document.getElementById('btn-stack-modern');
+            const classicBtn = document.getElementById('btn-stack-classic');
+            const modernView = document.getElementById('modern-funnel-view');
+            const classicView = document.getElementById('classic-funnel-view');
+
+            if (stackType === 'modern') {
+                modernBtn.classList.add('active');
+                classicBtn.classList.remove('active');
+                modernView.style.display = 'block';
+                classicView.style.display = 'none';
+            } else {
+                classicBtn.classList.add('active');
+                modernBtn.classList.remove('active');
+                classicView.style.display = 'block';
+                modernView.style.display = 'none';
+            }
         }
 
         // Accordion toggle
@@ -954,15 +1845,90 @@
             }
         }
 
+        // Workflow JSON Helpers
+        function copyWorkflowJson(workflowKey, event) {
+            const wf = workflowsData[workflowKey];
+            if (!wf) return;
+
+            const jsonString = JSON.stringify(wf.json, null, 2);
+            navigator.clipboard.writeText(jsonString).then(() => {
+                const btn = event.target;
+                const prevText = btn.innerText;
+                btn.innerText = '¡JSON Copiado para n8n! 🚀';
+                btn.style.background = 'var(--success)';
+                setTimeout(() => {
+                    btn.innerText = prevText;
+                    btn.style.background = '';
+                }, 2500);
+            });
+        }
+
+        function downloadWorkflowJson(workflowKey) {
+            const wf = workflowsData[workflowKey];
+            if (!wf) return;
+
+            const jsonString = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(wf.json, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", jsonString);
+            downloadAnchor.setAttribute("download", wf.filename);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function toggleWorkflowCode(workflowKey) {
+            const container = document.getElementById('code-' + workflowKey);
+            if (!container) return;
+
+            if (container.classList.contains('show')) {
+                container.classList.remove('show');
+            } else {
+                const wf = workflowsData[workflowKey];
+                container.innerText = JSON.stringify(wf.json, null, 2);
+                container.classList.add('show');
+            }
+        }
+
+        // Model Engine Switcher
+        function onModelChanged() {
+            const select = document.getElementById('model-select');
+            const badge = document.getElementById('engine-badge');
+            const latency = document.getElementById('spec-latency');
+            const context = document.getElementById('spec-context');
+
+            if (select.value.includes('gemini')) {
+                badge.innerText = '⚡ 2M TOKENS NATIVOS';
+                badge.style.borderColor = 'var(--accent-teal)';
+                badge.style.color = 'var(--accent-teal)';
+                latency.innerText = select.value === 'gemini-flash' ? '~320ms' : '~780ms';
+                context.innerText = '2,097,152 tokens';
+                writeTerminalLog(`[ENGINE_SWITCH] Motor de inferencia actualizado a: ${select.options[select.selectedIndex].text}`);
+            } else if (select.value.includes('claude')) {
+                badge.innerText = '🧠 200K CONTEXT';
+                badge.style.borderColor = '#c084fc';
+                badge.style.color = '#c084fc';
+                latency.innerText = '~850ms';
+                context.innerText = '200,000 tokens';
+                writeTerminalLog(`[ENGINE_SWITCH] Motor de inferencia actualizado a: Claude 3.5 Sonnet`);
+            } else {
+                badge.innerText = '⚡ HIGH-REASONING';
+                badge.style.borderColor = '#38bdf8';
+                badge.style.color = '#38bdf8';
+                latency.innerText = '~650ms';
+                context.innerText = '128,000 tokens';
+                writeTerminalLog(`[ENGINE_SWITCH] Motor de inferencia actualizado a: ${select.options[select.selectedIndex].text}`);
+            }
+        }
+
         // Visual Simulator Chat Logic
-        let activeAgent = 'orquestador';
+        let activeAgent = 'telegram-sdr';
         const terminalBody = document.getElementById('terminal-body');
         const chatMessages = document.getElementById('chat-messages');
 
         function onAgentChanged() {
             const selector = document.getElementById('agent-selector');
             activeAgent = selector.value;
-            writeTerminalLog(`[AGENT_CHANGED] Cambiando comunicación al Agente de IA: ${activeAgent.toUpperCase()}`);
+            writeTerminalLog(`[AGENT_CHANGED] Cambiando comunicación al Agente de IA: ${selector.options[selector.selectedIndex].text}`);
         }
 
         function writeTerminalLog(text) {
@@ -999,63 +1965,75 @@
 
         function simulateAgentResponse(userQuery) {
             writeTerminalLog(`[USER_INPUT] Recibido: "${userQuery}"`);
-            writeTerminalLog(`[AGENT] Cargando memoria de contexto y modelo de orquestación...`);
+            writeTerminalLog(`[AGENT] Cargando memoria de contexto masiva en Google Gemini 1.5 (2M Tokens)...`);
 
             let steps = [];
             let finalResponse = '';
 
-            // Generate specific agent script based on option chosen
-            if(userQuery.toLowerCase().includes('guion') || userQuery.toLowerCase().includes('reel')) {
+            const q = userQuery.toLowerCase();
+
+            if (q.includes('telegram') || q.includes('sdr') || q.includes('high-ticket') || q.includes('calificar')) {
                 steps = [
-                    `[PENSAMIENTO] El usuario solicita la redacción de un guion viral en formato Reel.`,
-                    `[TOOL_CALL] invoke_scraper_tool({ target: "Meta Ads Library", keywords: "Agente IA, Automatizacion" })`,
-                    `[TOOL_RESULT] Se detectaron 3 anuncios exitosos usando la paleta del gancho de ahorro de tiempo.`,
-                    `[PENSAMIENTO] Estructurando guion con la fórmula de Russel Brunson (Hook 4s + Demostración 20s + Valor 15s + CTA 10s).`,
-                    `[SYSTEM] Generando propuesta de archivo markdown en la carpeta creative_studio.`
+                    `[TELEGRAM_WEBHOOK] Inbound message recibido desde @prospect_investor.`,
+                    `[GEMINI_2M_REASONING] Analizando intención, presupuesto y rol con función BANT.`,
+                    `[JSON_PARSER] Output estructurado: { "qualification": "HIGH_TICKET_PROSPECT", "budget": "> $1,500", "urgency": "Inmediata" }`,
+                    `[DISCORD_WEBHOOK] Disparando notificación a canal #leads-vip con Embed dorado.`,
+                    `[GOOGLE_CALENDAR] Verificando ranuras de auditoría en tiempo real para agendamiento.`
                 ];
-                finalResponse = `<strong>¡Guion Viral Generado Correctamente!</strong> 🎬<br><br>
-                <strong>[0:00 - 0:04] GANCHO:</strong> "Acaban de entrar las 3 de la mañana y este agente de IA acaba de cerrar un cliente de $1,800 dólares mientras duermo. Mira mi pantalla."<br><br>
-                <strong>[0:05 - 0:25] DESARROLLO:</strong> "Paso 1: Entra un mensaje directo en Instagram pidiendo información. El agente lo procesa con Claude 3.5, analiza el perfil del cliente, genera un PDF cotizado y se lo manda en 4 segundos por WhatsApp."<br><br>
-                <strong>[0:26 - 0:40] AUTORIDAD:</strong> "No necesitas programar en Python ni pagar herramientas costosas. Esto corre en un servidor que cuesta $5 al mes."<br><br>
-                <strong>[0:41 - 0:50] CTA:</strong> "He exportado la plantilla .json exacta. Comenta 'AGENTE' y te la envío ahora mismo."`;
-            } else if(userQuery.toLowerCase().includes('whatsapp') || userQuery.toLowerCase().includes('agendamiento') || userQuery.toLowerCase().includes('sdr')) {
+                finalResponse = `<strong>🤖 Bot Telegram SDR (Google Gemini 2M Context):</strong><br><br>
+                "¡Hola! 👋 Aquí tienes el enlace directo para descargar la Bóveda de Workflows n8n y unirte a nuestra Comunidad en Discord:<br>
+                🔗 <strong>https://discord.gg/academia-aaa-laboratorio</strong><br><br>
+                Veo que tienes interés en escalar un modelo de agencia de automatización. He detectado tu perfil como <strong>High-Ticket VIP</strong> 🌟.<br>
+                ¿Te gustaría agendar una Auditoría Técnica de 15 minutos en nuestro Google Calendar para revisar tu servidor n8n?"<br><br>
+                <em style="color: var(--accent-teal);">[Alerta enviada automáticamente al canal #leads-vip de Discord con los datos del prospecto].</em>`;
+            } else if (q.includes('discord') || q.includes('onboarding') || q.includes('comunidad')) {
                 steps = [
-                    `[PENSAMIENTO] El usuario solicita simular el flujo de agendamiento SDR por WhatsApp.`,
-                    `[TOOL_CALL] check_calendar_availability({ date: "today" })`,
-                    `[TOOL_RESULT] Disponibles 4 ranuras horarias.`,
-                    `[PENSAMIENTO] Calificando prospecto con BANT (High-Ticket > $1,500 presupuesto).`,
-                    `[TOOL_CALL] trigger_whatsapp_message({ to: "lead_phone", template: "agendamiento_calendar" })`,
-                    `[SUCCESS] Mensaje de agendamiento enviado exitosamente al WhatsApp.`
+                    `[DISCORD_EVENT] Evento 'guildMemberAdd' detectado en el servidor.`,
+                    `[GEMINI_RAG] Consultando base de conocimientos y reglas de comunidad.`,
+                    `[DISCORD_API] Asignando automáticamente rol: @Alumno-VIP.`,
+                    `[DISCORD_CHANNEL] Publicando mensaje de bienvenida interactivo en #bienvenida y habilitando canal #workflows-json.`
                 ];
-                finalResponse = `<strong>🤖 Simulación del Agente SDR activada en WhatsApp:</strong><br><br>
-                "¡Hola! 👋 Aquí tienes el acceso directo para descargar la plantilla JSON del Agente Autónomo y el video tutorial paso a paso:<br>
-                👉 <strong>[ENLACE_DE_DESCARGA_SKOOL]</strong><br><br>
-                ¿Ya tienes instalado n8n o estás empezando desde cero?"<br><br>
-                <em>[El agente calificó al lead con presupuesto High-Ticket y agendó la cita en tu Google Calendar en tiempo real].</em>`;
-            } else if(userQuery.toLowerCase().includes('escanear') || userQuery.toLowerCase().includes('tendencias')) {
+                finalResponse = `<strong>🛡️ Auto-Moderador & Coach de Discord (Gemini 1.5 Flash):</strong><br><br>
+                "¡Bienvenido a la <strong>Comunidad de Agentes Autónomos & n8n</strong>! 🎉<br><br>
+                Te acabo de asignar el rol <span style="color: #c084fc; font-weight: bold;">@Alumno-VIP</span>. Ya tienes acceso desbloqueado a:<br>
+                - 📂 <strong>#workflows-json:</strong> Para descargar todas las plantillas de Telegram SDR, Scraping y Gemini.<br>
+                - 🚀 <strong>#victorias:</strong> Para compartir tus primeros flujos y clientes cerrados.<br>
+                - 🛠️ <strong>#debugging-en-vivo:</strong> Para soporte técnico con mentores.<br><br>
+                ¿Tienes ya tu servidor VPS en Hetzner o necesitas el tutorial de 10 minutos?"`;
+            } else if (q.includes('guion') || q.includes('reel') || q.includes('viral')) {
                 steps = [
-                    `[PENSAMIENTO] Escaneando competidores y redes en busca de tendencias virales de automatización de IA.`,
-                    `[TOOL_CALL] fetch_competitor_analytics({ limit: 10 })`,
-                    `[TOOL_RESULT] 3 competidores están impulsando ofertas de 'Automatización para Clínicas Dentales'.`,
-                    `[PENSAMIENTO] Clasificando quejas más comunes: Dificultad para conectar APIs de agendas médicas y costos de pauta.`,
-                    `[SYSTEM] Recomendando al Agente Creativo escribir un guion atacando el nicho de clínicas médicas.`
+                    `[GEMINI_PRO_2M] Activando síntesis creativa con fórmula de alta retención (Hook-Prueba-Valor-CTA).`,
+                    `[TREND_ANALYSIS] Detectada tendencia: 'Reemplazando secretarias y ManyChat con Telegram + Gemini ($0 comisiones)'.`,
+                    `[COPY_GENERATOR] Estructurando guion de 50 segundos y carrusel de 7 slides.`
                 ];
-                finalResponse = `<strong>📊 Resumen de Inteligencia de Mercado (Trend Intelligence):</strong><br><br>
-                - <strong>Gancho Viral de la semana:</strong> "Cómo programar citas médicas sin una secretaria 24/7." (Retención de 48% en Instagram).<br>
-                - <strong>Punto de Dolor Detectado:</strong> Los dueños de negocios odian los CRM complicados y la pérdida de leads por lentitud de respuesta.<br>
-                - <strong>Recomendación:</strong> Enfocar la pauta de anuncios en soluciones llave en mano de agendamiento automático por WhatsApp.`;
+                finalResponse = `<strong>🎬 Guion Viral Generado con Google Gemini Pro (2M Context):</strong><br><br>
+                <strong>[0:00 - 0:04] GANCHO POLARIZANTE:</strong> "Deja de pagar $200 dólares al mes en ManyChat. Mira cómo este bot de Telegram con Gemini 2M califica leads mientras duermo por $5 al mes."<br><br>
+                <strong>[0:05 - 0:25] DEMOSTRACIÓN:</strong> "Paso 1: El prospecto entra a Telegram. Gemini procesa audios y textos al instante con 2 millones de tokens de memoria, clasifica el presupuesto en un JSON estricto y notifica a Discord en 0.2 segundos."<br><br>
+                <strong>[0:26 - 0:40] AUTORIDAD:</strong> "Cero límites de contactos, cero costos por mensaje. Todo corre en un servidor privado con n8n."<br><br>
+                <strong>[0:41 - 0:50] CTA:</strong> "Comenta 'TELEGRAM' o haz clic en el enlace de la bio y te paso la plantilla .json exacta para que la importes hoy mismo."`;
+            } else if (q.includes('memoria') || q.includes('2m') || q.includes('context')) {
+                steps = [
+                    `[GEMINI_2M_BENCHMARK] Inyectando dataset masivo de 1,850,000 tokens en la ventana de contexto.`,
+                    `[VECTOR_INDEX] Acceso directo sin pérdida de información (Needle In A Haystack 99.8% accuracy).`,
+                    `[PERFORMANCE] Tiempo de procesamiento: 410ms. Memoria activa lista para multi-turn dialogues de 100+ mensajes continuos.`
+                ];
+                finalResponse = `<strong>⚡ Prueba de Capacidad de Contexto Masivo (Google Gemini 2M):</strong><br><br>
+                - <strong>Tokens Activos:</strong> 2,097,152 tokens (~1,500 páginas de manuales técnicos y transcripciones).<br>
+                - <strong>Ventaja Clave:</strong> El Bot de Telegram recuerda cada interacción histórica del cliente, sus compras anteriores y sus dudas técnicas sin necesidad de fragmentar la memoria ni alucinar.<br>
+                - <strong>Ahorro Operativo:</strong> Costo $0 en tier gratuito o fracciones de centavo frente a modelos legacy.`;
             } else {
                 steps = [
-                    `[PENSAMIENTO] Procesando consulta genérica del usuario.`,
-                    `[TOOL_CALL] get_internal_kb_data({ query: "${userQuery}" })`,
-                    `[PENSAMIENTO] Generando respuesta óptima alineada con el Máster de IA AAA.`
+                    `[PENSAMIENTO] Procesando consulta general: "${userQuery}".`,
+                    `[GEMINI_CORE] Evaluando mejores prácticas del Máster de Agentes Autónomos 2026.`,
+                    `[DISPATCH] Respuesta lista.`
                 ];
-                finalResponse = `Eres parte del enjambre operacional. Has solicitado una tarea sobre: <strong>"${escapeHtml(userQuery)}"</strong>.<br><br>
-                Para mejores resultados en esta demo, intenta usar uno de los botones rápidos de abajo o pregúntame específicamente por:
+                finalResponse = `Has enviado: <strong>"${escapeHtml(userQuery)}"</strong>.<br><br>
+                Te sugiero probar uno de los atajos rápidos de arriba para simular:
                 <ul>
-                    <li><em>"Generar Guion Viral"</em></li>
-                    <li><em>"Simular WhatsApp SDR"</em></li>
-                    <li><em>"Escanear tendencias IA"</em></li>
+                    <li><em>"🤖 Simular Telegram SDR (Gemini)"</em></li>
+                    <li><em>"🛡️ Simular Onboarding Discord"</em></li>
+                    <li><em>"🎬 Guion Viral Reel (2M)"</em></li>
+                    <li><em>"🎯 Calificar Lead High-Ticket"</em></li>
                 </ul>`;
             }
 
@@ -1065,51 +2043,92 @@
                 if(i < steps.length) {
                     writeTerminalLog(steps[i]);
                     i++;
-                    setTimeout(runAnimate, 800);
+                    setTimeout(runAnimate, 750);
                 } else {
-                    writeTerminalLog(`[SUCCESS] Tarea procesada correctamente por el Agente.`);
+                    writeTerminalLog(`[SUCCESS] Flujo procesado exitosamente por Google Gemini.`);
                     chatMessages.innerHTML += `
                         <div class="msg msg-agent">${finalResponse}</div>
                     `;
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                 }
             }
-            setTimeout(runAnimate, 500);
+            setTimeout(runAnimate, 400);
         }
 
-        // Visual Funnel Details
-        const funnelData = {
-            instagram: {
-                title: "Detalle: Comentario en Reel ('Comment-to-DM')",
-                body: `<strong>¿Cómo opera esta automatización?</strong><br>
-                1. <strong>Trigger:</strong> Un prospecto comenta la palabra clave <code>AGENTE</code> en un Reel de Instagram.<br>
-                2. <strong>Acción ManyChat:</strong> El sistema responde con un comentario aleatorio al post para evitar shadowbans y le envía un DM inmediato.<br><br>
-                <strong>Copy del DM enviado:</strong><br>
-                <em>"¡Hola {first_name}! 👋 Aquí tienes tu plantilla JSON y el tutorial paso a paso: [Enlace de Skool]. PD: ¿Ya tienes instalado n8n o estás desde cero?"</em>`
+        // Modern Funnel Modal Details
+        const modernFunnelData = {
+            reel_telegram: {
+                title: "⚡ Paso 1: Tracción Viral en Reel / TikTok / Shorts (CTA a Telegram)",
+                body: `<strong>¿Cómo opera este paso?</strong><br>
+                1. <strong>Estrategia de Tracción:</strong> Se publican videos con ganchos de alta retención mostrando automatizaciones reales.<br>
+                2. <strong>Llamado a la Acción (CTA):</strong> Se invita al espectador a hacer clic en el enlace de la bio hacia el Bot de Telegram o unirse al canal privado.<br>
+                3. <strong>Ventaja sobre ManyChat:</strong> Cero fricción de autorizaciones de Meta, cero cobro por mensajes entrantes y entrega directa de archivos .json sin límites.`
             },
-            calificacion: {
-                title: "Detalle: Calificación Automática BANT",
+            telegram_gemini_bot: {
+                title: "🤖 Paso 2: Bot Telegram SDR Autónomo con Google Gemini 1.5 Flash (2M)",
                 body: `<strong>¿Cómo opera esta automatización?</strong><br>
-                El bot interactúa de forma orgánica mediante botones interactivos y texto libre:<br>
-                - Pregunta por el Rol del negocio (Agencia, Dueño de Negocio, Profesional).<br>
-                - Identifica el **Presupuesto (B)** para automatizaciones (High-Ticket > $1,500 USD).<br>
-                - Asigna etiquetas condicionales de segmentación automática en ManyChat: <code>lead_agencia_interesado</code>.`
+                1. <strong>Telegram Trigger en n8n:</strong> Recibe el webhook del usuario al presionar <code>/start</code> o escribir un mensaje.<br>
+                2. <strong>Google Gemini 1.5 Flash (2M Context):</strong> Procesa el mensaje con memoria conversacional extendida.<br>
+                3. <strong>Capacidades Multimodales:</strong> Es capaz de escuchar audios de voz enviados por el usuario, transcribirlos y responder de forma coherente y personalizada.`
             },
-            calendario: {
-                title: "Detalle: Entrega de Recurso & Agendamiento",
-                body: `<strong>¿Cómo opera esta automatización?</strong><br>
-                1. El sistema verifica mediante API la disponibilidad de tu Google Calendar / Calendly.<br>
-                2. Si el prospecto califica en su presupuesto, le ofrece agendar una Auditoría Estratégica Gratuita en menos de 10 segundos.<br>
-                3. Al agendar, se dispara un webhook que añade al lead en tu CRM (Airtable / Notion) con estado 'Cita Agendada'.`
+            bant_json_qualification: {
+                title: "🎯 Paso 3: Calificación Inteligente BANT en Salida JSON Determinista",
+                body: `<strong>¿Cómo opera la calificación?</strong><br>
+                El modelo evalúa 4 parámetros clave:<br>
+                - <strong>B (Budget):</strong> ¿Cuenta con presupuesto mayor a $1,500 USD? ➔ <code>HIGH_TICKET_PROSPECT</code>.<br>
+                - <strong>A (Authority):</strong> ¿Es dueño de agencia, empresa o profesional independiente?<br>
+                - <strong>N (Need):</strong> ¿Necesita implementar agentes en su negocio o aprender para revender?<br>
+                - <strong>T (Timeline):</strong> ¿Desea iniciar esta misma semana?<br><br>
+                <strong>Estructura JSON generada:</strong><br>
+                <code>{ "qualification": "HIGH_TICKET", "score": 95, "action": "DISCORD_ALERT_AND_CALENDAR" }</code>`
             },
-            comunidad: {
-                title: "Detalle: Onboarding e Integración en Skool",
-                body: `<strong>¿Cómo opera esta automatización?</strong><br>
-                1. Al entrar a la comunidad de Skool, se dispara un webhook a n8n que automatiza la bienvenida.<br>
-                2. Se añade al alumno en el CRM para hacer seguimiento a su progreso.<br>
-                3. La comunidad utiliza gamificación (ganar niveles por publicar y comentar) para mantener la retención al 90%.`
+            json_delivery_calendar: {
+                title: "📦 Paso 4: Entrega Automatizada de Bóveda JSON & Agendamiento",
+                body: `<strong>¿Cómo opera la entrega y agendamiento?</strong><br>
+                1. <strong>Envío Inmediato:</strong> Telegram envía el link de la Bóveda de Workflows JSON de n8n y el acceso a Discord.<br>
+                2. <strong>Google Calendar API:</strong> Si el lead califica como High-Ticket, se le envía un enlace personalizado para reservar una sesión de diagnóstico estratégico sin intermediarios.`
+            },
+            discord_community_onboarding: {
+                title: "🛡️ Paso 5: Comunidad Discord (Onboarding, Roles & Gamificación)",
+                body: `<strong>¿Cómo opera la comunidad en Discord?</strong><br>
+                1. <strong>Webhook en canal privado #leads-vip:</strong> El equipo comercial recibe una alerta con los datos y respuestas del lead.<br>
+                2. <strong>Auto-asignación de Roles:</strong> El bot de Discord asigna roles según el nivel del alumno (<code>@Alumno-VIP</code>, <code>@Agencia-Dev</code>).<br>
+                3. <strong>Canales Activos:</strong> Acceso a <code>#workflows-json</code>, <code>#victorias</code> y sesiones semanales de <code>#debugging-en-vivo</code>.`
             }
         };
+
+        // Classic Funnel Details
+        const classicFunnelData = {
+            instagram: {
+                title: "📜 Detalle Clásico: Comentario en Reel ('Comment-to-DM')",
+                body: `1. <strong>Trigger:</strong> Prospecto comenta <code>AGENTE</code> en Instagram.<br>
+                2. <strong>Acción ManyChat:</strong> Responde comentario y manda DM.<br>
+                3. <strong>Limitación:</strong> Costoso al escalar contactos y sujeto a restricciones de Meta.`
+            },
+            calificacion: {
+                title: "📜 Detalle Clásico: Calificación ManyChat",
+                body: `Pregunta por botones rígidos el rol y presupuesto y asigna tags en ManyChat.`
+            },
+            calendario: {
+                title: "📜 Detalle Clásico: Entrega & Calendly",
+                body: `Envía enlace de Calendly y añade el lead en Google Sheets o Notion.`
+            },
+            comunidad: {
+                title: "📜 Detalle Clásico: Skool Onboarding",
+                body: `El alumno se registra en Skool ($99/mes). Gamificación por niveles y classroom.`
+            }
+        };
+
+        function showModernFunnelModal(stepKey) {
+            const card = document.getElementById('funnel-detail-card');
+            const title = document.getElementById('funnel-detail-title');
+            const body = document.getElementById('funnel-detail-body');
+
+            card.style.display = 'block';
+            title.innerHTML = modernFunnelData[stepKey].title;
+            body.innerHTML = modernFunnelData[stepKey].body;
+            card.scrollIntoView({ behavior: 'smooth' });
+        }
 
         function showFunnelModal(stepKey) {
             const card = document.getElementById('funnel-detail-card');
@@ -1117,8 +2136,8 @@
             const body = document.getElementById('funnel-detail-body');
 
             card.style.display = 'block';
-            title.innerHTML = funnelData[stepKey].title;
-            body.innerHTML = funnelData[stepKey].body;
+            title.innerHTML = classicFunnelData[stepKey].title;
+            body.innerHTML = classicFunnelData[stepKey].body;
             card.scrollIntoView({ behavior: 'smooth' });
         }
 

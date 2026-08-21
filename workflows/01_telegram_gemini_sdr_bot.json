@@ -1,0 +1,379 @@
+{
+  "name": "01 - Telegram Gemini SDR Bot (Calificación BANT)",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "1e2f3a4b-5c6d-7e8f-9a0b-1c2d3e4f5a6b",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        220,
+        340
+      ],
+      "webhookId": "telegram-sdr-bot-webhook",
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-creds-id",
+          "name": "Telegram Bot Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.message.text }}",
+              "operation": "startsWith",
+              "value2": "/start"
+            }
+          ]
+        }
+      },
+      "id": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+      "name": "Es Comando /start?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        460,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.chat.id }}",
+        "text": "=👋 ¡Hola {{ $json.message.from.first_name || 'Emprendedor/a' }}! Bienvenido/a al **Laboratorio de Asistente IA** 🤖🚀\n\nAquí tienes acceso inmediato a tu **Bóveda de Workflows y Plantillas JSON de n8n**:\n📥 👉 https://github.com/tu-usuario/laboratorio-asistente-ia\n\nPara ayudarte a acelerar tus resultados:\n¿Actualmente quieres implementar automatizaciones e IA en **tu propio negocio** o estás buscando **ofrecer servicios de IA a empresas y clientes**?",
+        "additionalFields": {
+          "parse_mode": "Markdown",
+          "reply_markup": "inline_keyboard",
+          "inline_keyboard": {
+            "rows": [
+              {
+                "row": {
+                  "buttons": [
+                    {
+                      "text": "🏢 Para mi propio negocio",
+                      "additionalFields": {
+                        "callback_data": "negocio_propio"
+                      }
+                    },
+                    {
+                      "text": "💼 Vender servicios a clientes",
+                      "additionalFields": {
+                        "callback_data": "vender_servicios"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "id": "3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+      "name": "Enviar Bienvenida y Lead Magnet",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        220
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-creds-id",
+          "name": "Telegram Bot Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const message = $input.first().json.message || {};\nconst text = message.text || '';\nconst fromUser = message.from || {};\nconst chatId = message.chat ? message.chat.id : '';\n\nconst systemPrompt = `Eres un consultor y SDR experto en Inteligencia Artificial y Automatización de Negocios para la academia 'Laboratorio de Asistente IA'.\\nTu misión es mantener una conversación natural, cordial, empática y persuasiva por chat para calificar al prospecto usando el marco BANT:\\n- Budget (Presupuesto o capacidad de inversión)\\n- Authority (Toma de decisiones en el negocio)\\n- Need (Dolores operativos, necesidad de captación, automatización de ventas o soporte)\\n- Timeline (Urgencia de implementación: inmediata, este mes, futuro)\\n\\nReglas:\\n1. Responde de forma concisa (máximo 2 a 3 párrafos cortos, tono profesional y enérgico, con emojis estratégicos).\\n2. Haz 1 sola pregunta clave a la vez para mantener el diálogo fluido.\\n3. Si el usuario muestra alto interés y presupuesto/necesidad clara, recomiéndale agendar una sesión estratégica o unirse al programa intensivo.\\n4. Devuelve SIEMPRE tu respuesta en formato JSON estricto con los siguientes campos:\\n{\\n  \"reply_message\": \"Tu mensaje redactado para el usuario en Telegram con formato Markdown\",\\n  \"need_summary\": \"Resumen de la necesidad del cliente o 'En exploración'\",\\n  \"budget_range\": \"Bajo (<$500) | Medio ($500-$1500) | Alto (>$1500) | No especificado\",\\n  \"authority\": \"Dueño/CEO | Gerente | Freelancer | Sin definir\",\\n  \"timeline\": \"Inmediato | 30 días | Exploratorio\",\\n  \"lead_score\": 85, // número entre 0 y 100\\n  \"is_qualified\": true // true si lead_score >= 70 y necesidad clara\\n}`;\n\nreturn [{\n  json: {\n    chat_id: chatId,\n    user_name: fromUser.first_name || 'Usuario',\n    user_handle: fromUser.username || 'sin_username',\n    user_message: text,\n    payload: {\n      contents: [\n        {\n          role: \"user\",\n          parts: [\n            {\n              text: `${systemPrompt}\\n\\n--- MENSAJE DEL USUARIO ---\\nNombre: ${fromUser.first_name || ''} (@${fromUser.username || 'sin_username'})\\nChat ID: ${chatId}\\nMensaje actual: \"${text}\"`\n            }\n          ]\n        }\n      ],\n      generationConfig: {\n        temperature: 0.7,\n        topP: 0.95,\n        responseMimeType: \"application/json\"\n      }\n    }\n  }\n}];"
+      },
+      "id": "4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+      "name": "Preparar Contexto BANT",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={{ $env.GEMINI_API_KEY || 'AIzaSy_TU_API_KEY_AQUI' }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.payload) }}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": false
+            }
+          }
+        }
+      },
+      "id": "5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
+      "name": "Google Gemini 2.5 Flash API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        940,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nconst prevContext = $('Preparar Contexto BANT').first().json;\n\nlet parsedData = {\n  reply_message: '¡Gracias por tu mensaje! Cuéntame más sobre tu proyecto para recomendarte la mejor arquitectura de automatización.',\n  need_summary: 'En evaluación',\n  budget_range: 'No especificado',\n  authority: 'Sin definir',\n  timeline: 'Exploratorio',\n  lead_score: 50,\n  is_qualified: false\n};\n\ntry {\n  const rawText = item.candidates?.[0]?.content?.parts?.[0]?.text || '{}';\n  const cleaned = rawText.replace(/```json\\n?/g, '').replace(/```/g, '').trim();\n  const geminiJson = JSON.parse(cleaned);\n  parsedData = { ...parsedData, ...geminiJson };\n} catch (error) {\n  if (item.candidates?.[0]?.content?.parts?.[0]?.text) {\n    parsedData.reply_message = item.candidates[0].content.parts[0].text;\n  }\n}\n\nreturn [{\n  json: {\n    chat_id: prevContext.chat_id,\n    user_name: prevContext.user_name,\n    user_handle: prevContext.user_handle,\n    user_message: prevContext.user_message,\n    reply_message: parsedData.reply_message,\n    need_summary: parsedData.need_summary,\n    budget_range: parsedData.budget_range,\n    authority: parsedData.authority,\n    timeline: parsedData.timeline,\n    lead_score: parsedData.lead_score,\n    is_qualified: parsedData.is_qualified,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c",
+      "name": "Procesar Respuesta IA",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1160,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chat_id }}",
+        "text": "={{ $json.reply_message }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+      "name": "Responder en Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1380,
+        460
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-creds-id",
+          "name": "Telegram Bot Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.is_qualified }}",
+              "value2": true
+            }
+          ],
+          "number": [
+            {
+              "value1": "={{ $json.lead_score }}",
+              "operation": "largerEqual",
+              "value2": 70
+            }
+          ]
+        },
+        "combineOperation": "any"
+      },
+      "id": "8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e",
+      "name": "Es Lead Calificado?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1600,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1A2B3C4D5E6F7G8H9I0J_ID_DE_TU_GOOGLE_SHEET",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Leads_Calificados",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Fecha": "={{ $json.timestamp }}",
+            "Chat_ID": "={{ $json.chat_id }}",
+            "Nombre": "={{ $json.user_name }}",
+            "Usuario_Telegram": "={{ '@' + $json.user_handle }}",
+            "Ultimo_Mensaje": "={{ $json.user_message }}",
+            "Necesidad_Detectada": "={{ $json.need_summary }}",
+            "Presupuesto": "={{ $json.budget_range }}",
+            "Autoridad": "={{ $json.authority }}",
+            "Timeline": "={{ $json.timeline }}",
+            "Lead_Score": "={{ $json.lead_score }}",
+            "Estado": "CALIFICADO_ALTO_VALOR"
+          }
+        },
+        "options": {}
+      },
+      "id": "9c0d1e2f-3a4b-5c6d-7e8f-9a0b1c2d3e4f",
+      "name": "Registrar Lead en Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1840,
+        380
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google-sheets-creds-id",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "TU_ADMIN_TELEGRAM_CHAT_ID",
+        "text": "=🚨 **¡NUEVO LEAD CALIFICADO DETECTADO!** 🎯\n\n👤 **Contacto:** {{ $json.Nombre }} ({{ $json.Usuario_Telegram }})\n🆔 **Chat ID:** `{{ $json.Chat_ID }}`\n🔥 **Lead Score:** {{ $json.Lead_Score }}/100\n💡 **Necesidad:** {{ $json.Necesidad_Detectada }}\n💰 **Presupuesto:** {{ $json.Presupuesto }}\n👑 **Autoridad:** {{ $json.Autoridad }}\n⏱️ **Timeline:** {{ $json.Timeline }}\n\n💬 *Último mensaje:* \"{{ $json.Ultimo_Mensaje }}\"",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "0d1e2f3a-4b5c-6d7e-8f9a-0b1c2d3e4f5a",
+      "name": "Alerta Lead Calificado al Admin",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2060,
+        380
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-creds-id",
+          "name": "Telegram Bot Account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Es Comando /start?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Es Comando /start?": {
+      "main": [
+        [
+          {
+            "node": "Enviar Bienvenida y Lead Magnet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar Contexto BANT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Contexto BANT": {
+      "main": [
+        [
+          {
+            "node": "Google Gemini 2.5 Flash API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini 2.5 Flash API": {
+      "main": [
+        [
+          {
+            "node": "Procesar Respuesta IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Procesar Respuesta IA": {
+      "main": [
+        [
+          {
+            "node": "Responder en Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Responder en Telegram": {
+      "main": [
+        [
+          {
+            "node": "Es Lead Calificado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Es Lead Calificado?": {
+      "main": [
+        [
+          {
+            "node": "Registrar Lead en Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar Lead en Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Alerta Lead Calificado al Admin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "laboratorio-ia-n8n-instance"
+  },
+  "id": "telegram-gemini-sdr-bot",
+  "tags": [
+    "Telegram",
+    "Gemini",
+    "SDR",
+    "BANT",
+    "Google Sheets"
+  ]
+}

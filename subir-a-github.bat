@@ -22,7 +22,7 @@ echo (Si aparece una ventana emergente en tu pantalla o navegador,
 echo por favor inicia sesion/autoriza para completar la subida de archivos).
 echo.
 
-git push -u origin main
+git push -f -u origin main
 
 echo.
 echo ====================================================================
