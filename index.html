@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Laboratorio Asistente IA - Máster AAA</title>
+    <style>
+        :root {
+            --bg-main: #0a0e17;
+            --bg-sidebar: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.5);
+            --bg-card-hover: rgba(51, 65, 85, 0.6);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.4);
+            --accent-teal: #14b8a6;
+            --accent-teal-glow: rgba(20, 184, 166, 0.3);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --terminal-bg: #020617;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-main);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Layout */
+        .app-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styling */
+        aside {
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .brand-logo {
+            font-size: 32px;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, var(--text-main), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .nav-item {
+            padding: 14px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid transparent;
+        }
+
+        .nav-item:hover {
+            color: var(--text-main);
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .nav-item.active {
+            color: var(--text-main);
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05));
+            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* Main Workspace */
+        main {
+            padding: 30px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            margin-bottom: 24px;
+        }
+
+        /* Section Titles */
+        .section-header {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--text-main), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Chat Grid Simulator */
+        .chat-container {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 24px;
+            height: calc(100vh - 180px);
+            min-height: 500px;
+        }
+
+        /* Chat Panel */
+        .chat-panel {
+            background: var(--terminal-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .agent-selector {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .msg {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .msg-user {
+            background: var(--primary);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .msg-agent {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+            border: 1px solid var(--border);
+        }
+
+        .chat-input-area {
+            padding: 16px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 12px;
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .chat-input {
+            flex: 1;
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-main);
+            padding: 12px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .chat-input:focus {
+            border-color: var(--primary);
+        }
+
+        .chat-send-btn {
+            background: var(--primary);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            padding: 0 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .chat-send-btn:hover {
+            opacity: 0.9;
+            box-shadow: 0 0 12px var(--primary-glow);
+        }
+
+        /* Terminal Console */
+        .terminal-panel {
+            background: var(--terminal-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .terminal-header {
+            padding: 12px 16px;
+            background: #090d1a;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-body {
+            flex: 1;
+            padding: 16px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            color: var(--accent-teal);
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+
+        /* Prompt Vault List */
+        .prompt-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .agent-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agent-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .agent-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.15);
+        }
+
+        .agent-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 4px 10px;
+            font-size: 11px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .agent-card-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Syllabus Accordion */
+        .syllabus-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .accordion {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.01);
+            transition: background 0.3s;
+        }
+
+        .accordion-header:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .accordion.open .accordion-content {
+            display: block;
+        }
+
+        .lesson-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .lesson-item {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-teal);
+            font-size: 14px;
+        }
+
+        /* Funnel Flow */
+        .funnel-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .funnel-step {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .funnel-step:hover {
+            transform: translateX(10px);
+            border-color: var(--accent-teal);
+            box-shadow: 0 4px 20px var(--accent-teal-glow);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent-teal);
+            color: var(--bg-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+        }
+
+        .step-info {
+            flex: 1;
+        }
+
+        .step-title {
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .step-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Quick Suggestions */
+        .quick-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .quick-tag {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quick-tag:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: var(--primary);
+            color: var(--text-main);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside>
+            <div class="brand-wrapper">
+                <div class="brand">
+                    <span class="brand-logo">🧬</span>
+                    <h2 class="brand-title">Lab Asistente IA</h2>
+                </div>
+                <ul class="nav-links">
+                    <li class="nav-item active" onclick="switchTab('chat-tab', this)">
+                        <span>💬</span> Enjambre Chat
+                    </li>
+                    <li class="nav-item" onclick="switchTab('curriculum-tab', this)">
+                        <span>📚</span> Temario Académico
+                    </li>
+                    <li class="nav-item" onclick="switchTab('funnel-tab', this)">
+                        <span>⚙️</span> Embudo ManyChat
+                    </li>
+                    <li class="nav-item" onclick="switchTab('vault-tab', this)">
+                        <span>🔑</span> Bóveda Prompts
+                    </li>
+                </ul>
+            </div>
+            <div class="sidebar-footer">
+                <p>© 2026 Academia AAA</p>
+                <p style="font-size: 10px; margin-top: 4px;">Edición Masterclass</p>
+            </div>
+        </aside>
+
+        <!-- Main Workspace Area -->
+        <main>
+            <!-- 1. CHAT TAB CONTENT -->
+            <div id="chat-tab" class="tab-content active">
+                <div class="section-header">
+                    <h2 class="section-title">Enjambre de Agentes Multi-Modelo</h2>
+                    <p class="section-desc">Selecciona un agente especializado para simular e interactuar con sus flujos de decisión y herramientas automatizadas en tiempo real.</p>
+                </div>
+
+                <div class="chat-container">
+                    <!-- Dialogue Panel -->
+                    <div class="chat-panel">
+                        <div class="chat-header">
+                            <span style="font-weight: 700;">Canal de Comunicación</span>
+                            <select class="agent-selector" id="agent-selector" onchange="onAgentChanged()">
+                                <option value="orquestador">Agente 0: Orquestador Maestro</option>
+                                <option value="scraper">Agente 1: Scraper & Trend Intelligence</option>
+                                <option value="creativo">Agente 3: Estudio Creativo Copy</option>
+                                <option value="sdr">Agente 5: Asistente SDR WhatsApp</option>
+                            </select>
+                        </div>
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="msg msg-agent">
+                                ¡Hola! 👋 Eres parte del Laboratorio del Máster AAA. Selecciona un agente de arriba para simular sus decisiones autónomas de negocio. ¿Qué deseas hacer hoy?
+                            </div>
+                        </div>
+                        <div class="chat-input-area" style="flex-direction: column;">
+                            <div style="display: flex; width: 100%; gap: 12px;">
+                                <input type="text" class="chat-input" id="chat-input" placeholder="Pregúntale algo a tu agente de IA..." onkeydown="if(event.key === 'Enter') sendUserMessage()">
+                                <button class="chat-send-btn" onclick="sendUserMessage()">Enviar</button>
+                            </div>
+                            <div class="quick-tags" id="quick-tags">
+                                <span class="quick-tag" onclick="useQuickTag('Simular agendamiento WhatsApp')">Simular WhatsApp SDR</span>
+                                <span class="quick-tag" onclick="useQuickTag('Generar Guion Viral')">Generar Guion Reel</span>
+                                <span class="quick-tag" onclick="useQuickTag('Escanear tendencias IA')">Escanear Tendencias</span>
+                                <span class="quick-tag" onclick="useQuickTag('Calificar un lead')">Calificar Lead BANT</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Terminal Panel (Chain of Thought Monitor) -->
+                    <div class="terminal-panel">
+                        <div class="terminal-header">
+                            <div class="terminal-dot" style="background-color: #ef4444;"></div>
+                            <div class="terminal-dot" style="background-color: #eab308;"></div>
+                            <div class="terminal-dot" style="background-color: #22c55e;"></div>
+                            <span style="font-family: monospace; font-size: 11px; margin-left: 10px; color: var(--text-muted);">MONITOR_PENSAMIENTOS.log</span>
+                        </div>
+                        <div class="terminal-body" id="terminal-body">
+                            [INFO] Consola de Razonamiento del Enjambre conectada.<br>
+                            [SYSTEM] Esperando inputs de usuario para disparar triggers...<br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. CURRICULUM TAB CONTENT -->
+            <div id="curriculum-tab" class="tab-content">
+                <div class="section-header">
+                    <h2 class="section-title">Temario y Plan de Estudios</h2>
+                    <p class="section-desc">Diseñado para llevarte desde la configuración del entorno de desarrollo hasta la orquestación comercial de agentes corporativos.</p>
+                </div>
+
+                <div class="syllabus-container">
+                    <!-- Module 0 -->
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>🛠️ Módulo 0: Fundamentos y Entorno de Trabajo (Días 1-3)</span>
+                            <span>▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <ul class="lesson-list">
+                                <li class="lesson-item">
+                                    <strong>Lección 0.1:</strong> El nuevo paradigma: De Chatbots Reactivos a Agentes Autónomos Multi-Modelo.
+                                </li>
+                                <li class="lesson-item">
+                                    <strong>Lección 0.2:</strong> Configuración de n8n en servidor VPS propio (Hetzner + Docker) por $5/mes (Flujos ilimitados sin comisiones).
+                                </li>
+                                <li class="lesson-item">
+                                    <strong>Lección 0.3:</strong> Conexión de Modelos y APIs: Anthropic (Claude), OpenAI, DeepSeek y Gemini.
+                                </li>
+                                <li class="lesson-item">
+                                    <strong>Lección 0.4:</strong> Entornos de desarrollo asistidos por IA: Uso de Cursor AI y Claude Code para programar sin ser programador senior.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Module 1 -->
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>💾 Módulo 1: Arquitectura de Agentes y Memoria (Días 4-8)</span>
+                            <span>▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <ul class="lesson-list">
+                                <li class="lesson-item">
+                                    <strong>Lección 1.1:</strong> Estructura de un Agente Autónomo: Percepción (Triggers/Webhooks) ➔ Razonamiento (LLM) ➔ Acción (Tools/APIs).
+                                </li>
+                                <li class="lesson-item">
+                                    <strong>Lección 1.2:</strong> Gestión de Contexto, Memoria a Corto y Largo Plazo (PostgreSQL + pgvector / Supabase).
+                                </li>
+                                <li class="lesson-item">
+                                    <strong>Lección 1.3:</strong> RAG Empresarial (Retrieval-Augmented Generation): Conectando PDFs, bases de datos y Notion sin alucinaciones.
+                                </li>
+                                <li class="lesson-item">
+                                    <strong>Lección 1.4:</strong> Guardrails y Validación de Salidas JSON estructuradas para evitar errores con clientes reales.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Module 2 -->
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>🏗️ Módulo 2: Creación de Agentes Especializados (Días 9-18)</span>
+                            <span>▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <ul class="lesson-list">
+                                <li class="lesson-item">
+                                    <strong>Proyecto 1: Agente SDR de WhatsApp Business (24/7):</strong> Conexión con WhatsApp Cloud API, calificación automática BANT (Presupuesto, Urgencia, Necesidad) y agendamiento en Google Calendar / Calendly con confirmación instantánea.
+                                </li>
+                                <li class="lesson-item">
+                                    <strong>Proyecto 2: Agente Scraper y Prospección en Frío B2B:</strong> Extracción automática de datos de Google Maps, LinkedIn y sitios web, análisis de puntos de dolor de negocios y generación de Cold Emails hiper-personalizados.
+                                </li>
+                                <li class="lesson-item">
+                                    <strong>Proyecto 3: Agente de Soporte al Cliente y Resolución de Tickets:</strong> Integración con Zendesk / Slack / Notion para responder consultas frecuentes y escalar casos críticos.
+                                </li>
+                                <li class="lesson-item">
+                                    <strong>Proyecto 4: Agente de Creación y Programación de Contenido Multiplataforma:</strong> De una idea de voz en audio a: Guion de Reel + Carrusel de Instagram + Newsletter + Hilo de X.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Module 3 -->
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>💼 Módulo 3: El Modelo de Agencia de Automatización (AAA) (Días 19-25)</span>
+                            <span>▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <ul class="lesson-list">
+                                <li class="lesson-item">
+                                    <strong>Lección 3.1:</strong> Cómo empaquetar tus servicios: Oferta Core, Setup Fee ($1,500 - $3,000 USD) + Retainer Mensual ($300 - $800/mes).
+                                </li>
+                                <li class="lesson-item">
+                                    <strong>Lección 3.2:</strong> Nichos más rentables: Clínicas médicas, Inmobiliarias, Despachos legales, Agencias de Marketing y E-commerce.
+                                </li>
+                                <li class="lesson-item">
+                                    <strong>Lección 3.3:</strong> El Embudo de Adquisición B2B para tu propia agencia (Cold Outreach + VSL + Auditoría de Procesos).
+                                </li>
+                                <li class="lesson-item">
+                                    <strong>Lección 3.4:</strong> Plantilla de Propuesta Comercial y Contrato de Prestación de Servicios Legalmente Blindado.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Module 4 -->
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>🪐 Módulo 4: Escalado y Enjambres Multi-Agente (Días 26-30)</span>
+                            <span>▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <ul class="lesson-list">
+                                <li class="lesson-item">
+                                    <strong>Lección 4.1:</strong> Orquestación de enjambres (Multi-Agent Swarms): Cómo hacer que los agentes se comuniquen y se pasen tareas entre sí de forma asíncrona.
+                                </li>
+                                <li class="lesson-item">
+                                    <strong>Lección 4.2:</strong> Monitorización, métricas de tokens y optimización de latencia/costos en infraestructuras complejas.
+                                </li>
+                                <li class="lesson-item">
+                                    <strong>Lección 4.3:</strong> Caso de Éxito Final: Operando una empresa de servicios 100% automatizada con agentes autónomos.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. FUNNEL TAB CONTENT -->
+            <div id="funnel-tab" class="tab-content">
+                <div class="section-header">
+                    <h2 class="section-title">Estructura del Embudo Automatizado</h2>
+                    <p class="section-desc">Entiende visualmente la lógica del embudo de adquisición del curso, el flujo de ManyChat ("Comment-to-DM") y la integración con la comunidad de Skool.</p>
+                </div>
+
+                <div class="funnel-flow">
+                    <!-- Step 1 -->
+                    <div class="funnel-step" onclick="showFunnelModal('instagram')">
+                        <div class="step-number">1</div>
+                        <div class="step-info">
+                            <h4 class="step-title">Comentario en Reel ("Comment-to-DM")</h4>
+                            <p class="step-desc">El usuario comenta la palabra clave "AGENTE". ManyChat dispara una respuesta automática al post y un mensaje directo personalizado.</p>
+                        </div>
+                        <span>🔍 Ver detalles</span>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="funnel-step" onclick="showFunnelModal('calificacion')">
+                        <div class="step-number">2</div>
+                        <div class="step-info">
+                            <h4 class="step-title">Calificación Automática BANT</h4>
+                            <p class="step-desc">El bot del chat califica de forma natural el perfil: Presupuesto, Urgencia, Necesidad y Rol del usuario.</p>
+                        </div>
+                        <span>🔍 Ver detalles</span>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="funnel-step" onclick="showFunnelModal('calendario')">
+                        <div class="step-number">3</div>
+                        <div class="step-info">
+                            <h4 class="step-title">Entrega de Recurso & Agendamiento</h4>
+                            <p class="step-desc">Se entrega el enlace a la bóveda de plantillas y se ofrece agendar una auditoría en Google Calendar / Calendly de forma directa si califica.</p>
+                        </div>
+                        <span>🔍 Ver detalles</span>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="funnel-step" onclick="showFunnelModal('comunidad')">
+                        <div class="step-number">4</div>
+                        <div class="step-info">
+                            <h4 class="step-title">Onboarding e Integración en Skool</h4>
+                            <p class="step-desc">El alumno se registra en Skool donde accede al nivel gratuito, gana niveles por gamificación y escala a la oferta paga.</p>
+                        </div>
+                        <span>🔍 Ver detalles</span>
+                    </div>
+                </div>
+
+                <!-- Detalle modal simulado visualmente abajo del flujo -->
+                <div class="glass-card" id="funnel-detail-card" style="margin-top: 40px; display: none;">
+                    <h3 id="funnel-detail-title" style="margin-bottom: 12px; color: var(--accent-teal);">Detalles del Paso</h3>
+                    <div id="funnel-detail-body" style="font-size: 14px; line-height: 1.6;">Selecciona un paso del embudo para auditar sus automaciones y payloads.</div>
+                </div>
+            </div>
+
+            <!-- 4. VAULT TAB CONTENT -->
+            <div id="vault-tab" class="tab-content">
+                <div class="section-header">
+                    <h2 class="section-title">Bóveda de Prompts y Configuración de Agentes</h2>
+                    <p class="section-desc">Copia directamente las configuraciones del sistema y prompts maestros utilizados en la arquitectura del enjambre empresarial.</p>
+                </div>
+
+                <div class="prompt-grid" id="prompt-grid">
+                    <!-- Cards will be rendered dynamically by JS -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script>
+        // Data containing all the prompts and information
+        const agentsData = [
+            {
+                id: 'orquestador',
+                title: 'Agente 0: Orquestador Maestro',
+                desc: 'Director de Operaciones encargado de canalizar leads, orquestar workflows de n8n y delegar llamadas de alto presupuesto.',
+                prompt: `Eres el Orquestador Maestro de la Academia de IA. Tu misión es coordinar el enjambre de agentes:
+1. Recibes métricas del Agente de Pauta (CAC, CTR, CPL, ROAS).
+2. Verificas que el Agente SDR esté respondiendo a los leads en menos de 60 segundos.
+3. Si un lead es calificado como High-Ticket (> $1,500 presupuesto), disparas una notificación urgente al equipo de ventas humano.
+4. Mantienes la base de datos de alumnos y leads sincronizada entre CRM, ManyChat y Skool.`
+            },
+            {
+                id: 'scraper',
+                title: 'Agente 1: Scraper & Trend Intelligence',
+                desc: 'Encargado de escanear Meta Ads, YouTube y redes sociales para detectar dolores e ideas virales de pauta.',
+                prompt: `Eres el Agente de Inteligencia de Mercado. Tu tarea es analizar contenido viral sobre IA y automatizaciones:
+- Identifica los 5 ganchos (hooks) con mayor retención de la semana.
+- Clasifica las dudas y quejas de los usuarios en 3 categorías: Técnicas, Monetización y Confianza.
+- Genera un resumen semanal para el Agente Creativo con recomendaciones de nuevos temas a grabar.`
+            },
+            {
+                id: 'pedagogico',
+                title: 'Agente 2: Arquitecto Pedagógico',
+                desc: 'Encargado de diseñar planes de lección, bóvedas JSON y diagramas de arquitectura sin frustración técnica.',
+                prompt: `Eres el Arquitecto Pedagógico de IA. Diseñas el contenido formativo:
+- Cada lección debe tener: Objetivo de negocio, diagrama de arquitectura, plantilla JSON lista para importar y guía de solución de errores comunes.
+- Neutraliza la frustración técnica asegurando que los alumnos consigan su primer flujo funcional en menos de 45 minutos.`
+            },
+            {
+                id: 'creativo',
+                title: 'Agente 3: Estudio Creativo Copy',
+                desc: 'Especialista en redactar copys persuasivos siguiendo fórmulas de Alex Hormozi y Russell Brunson.',
+                prompt: `Eres el Copywriter y Diseñador de Estrategia Creativa. Sigues las fórmulas de Russell Brunson y Alex Hormozi:
+- Estructura de guiones: Gancho polarizante (0-4s) + Prueba visual/Demostración (5-25s) + Valor educativo (26-40s) + CTA específico a palabra clave (41-50s).
+- Escribe copys directos, sin tecnicismos innecesarios, enfocados en resultados económicos y ahorro de tiempo.`
+            },
+            {
+                id: 'ads',
+                title: 'Agente 4: Growth & Media Buyer',
+                desc: 'Encargado de monitorizar y optimizar pautas en Meta Ads y Google Ads controlando costos de CPL.',
+                prompt: `Eres el Media Buyer y Analista de Ads. Tu enfoque es maximizar el ROAS y mantener el Costo Por Lead (CPL) por debajo del benchmark ($0.50 - $0.80 USD).
+- Si un anuncio tiene CTR < 1.5%, recomiendas cambiar el gancho de los primeros 3 segundos.
+- Si una campaña genera leads a buen costo pero no convierte en el Tripwire, recomiendas optimizar la Thank You Page.`
+            },
+            {
+                id: 'sdr',
+                title: 'Agente 5: Asistente SDR Conversacional',
+                desc: 'Gestor automático de WhatsApp, calificador natural BANT y agendador en Google Calendar.',
+                prompt: `Eres el Asistente SDR de la Academia. Atiendes prospectos por DM con tono cercano, profesional y entusiasta:
+1. Al recibir la palabra "AGENTE", entregas inmediatamente el enlace al recurso gratuito.
+2. Tras 5 minutos, preguntas: "¿Te gustaría implementar este agente en tu propio negocio o aprender a venderlos como servicio?".
+3. Según la respuesta, ofreces la entrada al Bootcamp o agendamiento para el programa High-Ticket.`
+            },
+            {
+                id: 'conversion',
+                title: 'Agente 6: Conversión de Carritos',
+                desc: 'Seguimiento automatizado para ventas High-Ticket y derribo de objeciones comerciales.',
+                prompt: `Eres el Especialista de Conversión. Tu labor es derribar objeciones y cerrar ventas:
+- Analizas el perfil del prospecto antes de la llamada (negocio, volumen actual, cuello de botella).
+- Envías casos de estudio similares para generar prueba social irrefutable.`
+            },
+            {
+                id: 'retencion',
+                title: 'Agente 7: Community & Student Success',
+                desc: 'Gestión activa en la comunidad de Skool, moderación técnica y recolección de testimonios de alumnos.',
+                prompt: `Eres el Community Manager & Coach de Éxito.
+- Das la bienvenida a cada nuevo miembro en Skool.
+- Monitoreas las preguntas técnicas no respondidas y conectas a los alumnos con las plantillas adecuadas.
+- Cuando un alumno comparte su primer cobro o cliente cerrado, documentas el caso para usarlo como testimonio de marketing.`
+            }
+        ];
+
+        // Tab Switch Logic
+        function switchTab(tabId, el) {
+            // Remove active classes
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+
+            // Add active to current
+            document.getElementById(tabId).classList.add('active');
+            el.classList.add('active');
+        }
+
+        // Accordion toggle
+        function toggleAccordion(el) {
+            const parent = el.parentElement;
+            parent.classList.toggle('open');
+        }
+
+        // Render Prompt Vault Cards
+        function renderVault() {
+            const grid = document.getElementById('prompt-grid');
+            grid.innerHTML = '';
+            agentsData.forEach(agent => {
+                grid.innerHTML += `
+                    <div class="agent-card">
+                        <div class="agent-card-title">
+                            <span>${agent.title}</span>
+                            <button class="copy-btn" onclick="copyPromptText('${agent.id}', event)">Copiar Prompt</button>
+                        </div>
+                        <p class="agent-card-desc">${agent.desc}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // Copy System Prompt Functionality
+        function copyPromptText(agentId, event) {
+            event.stopPropagation();
+            const agent = agentsData.find(a => a.id === agentId);
+            if(agent) {
+                navigator.clipboard.writeText(agent.prompt).then(() => {
+                    const btn = event.target;
+                    const prevText = btn.innerText;
+                    btn.innerText = '¡Copiado! 📋';
+                    btn.style.backgroundColor = 'var(--success)';
+                    btn.style.borderColor = 'var(--success)';
+                    setTimeout(() => {
+                        btn.innerText = prevText;
+                        btn.style.backgroundColor = '';
+                        btn.style.borderColor = '';
+                    }, 2000);
+                });
+            }
+        }
+
+        // Visual Simulator Chat Logic
+        let activeAgent = 'orquestador';
+        const terminalBody = document.getElementById('terminal-body');
+        const chatMessages = document.getElementById('chat-messages');
+
+        function onAgentChanged() {
+            const selector = document.getElementById('agent-selector');
+            activeAgent = selector.value;
+            writeTerminalLog(`[AGENT_CHANGED] Cambiando comunicación al Agente de IA: ${activeAgent.toUpperCase()}`);
+        }
+
+        function writeTerminalLog(text) {
+            const timestamp = new Date().toLocaleTimeString();
+            terminalBody.innerHTML += `<br><span style="color: var(--text-muted);">[${timestamp}]</span> ${text}`;
+            terminalBody.scrollTop = terminalBody.scrollHeight;
+        }
+
+        function useQuickTag(tagName) {
+            const input = document.getElementById('chat-input');
+            input.value = tagName;
+            sendUserMessage();
+        }
+
+        function sendUserMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if(!message) return;
+
+            // Add user message to chat
+            chatMessages.innerHTML += `
+                <div class="msg msg-user">${escapeHtml(message)}</div>
+            `;
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Trigger AI agent thinking logic
+            simulateAgentResponse(message);
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        function simulateAgentResponse(userQuery) {
+            writeTerminalLog(`[USER_INPUT] Recibido: "${userQuery}"`);
+            writeTerminalLog(`[AGENT] Cargando memoria de contexto y modelo de orquestación...`);
+
+            let steps = [];
+            let finalResponse = '';
+
+            // Generate specific agent script based on option chosen
+            if(userQuery.toLowerCase().includes('guion') || userQuery.toLowerCase().includes('reel')) {
+                steps = [
+                    `[PENSAMIENTO] El usuario solicita la redacción de un guion viral en formato Reel.`,
+                    `[TOOL_CALL] invoke_scraper_tool({ target: "Meta Ads Library", keywords: "Agente IA, Automatizacion" })`,
+                    `[TOOL_RESULT] Se detectaron 3 anuncios exitosos usando la paleta del gancho de ahorro de tiempo.`,
+                    `[PENSAMIENTO] Estructurando guion con la fórmula de Russel Brunson (Hook 4s + Demostración 20s + Valor 15s + CTA 10s).`,
+                    `[SYSTEM] Generando propuesta de archivo markdown en la carpeta creative_studio.`
+                ];
+                finalResponse = `<strong>¡Guion Viral Generado Correctamente!</strong> 🎬<br><br>
+                <strong>[0:00 - 0:04] GANCHO:</strong> "Acaban de entrar las 3 de la mañana y este agente de IA acaba de cerrar un cliente de $1,800 dólares mientras duermo. Mira mi pantalla."<br><br>
+                <strong>[0:05 - 0:25] DESARROLLO:</strong> "Paso 1: Entra un mensaje directo en Instagram pidiendo información. El agente lo procesa con Claude 3.5, analiza el perfil del cliente, genera un PDF cotizado y se lo manda en 4 segundos por WhatsApp."<br><br>
+                <strong>[0:26 - 0:40] AUTORIDAD:</strong> "No necesitas programar en Python ni pagar herramientas costosas. Esto corre en un servidor que cuesta $5 al mes."<br><br>
+                <strong>[0:41 - 0:50] CTA:</strong> "He exportado la plantilla .json exacta. Comenta 'AGENTE' y te la envío ahora mismo."`;
+            } else if(userQuery.toLowerCase().includes('whatsapp') || userQuery.toLowerCase().includes('agendamiento') || userQuery.toLowerCase().includes('sdr')) {
+                steps = [
+                    `[PENSAMIENTO] El usuario solicita simular el flujo de agendamiento SDR por WhatsApp.`,
+                    `[TOOL_CALL] check_calendar_availability({ date: "today" })`,
+                    `[TOOL_RESULT] Disponibles 4 ranuras horarias.`,
+                    `[PENSAMIENTO] Calificando prospecto con BANT (High-Ticket > $1,500 presupuesto).`,
+                    `[TOOL_CALL] trigger_whatsapp_message({ to: "lead_phone", template: "agendamiento_calendar" })`,
+                    `[SUCCESS] Mensaje de agendamiento enviado exitosamente al WhatsApp.`
+                ];
+                finalResponse = `<strong>🤖 Simulación del Agente SDR activada en WhatsApp:</strong><br><br>
+                "¡Hola! 👋 Aquí tienes el acceso directo para descargar la plantilla JSON del Agente Autónomo y el video tutorial paso a paso:<br>
+                👉 <strong>[ENLACE_DE_DESCARGA_SKOOL]</strong><br><br>
+                ¿Ya tienes instalado n8n o estás empezando desde cero?"<br><br>
+                <em>[El agente calificó al lead con presupuesto High-Ticket y agendó la cita en tu Google Calendar en tiempo real].</em>`;
+            } else if(userQuery.toLowerCase().includes('escanear') || userQuery.toLowerCase().includes('tendencias')) {
+                steps = [
+                    `[PENSAMIENTO] Escaneando competidores y redes en busca de tendencias virales de automatización de IA.`,
+                    `[TOOL_CALL] fetch_competitor_analytics({ limit: 10 })`,
+                    `[TOOL_RESULT] 3 competidores están impulsando ofertas de 'Automatización para Clínicas Dentales'.`,
+                    `[PENSAMIENTO] Clasificando quejas más comunes: Dificultad para conectar APIs de agendas médicas y costos de pauta.`,
+                    `[SYSTEM] Recomendando al Agente Creativo escribir un guion atacando el nicho de clínicas médicas.`
+                ];
+                finalResponse = `<strong>📊 Resumen de Inteligencia de Mercado (Trend Intelligence):</strong><br><br>
+                - <strong>Gancho Viral de la semana:</strong> "Cómo programar citas médicas sin una secretaria 24/7." (Retención de 48% en Instagram).<br>
+                - <strong>Punto de Dolor Detectado:</strong> Los dueños de negocios odian los CRM complicados y la pérdida de leads por lentitud de respuesta.<br>
+                - <strong>Recomendación:</strong> Enfocar la pauta de anuncios en soluciones llave en mano de agendamiento automático por WhatsApp.`;
+            } else {
+                steps = [
+                    `[PENSAMIENTO] Procesando consulta genérica del usuario.`,
+                    `[TOOL_CALL] get_internal_kb_data({ query: "${userQuery}" })`,
+                    `[PENSAMIENTO] Generando respuesta óptima alineada con el Máster de IA AAA.`
+                ];
+                finalResponse = `Eres parte del enjambre operacional. Has solicitado una tarea sobre: <strong>"${escapeHtml(userQuery)}"</strong>.<br><br>
+                Para mejores resultados en esta demo, intenta usar uno de los botones rápidos de abajo o pregúntame específicamente por:
+                <ul>
+                    <li><em>"Generar Guion Viral"</em></li>
+                    <li><em>"Simular WhatsApp SDR"</em></li>
+                    <li><em>"Escanear tendencias IA"</em></li>
+                </ul>`;
+            }
+
+            // Animate steps in terminal and print chat message
+            let i = 0;
+            function runAnimate() {
+                if(i < steps.length) {
+                    writeTerminalLog(steps[i]);
+                    i++;
+                    setTimeout(runAnimate, 800);
+                } else {
+                    writeTerminalLog(`[SUCCESS] Tarea procesada correctamente por el Agente.`);
+                    chatMessages.innerHTML += `
+                        <div class="msg msg-agent">${finalResponse}</div>
+                    `;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }
+            setTimeout(runAnimate, 500);
+        }
+
+        // Visual Funnel Details
+        const funnelData = {
+            instagram: {
+                title: "Detalle: Comentario en Reel ('Comment-to-DM')",
+                body: `<strong>¿Cómo opera esta automatización?</strong><br>
+                1. <strong>Trigger:</strong> Un prospecto comenta la palabra clave <code>AGENTE</code> en un Reel de Instagram.<br>
+                2. <strong>Acción ManyChat:</strong> El sistema responde con un comentario aleatorio al post para evitar shadowbans y le envía un DM inmediato.<br><br>
+                <strong>Copy del DM enviado:</strong><br>
+                <em>"¡Hola {first_name}! 👋 Aquí tienes tu plantilla JSON y el tutorial paso a paso: [Enlace de Skool]. PD: ¿Ya tienes instalado n8n o estás desde cero?"</em>`
+            },
+            calificacion: {
+                title: "Detalle: Calificación Automática BANT",
+                body: `<strong>¿Cómo opera esta automatización?</strong><br>
+                El bot interactúa de forma orgánica mediante botones interactivos y texto libre:<br>
+                - Pregunta por el Rol del negocio (Agencia, Dueño de Negocio, Profesional).<br>
+                - Identifica el **Presupuesto (B)** para automatizaciones (High-Ticket > $1,500 USD).<br>
+                - Asigna etiquetas condicionales de segmentación automática en ManyChat: <code>lead_agencia_interesado</code>.`
+            },
+            calendario: {
+                title: "Detalle: Entrega de Recurso & Agendamiento",
+                body: `<strong>¿Cómo opera esta automatización?</strong><br>
+                1. El sistema verifica mediante API la disponibilidad de tu Google Calendar / Calendly.<br>
+                2. Si el prospecto califica en su presupuesto, le ofrece agendar una Auditoría Estratégica Gratuita en menos de 10 segundos.<br>
+                3. Al agendar, se dispara un webhook que añade al lead en tu CRM (Airtable / Notion) con estado 'Cita Agendada'.`
+            },
+            comunidad: {
+                title: "Detalle: Onboarding e Integración en Skool",
+                body: `<strong>¿Cómo opera esta automatización?</strong><br>
+                1. Al entrar a la comunidad de Skool, se dispara un webhook a n8n que automatiza la bienvenida.<br>
+                2. Se añade al alumno en el CRM para hacer seguimiento a su progreso.<br>
+                3. La comunidad utiliza gamificación (ganar niveles por publicar y comentar) para mantener la retención al 90%.`
+            }
+        };
+
+        function showFunnelModal(stepKey) {
+            const card = document.getElementById('funnel-detail-card');
+            const title = document.getElementById('funnel-detail-title');
+            const body = document.getElementById('funnel-detail-body');
+
+            card.style.display = 'block';
+            title.innerHTML = funnelData[stepKey].title;
+            body.innerHTML = funnelData[stepKey].body;
+            card.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize App
+        window.onload = function() {
+            renderVault();
+        }
+    </script>
+</body>
+</html>
