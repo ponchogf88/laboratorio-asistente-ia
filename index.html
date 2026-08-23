@@ -894,6 +894,261 @@
             animation: slideDown 0.3s ease-out;
         }
 
+        /* --- GLASSMORPHISM HUB & CALENDAR STYLES --- */
+        .countdown-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(20, 184, 166, 0.15));
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 14px;
+            padding: 18px 24px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .countdown-digits {
+            display: flex;
+            gap: 12px;
+        }
+
+        .countdown-box {
+            background: rgba(2, 6, 23, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 8px 14px;
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .countdown-num {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent-teal);
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .practice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .practice-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .practice-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(139, 92, 246, 0.2);
+        }
+
+        .practice-date-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid var(--primary);
+            color: #c084fc;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            width: fit-content;
+        }
+
+        .gamification-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .metric-box {
+            background: rgba(2, 6, 23, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .metric-val {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-teal), #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 12px 0 8px;
+            border: 1px solid var(--border);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent-teal));
+            width: 50%;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 12px var(--accent-teal-glow);
+        }
+
+        .tracker-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .tracker-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 18px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .tracker-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .tracker-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .tracker-item.completed {
+            border-color: rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .tracker-item.completed span.task-text {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .cert-container {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .cert-card {
+            background: radial-gradient(circle at 10% 20%, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 18px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(212, 175, 55, 0.15);
+            color: #f8fafc;
+        }
+
+        .cert-seal {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #f59e0b, #b45309);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 16px;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+            border: 2px dashed #fef3c7;
+        }
+
+        .cert-student-name {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fef08a, #f59e0b, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 12px 0 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .cert-course-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #93c5fd;
+            margin-bottom: 18px;
+        }
+
+        .cert-footer-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.15);
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: left;
+        }
+
+        .resource-box-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .resource-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.2s;
+        }
+
+        .resource-card:hover {
+            border-color: var(--accent-teal);
+            transform: translateY(-2px);
+            background: var(--bg-card-hover);
+        }
+
+        .resource-icon {
+            font-size: 28px;
+            padding: 10px;
+            background: rgba(20, 184, 166, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(20, 184, 166, 0.2);
+        }
+
         @media (max-width: 900px) {
             .app-container {
                 grid-template-columns: 1fr;
@@ -907,6 +1162,12 @@
                 grid-template-columns: 1fr;
             }
             .workflow-grid {
+                grid-template-columns: 1fr;
+            }
+            .gamification-header {
+                grid-template-columns: 1fr;
+            }
+            .cert-container {
                 grid-template-columns: 1fr;
             }
         }
@@ -937,6 +1198,15 @@
                     </li>
                     <li class="nav-item" onclick="switchTab('vault-tab', this)">
                         <span>🔑</span> Bóveda Prompts
+                    </li>
+                    <li class="nav-item" onclick="switchTab('schedule-tab', this)">
+                        <span>📅</span> Calendario de Prácticas
+                    </li>
+                    <li class="nav-item" onclick="switchTab('portal-tab', this)">
+                        <span>🎓</span> Portal Alumno (Skool Hub)
+                    </li>
+                    <li class="nav-item" onclick="switchTab('cert-tab', this)">
+                        <span>🏆</span> Certificados & Avances
                     </li>
                     <li class="nav-item" onclick="window.location.href='auditoria_ejecutiva/index.html'" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(6, 182, 212, 0.2)); border: 1px solid rgba(139, 92, 246, 0.4); color: #fff; margin-top: 8px;">
                         <span>📊</span> Auditoría & GTM Sprint
@@ -1482,6 +1752,322 @@
 
                 <div class="prompt-grid" id="prompt-grid">
                     <!-- Cards will be rendered dynamically by JS -->
+                </div>
+            </div>
+
+            <!-- 6. PRACTICE CALENDAR TAB CONTENT -->
+            <div id="schedule-tab" class="tab-content">
+                <div class="section-header">
+                    <h2 class="section-title">📅 Calendario de Prácticas y Sesiones en Vivo</h2>
+                    <p class="section-desc">Horarios oficiales de construcción en vivo, resolución de dudas en n8n, calibración de Gemini 2.5 y clínicas de ventas para tu agencia de IA.</p>
+                </div>
+
+                <!-- Live Countdown Banner -->
+                <div class="countdown-banner">
+                    <div>
+                        <div style="font-weight: 800; font-size: 16px; color: var(--text-main); margin-bottom: 4px;">
+                            🔴 Próxima Sesión en Vivo: <span style="color: var(--accent-teal);">Laboratorio de Construcción n8n + Gemini</span>
+                        </div>
+                        <div style="font-size: 13px; color: var(--text-muted);">Martes 7:00 PM (CDMX / CST) • Transmisión en directo por Discord Stage</div>
+                    </div>
+                    <div class="countdown-digits">
+                        <div class="countdown-box">
+                            <span class="countdown-num" id="cd-days">02</span>
+                            <span class="countdown-label">Días</span>
+                        </div>
+                        <div class="countdown-box">
+                            <span class="countdown-num" id="cd-hours">04</span>
+                            <span class="countdown-label">Horas</span>
+                        </div>
+                        <div class="countdown-box">
+                            <span class="countdown-num" id="cd-min">35</span>
+                            <span class="countdown-label">Min</span>
+                        </div>
+                        <div class="countdown-box">
+                            <span class="countdown-num" id="cd-sec">12</span>
+                            <span class="countdown-label">Seg</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practice Sessions Grid -->
+                <div class="practice-grid">
+                    <!-- Session 1 -->
+                    <div class="practice-card">
+                        <div>
+                            <span class="practice-date-badge">🗓️ Todos los Martes • 7:00 PM CST</span>
+                            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">🔨 Laboratorio Práctico de Automatización</h3>
+                            <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">
+                                Construimos un agente desde cero en vivo. Conexión de webhooks, lógica de ramas en n8n, manejo de errores y calibración de prompts en Google Gemini 2.5.
+                            </p>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px;">
+                                <span class="node-pill telegram">Telegram Bot</span>
+                                <span class="node-pill gemini">Gemini 2.5 Flash</span>
+                                <span class="node-pill" style="border-color:#ec4899; color:#f472b6;">n8n Nodes</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Laboratorio+Practico+n8n+%2B+Gemini&details=Sesion+en+vivo+del+Laboratorio+Asistente+IA&location=Discord+Stage" target="_blank" class="btn-action btn-copy-json" style="flex: 1; justify-content: center;">📅 Añadir a Calendar</a>
+                            <button onclick="window.open('https://discord.gg/laboratorio-ia', '_blank')" class="btn-action btn-download-json">🎙️ Entrar a Sala</button>
+                        </div>
+                    </div>
+
+                    <!-- Session 2 -->
+                    <div class="practice-card">
+                        <div>
+                            <span class="practice-date-badge" style="background: rgba(20, 184, 166, 0.15); border-color: var(--accent-teal); color: var(--accent-teal);">🗓️ Todos los Jueves • 7:00 PM CST</span>
+                            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">🩺 Clínica de Debugging & Optimización</h3>
+                            <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">
+                                Trae tus flujos rotos. Abrimos pantalla de los alumnos, resolvemos fallos de JSON, permisos de APIs, problemas de rate limit y refinamos la base vectorial RAG.
+                            </p>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px;">
+                                <span class="node-pill" style="border-color:#38bdf8; color:#38bdf8;">PGVector RAG</span>
+                                <span class="node-pill discord">Discord Live</span>
+                                <span class="node-pill" style="border-color:#f59e0b; color:#fbbf24;">Q&A 1-on-1</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Clinica+de+Debugging+IA&details=Resolucion+de+flujos+n8n+y+agentes+en+vivo&location=Discord+Stage" target="_blank" class="btn-action btn-copy-json" style="flex: 1; justify-content: center;">📅 Añadir a Calendar</a>
+                            <button onclick="window.open('https://discord.gg/laboratorio-ia', '_blank')" class="btn-action btn-download-json">🎙️ Entrar a Sala</button>
+                        </div>
+                    </div>
+
+                    <!-- Session 3 -->
+                    <div class="practice-card">
+                        <div>
+                            <span class="practice-date-badge" style="background: rgba(245, 158, 11, 0.15); border-color: #f59e0b; color: #fbbf24;">🗓️ Todos los Sábados • 11:00 AM CST</span>
+                            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">💼 Demo Day & Negocio de Agencia</h3>
+                            <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">
+                                Cómo empaquetar tus bots, redactar propuestas comerciales de $1,500 - $3,000 USD, cerrar clientes locales y presentar auditorías técnicas irresistibles.
+                            </p>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px;">
+                                <span class="node-pill" style="border-color:#10b981; color:#34d399;">Ventas High-Ticket</span>
+                                <span class="node-pill" style="border-color:#8b5cf6; color:#a78bfa;">Contratos</span>
+                                <span class="node-pill" style="border-color:#f43f5e; color:#fb7185;">Casos de Estudio</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Demo+Day+Agencia+IA&details=Propuestas+comerciales+y+ventas+high-ticket&location=Discord+Stage" target="_blank" class="btn-action btn-copy-json" style="flex: 1; justify-content: center;">📅 Añadir a Calendar</a>
+                            <button onclick="window.open('https://discord.gg/laboratorio-ia', '_blank')" class="btn-action btn-download-json">🎙️ Entrar a Sala</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. STUDENT PORTAL (SKOOL HUB) TAB CONTENT -->
+            <div id="portal-tab" class="tab-content">
+                <div class="section-header">
+                    <h2 class="section-title">🎓 Portal del Alumno & Bóveda de Recursos</h2>
+                    <p class="section-desc">Tu espacio central de aprendizaje: monitor de progreso, recursos descargables, guías operativas y acceso directo a todos los materiales del Máster.</p>
+                </div>
+
+                <!-- Gamification Metrics Hub -->
+                <div class="gamification-header">
+                    <div class="metric-box">
+                        <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Nivel de Maestría</div>
+                        <div class="metric-val" id="student-level-badge">Nivel 2: Constructor</div>
+                        <div style="font-size: 11px; color: var(--accent-teal); margin-top: 4px;">🚀 Agentes n8n & Telegram Activos</div>
+                    </div>
+                    <div class="metric-box">
+                        <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Progreso del Máster</div>
+                        <div class="metric-val" id="student-progress-text">50%</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="student-progress-fill" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                    <div class="metric-box">
+                        <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Bóveda Desbloqueada</div>
+                        <div class="metric-val">100% LISTA</div>
+                        <div style="font-size: 11px; color: #38bdf8; margin-top: 4px;">📂 4 JSONs + 5 Workbooks + 8 Prompts</div>
+                    </div>
+                </div>
+
+                <!-- Checklist Tracker & Materials Split -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
+                    <!-- Left: Interactive Checklist -->
+                    <div class="glass-card">
+                        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+                            <span>✅</span> Checklist de Avance del Alumno
+                        </h3>
+                        <div class="tracker-list">
+                            <label class="tracker-item completed">
+                                <input type="checkbox" checked onchange="toggleTask(this)">
+                                <span class="task-text"><strong>Sesión 1:</strong> Servidor n8n local / VPS configurado y corriendo</span>
+                            </label>
+                            <label class="tracker-item completed">
+                                <input type="checkbox" checked onchange="toggleTask(this)">
+                                <span class="task-text"><strong>Sesión 2:</strong> Bot SDR en Telegram conectado con Gemini 2.5</span>
+                            </label>
+                            <label class="tracker-item">
+                                <input type="checkbox" onchange="toggleTask(this)">
+                                <span class="task-text"><strong>Sesión 3:</strong> Scraper B2B y generador de Cold Email activado</span>
+                            </label>
+                            <label class="tracker-item">
+                                <input type="checkbox" onchange="toggleTask(this)">
+                                <span class="task-text"><strong>Sesión 4:</strong> RAG con PGVector y Guardrails anti-alucinación</span>
+                            </label>
+                            <label class="tracker-item">
+                                <input type="checkbox" onchange="toggleTask(this)">
+                                <span class="task-text"><strong>Sesión 5:</strong> Primera propuesta comercial enviada ($1,500+)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Right: Quick Links & Community -->
+                    <div class="glass-card">
+                        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+                            <span>🌐</span> Canales VIP & Soporte Directo
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <a href="https://discord.gg/laboratorio-ia" target="_blank" class="resource-card" style="text-decoration: none; color: inherit;">
+                                <span class="resource-icon" style="background: rgba(139, 92, 246, 0.15); border-color: var(--primary);">💬</span>
+                                <div>
+                                    <div style="font-weight: 700; font-size: 14px; color: #c084fc;">Comunidad Discord Oficial</div>
+                                    <div style="font-size: 12px; color: var(--text-muted);">Canales de soporte #dudas-n8n y sala de prácticas</div>
+                                </div>
+                            </a>
+                            <a href="https://t.me/BotFather" target="_blank" class="resource-card" style="text-decoration: none; color: inherit;">
+                                <span class="resource-icon" style="background: rgba(56, 189, 248, 0.15); border-color: #38bdf8;">🤖</span>
+                                <div>
+                                    <div style="font-weight: 700; font-size: 14px; color: #38bdf8;">Telegram BotFather</div>
+                                    <div style="font-size: 12px; color: var(--text-muted);">Creación y administración de tus bots de Telegram</div>
+                                </div>
+                            </a>
+                            <a href="https://aistudio.google.com/" target="_blank" class="resource-card" style="text-decoration: none; color: inherit;">
+                                <span class="resource-icon" style="background: rgba(20, 184, 166, 0.15); border-color: var(--accent-teal);">💎</span>
+                                <div>
+                                    <div style="font-weight: 700; font-size: 14px; color: var(--accent-teal);">Google AI Studio</div>
+                                    <div style="font-size: 12px; color: var(--text-muted);">Consola de API Keys y pruebas con Gemini 2.5 Pro</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Downloadable Workbooks Vault -->
+                <div class="glass-card">
+                    <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <span>📥</span> Bóveda de Workbooks y Plantillas para Alumnos
+                    </h3>
+                    <div class="resource-box-grid">
+                        <div class="resource-card">
+                            <span class="resource-icon">📄</span>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 700; font-size: 13px;">Workbook Sesión 1: n8n VPS</div>
+                                <div style="font-size: 11px; color: var(--text-muted);">Docker, Nginx & SSL $0</div>
+                            </div>
+                            <button onclick="downloadTextFile('WORKBOOK_SESION_1.md', '# Workbook Sesión 1: Servidor n8n')" class="btn-action btn-download-json">Descargar</button>
+                        </div>
+                        <div class="resource-card">
+                            <span class="resource-icon">🤖</span>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 700; font-size: 13px;">Workbook Sesión 2: SDR Bot</div>
+                                <div style="font-size: 11px; color: var(--text-muted);">BANT Scoring + Telegram</div>
+                            </div>
+                            <button onclick="downloadTextFile('WORKBOOK_SESION_2.md', '# Workbook Sesión 2: Agente SDR')" class="btn-action btn-download-json">Descargar</button>
+                        </div>
+                        <div class="resource-card">
+                            <span class="resource-icon">🔍</span>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 700; font-size: 13px;">Workbook Sesión 3: Scraper B2B</div>
+                                <div style="font-size: 11px; color: var(--text-muted);">Cold Email + Gemini 2.5</div>
+                            </div>
+                            <button onclick="downloadTextFile('WORKBOOK_SESION_3.md', '# Workbook Sesión 3: Prospeccion B2B')" class="btn-action btn-download-json">Descargar</button>
+                        </div>
+                        <div class="resource-card">
+                            <span class="resource-icon">🧠</span>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 700; font-size: 13px;">Workbook Sesión 4: RAG Vector</div>
+                                <div style="font-size: 11px; color: var(--text-muted);">PGVector + Guardrails</div>
+                            </div>
+                            <button onclick="downloadTextFile('WORKBOOK_SESION_4.md', '# Workbook Sesión 4: RAG Empresarial')" class="btn-action btn-download-json">Descargar</button>
+                        </div>
+                        <div class="resource-card">
+                            <span class="resource-icon">💼</span>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 700; font-size: 13px;">Contrato Marco de Agencia</div>
+                                <div style="font-size: 11px; color: var(--text-muted);">Plantilla legal de $1,500+</div>
+                            </div>
+                            <button onclick="downloadTextFile('CONTRATO_AGENCIA_IA.md', '# Contrato de Prestacion de Servicios de Automatizacion con IA')" class="btn-action btn-download-json">Descargar</button>
+                        </div>
+                        <div class="resource-card">
+                            <span class="resource-icon">📊</span>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 700; font-size: 13px;">Diagnóstico de Procesos</div>
+                                <div style="font-size: 11px; color: var(--text-muted);">Auditoría para prospectos</div>
+                            </div>
+                            <button onclick="downloadTextFile('DIAGNOSTICO_CLIENTES.md', '# Framework de Diagnostico de Procesos con IA')" class="btn-action btn-download-json">Descargar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. CERTIFICATE STUDIO TAB CONTENT -->
+            <div id="cert-tab" class="tab-content">
+                <div class="section-header">
+                    <h2 class="section-title">🏆 Estudio de Certificación Oficial</h2>
+                    <p class="section-desc">Genera tu constancia digital y certificado oficial con identificador criptográfico único al completar las prácticas del Máster.</p>
+                </div>
+
+                <div class="cert-container">
+                    <!-- Left: Certificate Controls -->
+                    <div class="glass-card">
+                        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px;">🎓 Datos del Graduado</h3>
+                        <div style="display: flex; flex-direction: column; gap: 14px;">
+                            <div>
+                                <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Nombre Completo del Alumno:</label>
+                                <input type="text" id="cert-input-name" class="chat-input" style="width: 100%;" value="Poncho García" oninput="updateCertPreview()">
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Especialidad / Título:</label>
+                                <select id="cert-input-track" class="agent-selector" style="width: 100%;" onchange="updateCertPreview()">
+                                    <option value="Arquitecto de Agentes Autónomos & n8n" selected>Arquitecto de Agentes Autónomos & n8n</option>
+                                    <option value="Especialista en Automatización B2B con IA">Especialista en Automatización B2B con IA</option>
+                                    <option value="Desarrollador RAG & Sistemas Multi-Agente">Desarrollador RAG & Sistemas Multi-Agente</option>
+                                    <option value="Director de Agencia de Automatización (AAA)">Director de Agencia de Automatización (AAA)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">Fecha de Emisión:</label>
+                                <input type="text" id="cert-input-date" class="chat-input" style="width: 100%;" value="23 de Agosto de 2026" oninput="updateCertPreview()">
+                            </div>
+                            <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 10px;">
+                                <button onclick="printCert()" class="btn-action btn-copy-json" style="justify-content: center; padding: 12px;">🖨️ Imprimir / Guardar como PDF</button>
+                                <button onclick="shareCert()" class="btn-action btn-download-json" style="justify-content: center; padding: 12px;">💼 Compartir en LinkedIn</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Live Glassmorphism Certificate Card -->
+                    <div class="cert-card" id="printable-certificate">
+                        <div class="cert-seal">🎖️</div>
+                        <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #f59e0b; font-weight: 700;">Academia de Agentes Autónomos (AAA)</div>
+                        <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">CERTIFICADO OFICIAL DE MAESTRÍA TÉCNICA</div>
+                        
+                        <div style="font-size: 14px; color: var(--text-muted); margin-top: 20px;">Se certifica formalmente que:</div>
+                        <div class="cert-student-name" id="cert-display-name">Poncho García</div>
+                        
+                        <div style="font-size: 13px; color: var(--text-muted); max-width: 500px; margin: 0 auto 12px; line-height: 1.5;">
+                            Ha completado satisfactoriamente los requerimientos teóricos y prácticos del programa intensivo, demostrando dominio en la construcción de sistemas autónomos con Google Gemini, n8n y arquitecturas de coste cero como:
+                        </div>
+                        
+                        <div class="cert-course-title" id="cert-display-track">Arquitecto de Agentes Autónomos & n8n</div>
+                        
+                        <div class="cert-footer-meta">
+                            <div>
+                                <div style="color: var(--text-main); font-weight: 700;">ID DE VALIDACIÓN:</div>
+                                <div style="font-family: monospace; color: var(--accent-teal); font-size: 12px;" id="cert-display-hash">AAA-2026-9482-GEMINI</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-family: 'Brush Script MT', cursive; font-size: 24px; color: #fef08a;">Master Director</div>
+                                <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 2px;">Dirección Académica AAA</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="color: var(--text-main); font-weight: 700;">FECHA:</div>
+                                <div id="cert-display-date">23 de Agosto de 2026</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -2144,10 +2730,127 @@
             card.scrollIntoView({ behavior: 'smooth' });
         }
 
+        // --- Live Countdown Logic ---
+        function initCountdown() {
+            const now = new Date();
+            let target = new Date();
+            target.setDate(now.getDate() + ((2 + 7 - now.getDay()) % 7 || 7));
+            target.setHours(19, 0, 0, 0);
+
+            function update() {
+                const current = new Date();
+                const diff = target - current;
+                if (diff <= 0) {
+                    if(document.getElementById('cd-days')) {
+                        document.getElementById('cd-days').innerText = "00";
+                        document.getElementById('cd-hours').innerText = "00";
+                        document.getElementById('cd-min').innerText = "00";
+                        document.getElementById('cd-sec').innerText = "00";
+                    }
+                    return;
+                }
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const m = Math.floor((diff / 1000 / 60) % 60);
+                const s = Math.floor((diff / 1000) % 60);
+
+                if(document.getElementById('cd-days')) {
+                    document.getElementById('cd-days').innerText = String(d).padStart(2, '0');
+                    document.getElementById('cd-hours').innerText = String(h).padStart(2, '0');
+                    document.getElementById('cd-min').innerText = String(m).padStart(2, '0');
+                    document.getElementById('cd-sec').innerText = String(s).padStart(2, '0');
+                }
+            }
+            update();
+            setInterval(update, 1000);
+        }
+
+        // --- Student Progress Tracker ---
+        function toggleTask(checkbox) {
+            const item = checkbox.closest('.tracker-item');
+            if (checkbox.checked) {
+                item.classList.add('completed');
+            } else {
+                item.classList.remove('completed');
+            }
+            updateProgressMetrics();
+        }
+
+        function updateProgressMetrics() {
+            const items = document.querySelectorAll('.tracker-item input[type="checkbox"]');
+            const total = items.length;
+            let checked = 0;
+            items.forEach(i => { if (i.checked) checked++; });
+
+            const pct = Math.round((checked / total) * 100);
+            if(document.getElementById('student-progress-text')) {
+                document.getElementById('student-progress-text').innerText = pct + '%';
+                document.getElementById('student-progress-fill').style.width = pct + '%';
+
+                const badge = document.getElementById('student-level-badge');
+                if (pct >= 80) {
+                    badge.innerText = 'Nivel 4: Director Agencia';
+                    badge.style.color = '#f59e0b';
+                } else if (pct >= 60) {
+                    badge.innerText = 'Nivel 3: Maestro RAG';
+                    badge.style.color = '#c084fc';
+                } else if (pct >= 30) {
+                    badge.innerText = 'Nivel 2: Constructor n8n';
+                    badge.style.color = 'var(--accent-teal)';
+                } else {
+                    badge.innerText = 'Nivel 1: Iniciado';
+                    badge.style.color = '#38bdf8';
+                }
+            }
+        }
+
+        // --- Certificate Studio Logic ---
+        function updateCertPreview() {
+            const nameInput = document.getElementById('cert-input-name');
+            const trackInput = document.getElementById('cert-input-track');
+            const dateInput = document.getElementById('cert-input-date');
+
+            const name = nameInput ? nameInput.value : "Poncho García";
+            const track = trackInput ? trackInput.value : "Arquitecto de Agentes Autónomos & n8n";
+            const date = dateInput ? dateInput.value : "23 de Agosto de 2026";
+
+            if (document.getElementById('cert-display-name')) {
+                document.getElementById('cert-display-name').innerText = name || "Nombre del Alumno";
+                document.getElementById('cert-display-track').innerText = track;
+                document.getElementById('cert-display-date').innerText = date || "23 de Agosto de 2026";
+
+                const hash = 'AAA-2026-' + Math.abs((name || "AAA").split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0)).toString(16).toUpperCase().padStart(4, '0') + '-GEMINI';
+                document.getElementById('cert-display-hash').innerText = hash;
+            }
+        }
+
+        function printCert() {
+            window.print();
+        }
+
+        function shareCert() {
+            const name = document.getElementById('cert-input-name') ? document.getElementById('cert-input-name').value : "Alumno";
+            const track = document.getElementById('cert-input-track') ? document.getElementById('cert-input-track').value : "Agentes IA";
+            const url = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(window.location.href) + '&title=' + encodeURIComponent('Certificado Obtenido: ' + track + ' en Academia AAA!');
+            window.open(url, '_blank');
+        }
+
+        function downloadTextFile(filename, textContent) {
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textContent));
+            element.setAttribute('download', filename);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
         // Initialize App
         window.onload = function() {
             renderVault();
-        }
+            initCountdown();
+            updateCertPreview();
+        };
     </script>
 </body>
 </html>
