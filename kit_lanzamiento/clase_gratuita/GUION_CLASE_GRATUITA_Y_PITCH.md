@@ -51,10 +51,12 @@
 > 
 > Para eso, desde **GC2 Legal Solutions** abrimos hoy la **Cohorte 1 de nuestro Laboratorio: Crea tu Asistente Personal IA**.
 > 
-> 📌 **¿Qué es?:** Un programa intensivo de 5 sesiones prácticas en vivo (7.5 horas de taller) donde construiremos juntos tus 4 agentes paso a paso con live debugging.
-> 🏛️ **¿Qué te llevas?:** Tu Asistente operando + Tu Centro de Mando + Tu Portafolio Real + La guía para los Badges Oficiales de Google y n8n + Tu **Constancia Privada de Participación y Evidencia Aplicada** firmada por GC2 Legal Solutions.
+> 📌 **¿Qué es?:** Un programa intensivo de 5 sesiones prácticas en vivo (7.5 horas de taller):
+> * **Sesiones de fin de semana:** Domingos de 6:00 PM a 7:30 PM (Hora CDMX).
+> * **Sesiones entre semana:** Jueves de 7:30 PM a 9:00 PM (Hora CDMX).
+> 🏛️ **¿Qué te llevas?:** Tus 4 Agentes operando en tu propio servidor + Tu Bóveda de JSONs + Tu **Constancia Privada con Validez y Evidencia** firmada por GC2 Legal Solutions.
 > 
-> ⚡ **Condición Especial del Grupo Piloto:**
-> El precio oficial del programa será de $3,500 MXN. Pero para esta primera cohorte de validación, **los primeros 12 participantes entrarán por solo MXN $1,000** a cambio de su asistencia y testimonio final.
+> ⚡ **Condición Especial del Grupo Fundador:**
+> El precio oficial del programa será de $3,500 MXN. Pero para esta primera cohorte de validación, **los primeros 15 participantes entrarán por solo $1,000 MXN** a cambio de su asistencia y testimonio final.
 > 
-> 👉 En este momento dejo el enlace de inscripción en el chat: [ENLACE_DE_PAGO_LANDING]. Solo hay 12 lugares disponibles. ¡Nos vemos adentro en la Sesión 1!"
+> 👉 En este momento dejo el enlace de inscripción en el chat con los datos de pago y WhatsApp: [ENLACE_DE_PAGO_LANDING]. Solo hay 15 lugares disponibles. ¡Nos vemos este domingo a las 6:00 PM en la Sesión 1!"
