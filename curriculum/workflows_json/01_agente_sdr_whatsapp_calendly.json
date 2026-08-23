@@ -1,0 +1,180 @@
+{
+  "name": "Agente SDR WhatsApp Business - Calificador y Agendador 24/7",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-webhook",
+        "options": {}
+      },
+      "name": "WhatsApp Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": "claude-3-5-sonnet-20241022",
+        "options": {
+          "temperature": 0.3
+        }
+      },
+      "name": "Anthropic Chat Model (Claude 3.5)",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1,
+      "position": [
+        480,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.entry[0].changes[0].value.messages[0].text.body }}",
+        "systemMessage": "Eres un asistente SDR de alta conversión para una agencia/academia de IA. Tu meta es responder dudas cordialmente, calificar el lead (BANT: Presupuesto, Urgencia, Necesidad) y agendar llamada de 20 min si califica. Si el usuario pide agendar o muestra alto interés, genera el link de Calendly/Google Calendar. Devuelve la respuesta en formato estructurado JSON con 'message' y 'qualify_score' (1 a 10)."
+      },
+      "name": "AI Agent Calificador",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        480,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.qualify_score }}",
+              "operation": "largerEqual",
+              "value2": 7
+            }
+          ]
+        }
+      },
+      "name": "Es Lead Calificado?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        720,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "application": "appYOUR_AIRTABLE_BASE",
+        "table": "Leads Calificados",
+        "columns": {
+          "Nombre": "={{ $('WhatsApp Webhook Trigger').item.json.body.entry[0].changes[0].value.contacts[0].profile.name }}",
+          "Telefono": "={{ $('WhatsApp Webhook Trigger').item.json.body.entry[0].changes[0].value.messages[0].from }}",
+          "Score": "={{ $json.qualify_score }}",
+          "Resumen": "={{ $json.message }}"
+        }
+      },
+      "name": "Guardar en Airtable CRM",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [
+        960,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "https://graph.facebook.com/v20.0/YOUR_PHONE_NUMBER_ID/messages",
+        "options": {},
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "messaging_product",
+              "value": "whatsapp"
+            },
+            {
+              "name": "to",
+              "value": "={{ $('WhatsApp Webhook Trigger').item.json.body.entry[0].changes[0].value.messages[0].from }}"
+            },
+            {
+              "name": "type",
+              "value": "text"
+            },
+            {
+              "name": "text",
+              "value": "={{ JSON.stringify({ body: $json.message }) }}"
+            }
+          ]
+        }
+      },
+      "name": "Enviar Respuesta WhatsApp API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1180,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "WhatsApp Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent Calificador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model (Claude 3.5)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent Calificador",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent Calificador": {
+      "main": [
+        [
+          {
+            "node": "Es Lead Calificado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Es Lead Calificado?": {
+      "main": [
+        [
+          {
+            "node": "Guardar en Airtable CRM",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Enviar Respuesta WhatsApp API",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar Respuesta WhatsApp API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

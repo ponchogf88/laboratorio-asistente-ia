@@ -1,0 +1,120 @@
+{
+  "name": "Agente de Soporte al Cliente RAG con Base de Conocimiento",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "support-chat-webhook",
+        "options": {}
+      },
+      "name": "Webhook Entrada Chat / Discord",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": "claude-3-5-sonnet-20241022",
+        "options": {}
+      },
+      "name": "Claude 3.5 Sonnet",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1,
+      "position": [
+        460,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "base_conocimiento_academia",
+        "toolDescription": "Busca información oficial en el temario, guías de instalación y políticas de la academia."
+      },
+      "name": "Vector Store Tool (RAG)",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1,
+      "position": [
+        680,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.user_message }}",
+        "systemMessage": "Eres el Agente de Soporte Técnico y Académico de la academia de IA. Usa la herramienta 'base_conocimiento_academia' para consultar la información oficial antes de responder. Si no encuentras la respuesta con certeza, indica educadamente que vas a transferir la consulta a un tutor humano y asigna el flag 'escalate_to_human: true'. Responde siempre en tono motivador, conciso y en español."
+      },
+      "name": "AI Agent RAG Soporte",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        500,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'success', reply: $json.output, timestamp: $now } }}",
+        "options": {}
+      },
+      "name": "Responder al Usuario",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        800,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Entrada Chat / Discord": {
+      "main": [
+        [
+          {
+            "node": "AI Agent RAG Soporte",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude 3.5 Sonnet": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent RAG Soporte",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector Store Tool (RAG)": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent RAG Soporte",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent RAG Soporte": {
+      "main": [
+        [
+          {
+            "node": "Responder al Usuario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

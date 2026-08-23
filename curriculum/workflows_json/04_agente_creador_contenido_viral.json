@@ -1,0 +1,104 @@
+{
+  "name": "Agente Generador de Contenido Multiplataforma (Audio/Idea a 4 Formatos)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generar-contenido",
+        "options": {}
+      },
+      "name": "Webhook Nueva Idea / Audio",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": "claude-3-5-sonnet-20241022",
+        "options": {
+          "temperature": 0.7
+        }
+      },
+      "name": "Claude 3.5 Sonnet",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1,
+      "position": [
+        450,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Idea Central: {{ $json.body.tema_o_transcripcion }}\nAudiencia: Emprendedores y creadores interesados en automatizar con IA.",
+        "systemMessage": "Eres un Director Creativo y Copywriter Viral. A partir del tema proporcionado, debes generar 4 piezas de contenido optimizadas:\n1. GUION_REEL: Guion de 45 seg con Hook en primeros 3s, demostración y CTA a comentar palabra clave.\n2. CARRUSEL_INSTAGRAM: Estructura de 7 diapositivas con portada llamativa, 5 tips de alto valor y diapositiva final de llamado a la acción.\n3. HILO_X: Hilo de 5 tweets concisos con impacto.\n4. NEWSLETTER_EMAIL: Correo de 250 palabras con formato historia + lección + invitación.\nDevuelve la respuesta en formato JSON con las 4 llaves estructuradas."
+      },
+      "name": "Agente Director de Contenido",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "application": "appYOUR_AIRTABLE_BASE",
+        "table": "Calendario de Contenidos",
+        "columns": {
+          "Tema": "={{ $('Webhook Nueva Idea / Audio').item.json.body.tema_o_transcripcion }}",
+          "Guion Reel": "={{ $json.GUION_REEL }}",
+          "Carrusel": "={{ JSON.stringify($json.CARRUSEL_INSTAGRAM) }}",
+          "Newsletter": "={{ $json.NEWSLETTER_EMAIL }}",
+          "Status": "Listo para Grabar"
+        }
+      },
+      "name": "Guardar en Notion / Airtable",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [
+        720,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Nueva Idea / Audio": {
+      "main": [
+        [
+          {
+            "node": "Agente Director de Contenido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude 3.5 Sonnet": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente Director de Contenido",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente Director de Contenido": {
+      "main": [
+        [
+          {
+            "node": "Guardar en Notion / Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "name": "Agente Prospección B2B - Enriquecimiento & Cold Email Personalizado",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      },
+      "name": "Trigger Diario Cron",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "application": "appYOUR_AIRTABLE_BASE",
+        "table": "Leads a Prospectar",
+        "options": {}
+      },
+      "name": "Leer Leads Pendientes",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [
+        400,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.Website }}",
+        "options": {}
+      },
+      "name": "Scrapear Sitio Web del Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        600,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {
+          "temperature": 0.5
+        }
+      },
+      "name": "OpenAI Model (GPT-4o)",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        800,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Empresa: {{ $('Leer Leads Pendientes').item.json.NombreEmpresa }}\nContacto: {{ $('Leer Leads Pendientes').item.json.NombreContacto }}\nWeb Data: {{ $json.data }}",
+        "systemMessage": "Eres un copywriter B2B experto en Cold Email. Analiza el sitio web de la empresa, identifica 1 cuello de botella que podemos resolver con automatización de IA y redacta un Cold Email ultra-personalizado de menos de 100 palabras. Incluye: Gancho específico sobre su negocio + Propuesta de valor clara + CTA de baja fricción (¿Tiene sentido que te mande un video de 2 min mostrándote el flujo?). Devuelve en formato JSON: { subject, body }."
+      },
+      "name": "Generar Cold Email Personalizado",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        800,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "contacto@tuacademia.com",
+        "toEmail": "={{ $('Leer Leads Pendientes').item.json.Email }}",
+        "subject": "={{ $json.subject }}",
+        "text": "={{ $json.body }}",
+        "options": {}
+      },
+      "name": "Enviar Correo vía Gmail / SMTP",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1040,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Trigger Diario Cron": {
+      "main": [
+        [
+          {
+            "node": "Leer Leads Pendientes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer Leads Pendientes": {
+      "main": [
+        [
+          {
+            "node": "Scrapear Sitio Web del Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrapear Sitio Web del Lead": {
+      "main": [
+        [
+          {
+            "node": "Generar Cold Email Personalizado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Model (GPT-4o)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generar Cold Email Personalizado",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar Cold Email Personalizado": {
+      "main": [
+        [
+          {
+            "node": "Enviar Correo vía Gmail / SMTP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

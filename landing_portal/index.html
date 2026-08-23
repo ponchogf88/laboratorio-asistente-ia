@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratorio: Crea tu Asistente Personal IA | GC2 Legal Solutions</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              accent: '#10b981',
+              dark: '#0a0d14',
+              card: '#121723'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glow-bg {
+      background: radial-gradient(circle at 50% 25%, rgba(99, 102, 241, 0.18), transparent 70%);
+    }
+    .card-glass {
+      background: rgba(18, 23, 35, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+<body class="bg-brand-dark text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- TOP BANNER URGENCIA PILOTO -->
+  <div class="bg-gradient-to-r from-indigo-900 via-brand-600 to-purple-900 text-white text-xs md:text-sm py-2.5 text-center font-medium px-4">
+    ⚡ <strong>GRUPO PILOTO COHORTE 1:</strong> Solo 12 lugares disponibles a precio de validación especial.
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between border-b border-slate-800/60">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center shadow-lg shadow-brand-500/30">
+        <i data-lucide="cpu" class="w-6 h-6 text-white"></i>
+      </div>
+      <div>
+        <span class="text-xl font-black tracking-tight text-white">LABORATORIO <span class="text-brand-500">IA</span></span>
+        <span class="text-[10px] block text-slate-400 font-mono tracking-wider uppercase">GC2 Legal Solutions</span>
+      </div>
+    </div>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+      <a href="#programa" class="hover:text-white transition">Temario</a>
+      <a href="#acreditacion" class="hover:text-white transition">Doble Acreditación</a>
+      <a href="#simulador" class="hover:text-white transition">Demo en Vivo</a>
+      <a href="#inscripcion" class="hover:text-white transition">Inscripción</a>
+      <a href="#legal" class="hover:text-white transition">Términos</a>
+    </div>
+    <a href="#inscripcion" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-sm font-bold shadow-lg shadow-emerald-600/30 transition-all">
+      Asegurar Lugar Piloto ($1,000 MXN)
+    </a>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <header class="relative pt-16 pb-20 px-6 max-w-7xl mx-auto text-center glow-bg">
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800/90 border border-slate-700 text-brand-400 text-xs font-semibold uppercase tracking-wider mb-6">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+      Programa Privado de Formación Aplicada · 7.5 Horas en Vivo
+    </div>
+    
+    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-5xl mx-auto leading-[1.1]">
+      Crea tu Propio <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-emerald-400">Asistente Personal de IA</span> y Automatiza tu Negocio
+    </h1>
+    
+    <p class="mt-6 text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto font-normal leading-relaxed">
+      Aprende a construir, desplegar y operar agentes autónomos con <strong>n8n, Claude 3.5 y WhatsApp</strong> en un taller práctico en vivo. Sal con tu sistema operando y respaldo oficial de competencias.
+    </p>
+
+    <!-- BADGE DE PRECIO PILOTO -->
+    <div class="mt-8 inline-block p-4 rounded-2xl bg-slate-900/90 border border-slate-700 shadow-2xl">
+      <div class="flex items-center justify-center gap-4">
+        <div class="text-left">
+          <span class="text-xs text-slate-400 block line-through">Precio Regular: $3,500 MXN</span>
+          <span class="text-3xl font-black text-emerald-400">MXN $1,000</span>
+          <span class="text-xs text-slate-300 font-mono ml-2">· Cupo Piloto (12 Lugares)</span>
+        </div>
+        <a href="#inscripcion" class="px-6 py-3 rounded-xl bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 text-white font-bold text-sm shadow-lg shadow-brand-600/30 transition flex items-center gap-2">
+          <i data-lucide="sparkles" class="w-4 h-4"></i> Inscribirme Ahora
+        </a>
+      </div>
+    </div>
+
+    <!-- METRICAS DE CONFIANZA -->
+    <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto pt-10 border-t border-slate-800/60">
+      <div>
+        <div class="text-3xl font-black text-white">7.5 Horas</div>
+        <div class="text-xs text-slate-400 mt-1">5 Sesiones 100% en Vivo</div>
+      </div>
+      <div>
+        <div class="text-3xl font-black text-emerald-400">4 Flujos</div>
+        <div class="text-xs text-slate-400 mt-1">Plantillas JSON Listas</div>
+      </div>
+      <div>
+        <div class="text-3xl font-black text-purple-400">Portafolio</div>
+        <div class="text-xs text-slate-400 mt-1">Asistente + Centro de Mando</div>
+      </div>
+      <div>
+        <div class="text-3xl font-black text-indigo-400">Acreditación</div>
+        <div class="text-xs text-slate-400 mt-1">Badges Tech + Constancia GC2</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- EL TRIÁNGULO DE ACREDITACIÓN -->
+  <section id="acreditacion" class="py-16 px-6 max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <span class="text-xs font-mono text-brand-400 uppercase tracking-wider">Transparencia y Respaldo Real</span>
+      <h2 class="text-3xl font-extrabold text-white mt-1">El Modelo de Triple Respaldo para el Alumno</h2>
+      <p class="text-slate-400 text-sm mt-2">Diferenciamos con claridad quién emite cada reconocimiento y qué acredita cada documento.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- 1. Constancia Privada -->
+      <div class="card-glass p-6 rounded-3xl border border-slate-800 flex flex-col justify-between">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-indigo-950/80 border border-indigo-700/50 flex items-center justify-center text-brand-400 mb-4">
+            <i data-lucide="award" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white">1. Constancia Privada GC2</h3>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+            Emitida formalmente por <strong>GC2 Legal Solutions</strong>. Acredita que completaste las 7.5 horas en vivo, participaste activamente, entregaste tus evidencias y presentaste tu demo funcional.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-slate-800 text-[11px] text-brand-400 font-mono">
+          ✓ Folio único de verificación digital
+        </div>
+      </div>
+
+      <!-- 2. Portafolio de Evidencias -->
+      <div class="card-glass p-6 rounded-3xl border border-slate-800 flex flex-col justify-between">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-emerald-950/80 border border-emerald-700/50 flex items-center justify-center text-emerald-400 mb-4">
+            <i data-lucide="folder-check" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white">2. Tu Portafolio Real</h3>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+            Acredita lo que realmente construiste: tu Asistente de IA operando, tu Centro de Mando (CRM en Airtable/Supabase), tu bitácora técnica de arquitectura y tus prompts blindados.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-slate-800 text-[11px] text-emerald-400 font-mono">
+          ✓ Demostración en vivo ante clientes
+        </div>
+      </div>
+
+      <!-- 3. Credenciales Externas -->
+      <div class="card-glass p-6 rounded-3xl border border-slate-800 flex flex-col justify-between">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-purple-950/80 border border-purple-700/50 flex items-center justify-center text-purple-400 mb-4">
+            <i data-lucide="shield-check" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white">3. Badges Oficiales Tech</h3>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+            Te guiamos y entrenamos para aprobar las evaluaciones oficiales de <strong>Google Cloud, Microsoft Learn o n8n</strong>. Los badges son emitidos exclusivamente por dichas plataformas.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-slate-800 text-[11px] text-purple-400 font-mono">
+          ✓ Reconocimiento global en LinkedIn
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TEMARIO COMPLETO (5 SESIONES · 7.5 HORAS) -->
+  <section id="programa" class="py-16 px-6 max-w-5xl mx-auto">
+    <div class="text-center mb-12">
+      <span class="text-xs font-mono text-slate-400 uppercase tracking-wider">Plan de Estudios 100% Práctico</span>
+      <h2 class="text-3xl font-extrabold text-white mt-1">5 Sesiones Minuto a Minuto · 7.5 Horas</h2>
+      <p class="text-slate-400 text-sm mt-2">Construcción guiada paso a paso sin teoría innecesaria.</p>
+    </div>
+
+    <div class="space-y-4">
+      <div class="card-glass p-5 rounded-2xl border border-slate-800 flex items-start gap-4">
+        <span class="w-10 h-10 rounded-xl bg-indigo-950 border border-indigo-700/50 flex items-center justify-center text-brand-400 font-bold shrink-0">1</span>
+        <div>
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-white text-base">Sesión 1: Tu Servidor de Automatización Propio ($5/mes)</h4>
+            <span class="text-xs text-slate-400 font-mono">90 Min</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Configuración de n8n en VPS con Docker. Conexión con Claude 3.5 Sonnet y OpenAI sin límites de ejecuciones.</p>
+        </div>
+      </div>
+
+      <div class="card-glass p-5 rounded-2xl border border-slate-800 flex items-start gap-4">
+        <span class="w-10 h-10 rounded-xl bg-emerald-950 border border-emerald-700/50 flex items-center justify-center text-emerald-400 font-bold shrink-0">2</span>
+        <div>
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-white text-base">Sesión 2: Agente SDR de WhatsApp + Google Calendar</h4>
+            <span class="text-xs text-slate-400 font-mono">90 Min</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Conexión con WhatsApp Cloud API, calificación BANT automática y agendamiento directo en tu calendario 24/7.</p>
+        </div>
+      </div>
+
+      <div class="card-glass p-5 rounded-2xl border border-slate-800 flex items-start gap-4">
+        <span class="w-10 h-10 rounded-xl bg-purple-950 border border-purple-700/50 flex items-center justify-center text-purple-400 font-bold shrink-0">3</span>
+        <div>
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-white text-base">Sesión 3: Agente de Prospección B2B y Scraper Web</h4>
+            <span class="text-xs text-slate-400 font-mono">90 Min</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Extracción de datos de empresas objetivo, detección automática de dolores con IA y generación de Cold Emails personalizados.</p>
+        </div>
+      </div>
+
+      <div class="card-glass p-5 rounded-2xl border border-slate-800 flex items-start gap-4">
+        <span class="w-10 h-10 rounded-xl bg-amber-950 border border-amber-700/50 flex items-center justify-center text-amber-400 font-bold shrink-0">4</span>
+        <div>
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-white text-base">Sesión 4: Agente RAG con Base de Conocimiento y Guardrails</h4>
+            <span class="text-xs text-slate-400 font-mono">90 Min</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Conexión de manuales y catálogos en bases vectoriales (Supabase/Qdrant) con blindaje estricto anti-alucinaciones.</p>
+        </div>
+      </div>
+
+      <div class="card-glass p-5 rounded-2xl border border-slate-800 flex items-start gap-4">
+        <span class="w-10 h-10 rounded-xl bg-rose-950 border border-rose-700/50 flex items-center justify-center text-rose-400 font-bold shrink-0">5</span>
+        <div>
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-white text-base">Sesión 5: Modelo de Agencia (AAA), Cotizadores y Contratos</h4>
+            <span class="text-xs text-slate-400 font-mono">90 Min</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Cómo cobrar $1,500 - $3,000 USD por setup + retainer mensual. Contrato blindado en Word y cotizador en Excel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PASARELA DE PAGO E INSCRIPCIÓN -->
+  <section id="inscripcion" class="py-16 px-6 max-w-4xl mx-auto">
+    <div class="card-glass p-8 md:p-12 rounded-3xl border-2 border-brand-500 shadow-2xl relative bg-brand-card/90">
+      <div class="text-center mb-8">
+        <span class="px-4 py-1 rounded-full bg-emerald-950 text-emerald-400 text-xs font-bold font-mono uppercase tracking-wider border border-emerald-700">
+          Inscripción Abierta · Cohorte 1
+        </span>
+        <h3 class="text-3xl font-extrabold text-white mt-3">Asegura tu Lugar en el Grupo Piloto</h3>
+        <p class="text-slate-400 text-sm mt-1">Inversión única de validación: <strong>MXN $1,000</strong> (Solo 12 participantes).</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <!-- Opcion SPEI -->
+        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-700 text-center">
+          <i data-lucide="banknote" class="w-6 h-6 text-emerald-400 mx-auto mb-2"></i>
+          <h4 class="font-bold text-white text-sm">Transferencia SPEI</h4>
+          <p class="text-[11px] text-slate-400 mt-1">Sin comisiones adicionales · Depósito directo a cuenta CLABE.</p>
+          <button onclick="showSPEI()" class="mt-3 px-4 py-1.5 rounded-lg bg-emerald-950 text-emerald-400 text-xs font-bold border border-emerald-800 w-full hover:bg-emerald-900">
+            Ver Datos Bancarios
+          </button>
+        </div>
+
+        <!-- Opcion Mercado Pago -->
+        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-700 text-center">
+          <i data-lucide="credit-card" class="w-6 h-6 text-sky-400 mx-auto mb-2"></i>
+          <h4 class="font-bold text-white text-sm">Mercado Pago</h4>
+          <p class="text-[11px] text-slate-400 mt-1">Tarjetas Débito/Crédito, OXXO y Meses sin intereses.</p>
+          <a href="https://mpago.la/pos/YOUR_LINK" target="_blank" class="mt-3 block px-4 py-1.5 rounded-lg bg-sky-950 text-sky-400 text-xs font-bold border border-sky-800 w-full hover:bg-sky-900 text-center">
+            Pagar con Mercado Pago
+          </a>
+        </div>
+
+        <!-- Opcion Stripe -->
+        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-700 text-center">
+          <i data-lucide="globe" class="w-6 h-6 text-indigo-400 mx-auto mb-2"></i>
+          <h4 class="font-bold text-white text-sm">Stripe / USD</h4>
+          <p class="text-[11px] text-slate-400 mt-1">Tarjetas internacionales (Visa, Mastercard, Amex).</p>
+          <a href="https://buy.stripe.com/YOUR_LINK" target="_blank" class="mt-3 block px-4 py-1.5 rounded-lg bg-indigo-950 text-indigo-400 text-xs font-bold border border-indigo-800 w-full hover:bg-indigo-900 text-center">
+            Pagar con Stripe ($50 USD)
+          </a>
+        </div>
+      </div>
+
+      <!-- DETALLE SPEI OCULTO -->
+      <div id="speiBox" class="p-5 rounded-2xl bg-slate-950 border border-emerald-700/50 mb-8">
+        <h5 class="text-xs font-mono text-emerald-400 uppercase font-bold mb-2">Datos para Transferencia Interbancaria (SPEI):</h5>
+        <div class="text-xs space-y-1 font-mono text-slate-300">
+          <p><strong>Banco:</strong> [NOMBRE_DE_TU_BANCO]</p>
+          <p><strong>Cuenta CLABE:</strong> [000000000000000000]</p>
+          <p><strong>Beneficiario:</strong> GC2 Legal Solutions / [TU_NOMBRE]</p>
+          <p><strong>Monto:</strong> $1,000.00 MXN</p>
+          <p><strong>Concepto:</strong> [Tu Nombre] - Piloto IA</p>
+        </div>
+        <p class="text-[11px] text-slate-400 mt-3">Al realizar la transferencia, envía tu comprobante por WhatsApp para darte acceso inmediato al grupo y a los materiales.</p>
+      </div>
+
+      <!-- BOTON CONTACTO DIRECTO -->
+      <div class="text-center">
+        <a href="https://wa.me/5218100000000?text=Hola,%20quiero%20asegurar%20mi%20lugar%20para%20la%20Cohorte%201%20del%20Laboratorio%20IA" target="_blank" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-600/30 transition">
+          <i data-lucide="message-circle" class="w-5 h-5"></i> Enviar Comprobante / Dudas por WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER LEGAL Y DESLINDES -->
+  <footer id="legal" class="py-12 px-6 max-w-5xl mx-auto border-t border-slate-800/80 text-slate-400 text-xs leading-relaxed space-y-4">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-800 pb-6 text-slate-300">
+      <div class="font-bold text-white text-sm">Laboratorio IA · GC2 Legal Solutions</div>
+      <div>Garantía de Satisfacción: 14 Días Naturales</div>
+    </div>
+
+    <p>
+      <strong>Aviso de Privacidad (LFPDPPP):</strong> Los datos personales recabados serán utilizados exclusivamente para gestionar su inscripción, procesar pagos y coordinar su participación en el programa. No compartimos sus datos con terceros. Para consultar el aviso integral, escriba a privacidad@gc2legal.com.
+    </p>
+
+    <p>
+      <strong>Naturaleza del Programa y Constancia:</strong> "Laboratorio: Crea tu Asistente Personal IA" es un programa privado de formación aplicada y educación continua no reglada impartido por GC2 Legal Solutions. La "Constancia Privada de Participación y Evidencia Aplicada" acredita competencias prácticas demostradas y no confiere grado académico universitario ni validez oficial de estudios (RVOE/SEP).
+    </p>
+
+    <p>
+      <strong>Deslinde de Marcas y Proveedores Externos:</strong> Las credenciales, badges y certificaciones oficiales de Google, Microsoft, AWS, IBM, n8n y OpenAI pertenecen exclusivamente a dichos proveedores y se rigen por sus propios exámenes independientes. Los nombres comerciales se mencionan bajo uso legítimo con fines estrictamente didácticos y de compatibilidad técnica.
+    </p>
+
+    <div class="text-center text-slate-600 pt-4 text-[11px]">
+      © 2026 GC2 Legal Solutions. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    function showSPEI() {
+      const box = document.getElementById("speiBox");
+      box.scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

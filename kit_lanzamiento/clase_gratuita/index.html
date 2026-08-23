@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masterclass Gratuita: Construye tu Primer Asistente Personal de IA en 45 Minutos | GC2 Legal Solutions</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              accent: '#10b981',
+              dark: '#0a0d14',
+              card: '#121723'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glow-bg {
+      background: radial-gradient(circle at 50% 20%, rgba(99, 102, 241, 0.16), transparent 70%);
+    }
+    .card-glass {
+      background: rgba(18, 23, 35, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+<body class="bg-brand-dark text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- TOP BANNER ACCESO GRATUITO -->
+  <div class="bg-gradient-to-r from-indigo-900 via-brand-600 to-purple-900 text-white text-xs md:text-sm py-2.5 text-center font-medium px-4">
+    ⚡ <strong>TALLER EN VIVO 100% GRATUITO:</strong> Cupo limitado en la sala de Google Meet. Regístrate ahora.
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between border-b border-slate-800/60">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center shadow-lg shadow-brand-500/30">
+        <i data-lucide="cpu" class="w-6 h-6 text-white"></i>
+      </div>
+      <div>
+        <span class="text-xl font-black tracking-tight text-white">LABORATORIO <span class="text-brand-500">IA</span></span>
+        <span class="text-[10px] block text-slate-400 font-mono tracking-wider uppercase">GC2 Legal Solutions</span>
+      </div>
+    </div>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+      <a href="#lo-que-aprenderas" class="hover:text-white transition">Temario en Vivo</a>
+      <a href="#instructor" class="hover:text-white transition">Instructor</a>
+      <a href="#faqs" class="hover:text-white transition">Preguntas Frecuentes</a>
+    </div>
+    <a href="#registro" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 text-white text-sm font-bold shadow-lg shadow-emerald-600/30 transition-all">
+      Apartar Lugar Gratis
+    </a>
+  </nav>
+
+  <!-- HERO SECTION CON FORMULARIO INTEGRADO -->
+  <header class="relative pt-12 pb-20 px-6 max-w-6xl mx-auto glow-bg">
+    <div class="text-center max-w-4xl mx-auto">
+      
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800/90 border border-slate-700 text-brand-400 text-xs font-semibold uppercase tracking-wider mb-6">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        Masterclass Práctica en Vivo · 45 Minutos por Google Meet
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
+        Construye tu Primer <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-emerald-400">Asistente Personal de IA</span> para tu Trabajo
+      </h1>
+
+      <!-- BADGES DE NICHOS OBJETIVO -->
+      <div class="mt-4 flex flex-wrap items-center justify-center gap-2 text-[11px] font-medium text-slate-300">
+        <span class="px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700">⚖️ Abogados</span>
+        <span class="px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700">📊 Contadores</span>
+        <span class="px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700">🩺 Clínicas y Médicos</span>
+        <span class="px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700">🏢 Inmobiliarias</span>
+        <span class="px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700">💼 Consultores</span>
+      </div>
+
+      <p class="mt-5 text-base sm:text-xl text-slate-400 max-w-2xl mx-auto font-normal leading-relaxed">
+        Mira mi pantalla en vivo mientras conectamos un agente inteligente con <strong>n8n y Claude 3.5</strong> que califica prospectos en WhatsApp y agenda citas en automático. Te llevas la plantilla de código <strong>.json de regalo</strong>.
+      </p>
+
+    </div>
+
+    <!-- TARJETA DEL FORMULARIO DE REGISTRO RÁPIDO -->
+    <div id="registro" class="mt-10 max-w-xl mx-auto card-glass p-8 md:p-10 rounded-3xl border-2 border-brand-500/40 shadow-2xl relative">
+      <div class="text-center mb-6">
+        <h3 class="text-xl font-bold text-white">Completa tus datos para enviarte el enlace de acceso</h3>
+        <p class="text-xs text-slate-400 mt-1">Cero costo · Cero spam · Acceso directo a la sala de Google Meet</p>
+      </div>
+
+      <form id="optinForm" onsubmit="handleRegistration(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1.5">Nombre Completo *</label>
+          <input type="text" id="nombre" required placeholder="Ej. Carlos Mendoza" class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-700 text-white text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-500 focus:outline-none placeholder:text-slate-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1.5">Correo Electrónico (para enviarte la plantilla JSON) *</label>
+          <input type="email" id="email" required placeholder="carlos@empresa.com" class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-700 text-white text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-500 focus:outline-none placeholder:text-slate-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1.5">WhatsApp con código de país (para enviarte el recordatorio de sala) *</label>
+          <input type="tel" id="whatsapp" required placeholder="+52 81 1234 5678" class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-700 text-white text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-500 focus:outline-none placeholder:text-slate-500">
+        </div>
+
+        <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-bold text-base shadow-xl shadow-brand-600/30 transition-all flex items-center justify-center gap-2 mt-2">
+          <i data-lucide="sparkles" class="w-5 h-5"></i> ¡Quiero Mi Lugar Gratuito + Plantilla JSON!
+        </button>
+
+        <p class="text-[11px] text-slate-500 text-center mt-3">
+          🔒 Respetamos tu privacidad conforme a la LFPDPPP. Tus datos no se comparten con terceros.
+        </p>
+      </form>
+
+      <!-- MENSAJE DE CONFIRMACIÓN EXITOSA (OCULTO) -->
+      <div id="successBox" class="hidden text-center py-6 space-y-4">
+        <div class="w-16 h-16 rounded-full bg-emerald-950 border-2 border-emerald-500 flex items-center justify-center mx-auto text-emerald-400">
+          <i data-lucide="check" class="w-8 h-8"></i>
+        </div>
+        <h4 class="text-2xl font-black text-white">¡Tu lugar está confirmado!</h4>
+        <p class="text-sm text-slate-300 leading-relaxed">
+          Hemos reservado tu asiento en la sala de Google Meet. Te enviamos los detalles a tu correo electrónico y te notificaremos 15 minutos antes por WhatsApp.
+        </p>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono text-emerald-400">
+          📍 Sala de Google Meet: meet.google.com/abc-defg-hij
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SECCIÓN: LO QUE APRENDERÁS EN 45 MINUTOS -->
+  <section id="lo-que-aprenderas" class="py-16 px-6 max-w-5xl mx-auto border-t border-slate-800/80">
+    <div class="text-center mb-12">
+      <span class="text-xs font-mono text-brand-400 uppercase tracking-wider font-semibold">Taller 100% Práctico</span>
+      <h2 class="text-3xl font-extrabold text-white mt-1">Lo que Construiremos Juntos en Pantalla</h2>
+      <p class="text-slate-400 text-sm mt-2">Cero diapositivas aburridas; 100% demostración en vivo de flujos reales.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <div class="card-glass p-6 rounded-2xl border border-slate-800">
+        <div class="w-12 h-12 rounded-xl bg-indigo-950 border border-indigo-700/50 flex items-center justify-center text-brand-400 mb-4 font-bold text-lg">
+          1
+        </div>
+        <h3 class="font-bold text-white text-base">Arquitectura del Agente</h3>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+          Cómo conectar el cerebro de <strong>Claude 3.5 Sonnet</strong> con el orquestador <strong>n8n</strong> en un servidor propio de $5/mes para tener ejecuciones ilimitadas sin depender de Make o Zapier.
+        </p>
+      </div>
+
+      <div class="card-glass p-6 rounded-2xl border border-slate-800">
+        <div class="w-12 h-12 rounded-xl bg-emerald-950 border border-emerald-700/50 flex items-center justify-center text-emerald-400 mb-4 font-bold text-lg">
+          2
+        </div>
+        <h3 class="font-bold text-white text-base">Calificación BANT en WhatsApp</h3>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+          El protocolo exacto de instrucciones (*System Prompt*) para que el asistente filtre prospectos por Presupuesto, Urgencia y Necesidad de forma empática y humana.
+        </p>
+      </div>
+
+      <div class="card-glass p-6 rounded-2xl border border-slate-800">
+        <div class="w-12 h-12 rounded-xl bg-purple-950 border border-purple-700/50 flex items-center justify-center text-purple-400 mb-4 font-bold text-lg">
+          3
+        </div>
+        <h3 class="font-bold text-white text-base">Agendamiento en Calendario</h3>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+          Conexión en tiempo real con <strong>Google Calendar y CRM (Airtable)</strong> para que el agente agende citas calificadas 24/7 sin intervención humana.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EL REGALO DE LA CLASE: PLANTILLA JSON -->
+  <section class="py-12 px-6 max-w-4xl mx-auto">
+    <div class="p-8 rounded-3xl bg-gradient-to-r from-indigo-950 via-slate-900 to-purple-950 border border-indigo-500/40 shadow-2xl flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+      <div class="w-16 h-16 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shrink-0 shadow-lg shadow-indigo-500/30">
+        <i data-lucide="gift" class="w-8 h-8"></i>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold text-white">Regalo Exclusivo para los Asistentes en Vivo:</h3>
+        <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+          Al finalizar la clase, compartiré el archivo <strong>.json del Agente SDR</strong> para que lo descargues e importes con 1 solo clic en tu propio n8n.
+        </p>
+      </div>
+      <a href="#registro" class="px-6 py-3 rounded-xl bg-white hover:bg-slate-100 text-indigo-950 text-xs font-extrabold uppercase tracking-wider shrink-0 transition">
+        Apartar Lugar
+      </a>
+    </div>
+  </section>
+
+  <!-- INSTRUCTOR -->
+  <section id="instructor" class="py-16 px-6 max-w-4xl mx-auto border-t border-slate-800/80">
+    <div class="card-glass p-8 rounded-3xl border border-slate-800 flex flex-col sm:flex-row items-center gap-6">
+      <div class="w-24 h-24 rounded-2xl bg-brand-600 border-2 border-brand-400/40 flex items-center justify-center text-white font-black text-2xl shrink-0 shadow-xl">
+        AG
+      </div>
+      <div class="text-center sm:text-left">
+        <span class="text-xs font-mono text-brand-400 uppercase font-semibold">Tu Instructor</span>
+        <h3 class="text-2xl font-bold text-white mt-1">Lic. Alfonso García F.</h3>
+        <p class="text-xs text-slate-400 font-mono">Director del Laboratorio de IA · GC2 Legal Solutions</p>
+        <p class="text-xs text-slate-300 mt-3 leading-relaxed">
+          Especialista en automatización de procesos empresariales, arquitectura de agentes de Inteligencia Artificial y cumplimiento legal de tecnologías emergentes en México y Latinoamérica.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREGUNTAS FRECUENTES (FAQS) -->
+  <section id="faqs" class="py-16 px-6 max-w-4xl mx-auto border-t border-slate-800/80">
+    <div class="text-center mb-12">
+      <span class="text-xs font-mono text-slate-400 uppercase tracking-wider font-semibold">Dudas Comunes</span>
+      <h2 class="text-3xl font-extrabold text-white mt-1">Preguntas Frecuentes</h2>
+    </div>
+
+    <div class="space-y-4">
+      
+      <div class="card-glass p-5 rounded-2xl border border-slate-800">
+        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+          <i data-lucide="help-circle" class="w-4 h-4 text-brand-400"></i> ¿La masterclass realmente es 100% gratuita?
+        </h4>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed pl-6">
+          Sí, totalmente. No necesitas ingresar tarjeta de crédito ni realizar ningún pago para conectarte a la sesión en vivo y recibir la plantilla `.json`.
+        </p>
+      </div>
+
+      <div class="card-glass p-5 rounded-2xl border border-slate-800">
+        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+          <i data-lucide="help-circle" class="w-4 h-4 text-brand-400"></i> ¿Necesito tener conocimientos de programación?
+        </h4>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed pl-6">
+          No. La construcción de flujos en n8n es 100% visual mediante bloques y nodos conectables. Cualquier profesionista o dueño de negocio puede implementarlo.
+        </p>
+      </div>
+
+      <div class="card-glass p-5 rounded-2xl border border-slate-800">
+        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+          <i data-lucide="help-circle" class="w-4 h-4 text-brand-400"></i> ¿La sesión quedará grabada?
+        </h4>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed pl-6">
+          Se compartirá la grabación por tiempo limitado exclusivamente con las personas registradas en esta página, aunque la plantilla JSON solo se entregará en vivo durante el taller.
+        </p>
+      </div>
+
+      <div class="card-glass p-5 rounded-2xl border border-slate-800">
+        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+          <i data-lucide="help-circle" class="w-4 h-4 text-brand-400"></i> ¿Qué es el Laboratorio completo de GC2 Legal Solutions?
+        </h4>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed pl-6">
+          Al final de la clase presentaremos los 12 cupos piloto para el **Laboratorio: Crea tu Asistente Personal IA** (un programa privado intensivo de 7.5 horas en vivo con live debugging, 4 agentes de código listos, acompañamiento directo y Constancia Privada con evidencias).
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER LEGAL Y AVISO DE PRIVACIDAD -->
+  <footer class="py-12 px-6 max-w-5xl mx-auto border-t border-slate-800/80 text-slate-400 text-xs leading-relaxed space-y-4">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-800 pb-6 text-slate-300">
+      <div class="font-bold text-white text-sm">Laboratorio IA · GC2 Legal Solutions</div>
+      <div>Evento Académico y Formativo en Vivo</div>
+    </div>
+
+    <p>
+      <strong>Aviso de Privacidad Integral (LFPDPPP):</strong> GC2 Legal Solutions recaba su nombre, correo electrónico y número de WhatsApp con la única finalidad de gestionar su registro a la Masterclass Gratuita, enviarle los enlaces de acceso de Google Meet, entregarle los recursos didácticos y remitirle información sobre futuras convocatorias del Laboratorio. No compartimos sus datos con terceros. Para ejercer sus derechos ARCO, escriba a <em>privacidad@gc2legal.com</em>.
+    </p>
+
+    <p>
+      <strong>Deslinde de Marcas:</strong> n8n, OpenAI, Anthropic, Google Cloud y WhatsApp son marcas registradas de sus respectivos titulares. Su mención en este evento se realiza bajo uso legítimo con fines estrictamente pedagógicos y de compatibilidad técnica.
+    </p>
+
+    <div class="text-center text-slate-600 pt-4 text-[11px]">
+      © 2026 GC2 Legal Solutions. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // =========================================================================
+    // CONFIGURACIÓN DE REGISTRO (PERSONALIZABLE)
+    // =========================================================================
+    // 'MODAL': Muestra confirmación en pantalla con el link de Google Meet.
+    // 'WHATSAPP': Redirige a tu WhatsApp con los datos del alumno ya escritos.
+    // 'TALLY': Redirige a un formulario externo de Tally o Google Forms.
+    const MODO_REGISTRO = 'MODAL'; 
+    const TU_NUMERO_WHATSAPP = '5218100000000'; // Tu número con código de país
+    const ENLACE_TALLY_EXTERNO = 'https://tally.so/r/YOUR_FORM_ID';
+
+    function handleRegistration(e) {
+      e.preventDefault();
+      const nombre = document.getElementById("nombre").value;
+      const email = document.getElementById("email").value;
+      const whatsapp = document.getElementById("whatsapp").value;
+
+      if (MODO_REGISTRO === 'WHATSAPP') {
+        const texto = encodeURIComponent(`Hola Alfonso, me acabo de registrar a la Masterclass Gratuita.\n\nNombre: ${nombre}\nCorreo: ${email}\nWhatsApp: ${whatsapp}\n\n¿Me pasas el enlace de Google Meet?`);
+        window.location.href = `https://wa.me/${TU_NUMERO_WHATSAPP}?text=${texto}`;
+      } else if (MODO_REGISTRO === 'TALLY') {
+        window.location.href = `${ENLACE_TALLY_EXTERNO}?nombre=${encodeURIComponent(nombre)}&email=${encodeURIComponent(email)}&whatsapp=${encodeURIComponent(whatsapp)}`;
+      } else {
+        // Modo MODAL por defecto
+        document.getElementById("optinForm").classList.add("hidden");
+        document.getElementById("successBox").classList.remove("hidden");
+        document.getElementById("successBox").scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  </script>
+</body>
+</html>
