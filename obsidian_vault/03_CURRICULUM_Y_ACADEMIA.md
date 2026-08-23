@@ -59,6 +59,7 @@ graph TD
 * **Lecciones:**
   * Enrutamiento dinámico con Agente Orquestador.
   * Monitoreo de latencia y fallbacks automáticos.
+  * **Masterclass Especial:** *"Organiza toda tu semana en 15 minutos con la CLI"* (Disparo de tareas y agendas de jalón por terminal).
   * Demo Day: Presentación de proyectos y entrega de Constancia Digital por GC2 Legal Solutions.
 
 ---
