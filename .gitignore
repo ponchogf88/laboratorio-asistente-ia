@@ -1,0 +1,19 @@
+# Credenciales y variables de entorno sensibles
+.env
+*.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Sistema y logs
+*.log
+.DS_Store
+Thumbs.db
