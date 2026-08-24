@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📅 CALENDARIO MASTERGLASS 3D | CRONOGRAMA DE EJECUCIÓN 21 DÍAS EN PARALELO</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-void: #030508;
+            --bg-surface: #070a12;
+            --glass-card: rgba(13, 18, 32, 0.72);
+            --glass-card-hover: rgba(22, 30, 52, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.45);
+            --accent-teal: #14b8a6;
+            --accent-teal-glow: rgba(20, 184, 166, 0.35);
+            --accent-cyan: #06b6d4;
+            --accent-gold: #facc15;
+            --accent-rose: #f43f5e;
+            --accent-emerald: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-void);
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(20, 184, 166, 0.1) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.05) 0%, transparent 60%);
+            background-attachment: fixed;
+        }
+
+        /* Ambient Glow Header */
+        .header-master {
+            padding: 24px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(7, 10, 18, 0.85);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-teal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: 0 0 24px var(--primary-glow);
+        }
+
+        .brand-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+
+        .btn-link {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-link:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 16px var(--primary-glow);
+        }
+
+        /* 4 Parallel Tracks Hero Overview */
+        .parallel-tracks-banner {
+            max-width: 2560px;
+            width: 100%;
+            margin: 24px auto 0;
+            padding: 0 36px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .track-card {
+            background: var(--glass-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .track-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            box-shadow: 0 14px 40px rgba(0,0,0,0.8), 0 0 20px rgba(139, 92, 246, 0.25);
+        }
+
+        .track-pill {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            width: fit-content;
+        }
+
+        .track-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .track-desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+
+        /* Master Glassmorphism Calendar Board */
+        .board-container {
+            max-width: 2560px;
+            width: 100%;
+            margin: 28px auto;
+            padding: 0 36px 60px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .column-week {
+            background: rgba(10, 15, 26, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            backdrop-filter: blur(24px);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+        }
+
+        .column-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 16px;
+        }
+
+        .column-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .column-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Tasks List inside Week Column */
+        .tasks-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .task-card-glass {
+            background: var(--glass-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 18px;
+            backdrop-filter: blur(16px);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: all 0.25s;
+            position: relative;
+        }
+
+        .task-card-glass:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: var(--glass-card-hover);
+            transform: scale(1.015);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+        }
+
+        .task-card-glass.done {
+            border-color: rgba(16, 185, 129, 0.4);
+            background: rgba(16, 185, 129, 0.06);
+        }
+
+        .task-card-glass.in-progress {
+            border-color: rgba(250, 204, 21, 0.5);
+            box-shadow: 0 0 20px rgba(250, 204, 21, 0.15);
+        }
+
+        .task-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .task-day {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+
+        .task-tag {
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .tag-track1 { background: rgba(244, 63, 94, 0.2); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.4); }
+        .tag-track2 { background: rgba(139, 92, 246, 0.2); color: #d8b4fe; border: 1px solid rgba(139, 92, 246, 0.4); }
+        .tag-track3 { background: rgba(20, 184, 166, 0.2); color: #5eead4; border: 1px solid rgba(20, 184, 166, 0.4); }
+        .tag-track4 { background: rgba(250, 204, 21, 0.2); color: #fef08a; border: 1px solid rgba(250, 204, 21, 0.4); }
+
+        .task-headline {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .task-details {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+
+        .task-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 10px;
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot-pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .dot-green { background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
+        .dot-yellow { background: var(--accent-gold); box-shadow: 0 0 8px var(--accent-gold); animation: blinkDot 1.5s infinite; }
+        .dot-blue { background: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-cyan); }
+
+        @keyframes blinkDot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Checkbox interactive toggle */
+        .check-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: transform 0.2s;
+        }
+        .check-btn:hover { transform: scale(1.2); }
+    </style>
+</head>
+<body>
+
+    <!-- MASTER HEADER -->
+    <header class="header-master">
+        <div class="brand-group">
+            <div class="brand-icon">📅</div>
+            <div>
+                <h1 class="brand-title">CRONOGRAMA MASTERGLASS · 21 DÍAS EN PARALELO</h1>
+                <p style="font-size: 0.75rem; color: var(--text-muted); font-family: 'JetBrains Mono';">Ejecución Cuádruple Simultánea (Contenido + Avatar + Funnels + High-Ticket)</p>
+            </div>
+        </div>
+
+        <div class="nav-controls">
+            <a href="PRESENTACION_3D_MASTERCLASS_UNIVERSIDAD_IA.html" target="_blank" class="btn-link" style="background:linear-gradient(135deg, rgba(139,92,246,0.3), rgba(20,184,166,0.3)); border-color:var(--primary);">🔮 Presentación 3D</a>
+            <a href="SWARM_COMMAND_CENTER_5K.html" target="_blank" class="btn-link">⚡ 5K Command Center</a>
+            <a href="landing.html" target="_blank" class="btn-link">🌐 Landing Page</a>
+            <a href="index.html" class="btn-link">💻 Dashboard</a>
+        </div>
+    </header>
+
+    <!-- 4 PARALLEL TRACKS OVERVIEW -->
+    <section class="parallel-tracks-banner">
+        <div class="track-card">
+            <span class="track-pill tag-track1">TRACK 1: CONTENIDO VIRAL</span>
+            <h3 class="track-title">📱 Shorts & Reels (30s-60s)</h3>
+            <p class="track-desc">20 videos segmentados por nicho (Clínicas, Abuelas, Real Estate, Estudiantes) con ganchos de 0-3s y skins visuales.</p>
+        </div>
+
+        <div class="track-card">
+            <span class="track-pill tag-track2">TRACK 2: AVATAR STUDIO</span>
+            <h3 class="track-title">🎙️ EUSEXUA 4K Keynote</h3>
+            <p class="track-desc">Síntesis de voz en ElevenLabs (140 WPM) + Lip-sync en HeyGen Creator para la Masterclass y cápsulas de autoridad.</p>
+        </div>
+
+        <div class="track-card">
+            <span class="track-pill tag-track3">TRACK 3: EMBUDO & AUTOMATIZACIÓN</span>
+            <h3 class="track-title">⚙️ n8n + Gemini 2.5 Triaje</h3>
+            <p class="track-desc">ManyChat Comment-to-DM, entrega de Bóveda JSON en &lt;5s y calificación BANT automatizada en Telegram.</p>
+        </div>
+
+        <div class="track-card">
+            <span class="track-pill tag-track4">TRACK 4: HIGH-TICKET B2B</span>
+            <h3 class="track-title">💼 Cierres de $1.5k a $3k</h3>
+            <p class="track-desc">Auditorías técnicas para Clínicas y Real Estate, agenda en Cal.com y firma de contratos de implementación agéntica.</p>
+        </div>
+    </section>
+
+    <!-- 3-WEEK MASTER GLASS BOARD -->
+    <main class="board-container">
+
+        <!-- WEEK 1: ACTIVACIÓN & CALIBRACIÓN -->
+        <section class="column-week">
+            <div class="column-header">
+                <div class="column-title">
+                    <span style="color:var(--accent-teal);">● SEMANA 1</span>
+                    <span>Activos & Calibración</span>
+                </div>
+                <span class="column-badge">DÍAS 1 AL 7</span>
+            </div>
+
+            <div class="tasks-stack">
+                <!-- Task 1 -->
+                <article class="task-card-glass done">
+                    <div class="task-top">
+                        <span class="task-day">DÍA 1 - HOY</span>
+                        <span class="task-tag tag-track1">TRACK 1 & 2</span>
+                    </div>
+                    <h4 class="task-headline">Sincronización del Ecosistema 3D</h4>
+                    <p class="task-details">Publicar en GitHub el Presentador 3D (Cilindro), el Command Center 5K de 20 Agentes y el Codex Maestro de Hooks.</p>
+                    <div class="task-footer">
+                        <span class="status-indicator"><span class="dot-pulse dot-green"></span> 100% COMPLETADO</span>
+                        <button class="check-btn" onclick="toggleTask(this)">✅</button>
+                    </div>
+                </article>
+
+                <!-- Task 2 -->
+                <article class="task-card-glass in-progress">
+                    <div class="task-top">
+                        <span class="task-day">DÍA 2</span>
+                        <span class="task-tag tag-track2">TRACK 2: AVATAR</span>
+                    </div>
+                    <h4 class="task-headline">Render 4K de EUSEXUA (Voz + Keynote)</h4>
+                    <p class="task-details">Sintetizar el Bloque 1 y 2 del Webinar en ElevenLabs y renderizar el avatar animado en HeyGen Creator.</p>
+                    <div class="task-footer">
+                        <span class="status-indicator"><span class="dot-pulse dot-yellow"></span> EN PROCESO</span>
+                        <button class="check-btn" onclick="toggleTask(this)">⏳</button>
+                    </div>
+                </article>
+
+                <!-- Task 3 -->
+                <article class="task-card-glass">
+                    <div class="task-top">
+                        <span class="task-day">DÍA 3 & 4</span>
+                        <span class="task-tag tag-track1">TRACK 1: CONTENIDO</span>
+                    </div>
+                    <h4 class="task-headline">Grabación Lote #1 (5 Reels de Alto Impacto)</h4>
+                    <p class="task-details">Grabar Guion #1 (Clínicas), Guion #5 (Real Estate) y Guion #10 (Abuelas Tech) con HUDs de CapCut y Safe Zones.</p>
+                    <div class="task-footer">
+                        <span class="status-indicator"><span class="dot-pulse dot-blue"></span> PROGRAMADO</span>
+                        <button class="check-btn" onclick="toggleTask(this)">⭕</button>
+                    </div>
+                </article>
+
+                <!-- Task 4 -->
+                <article class="task-card-glass">
+                    <div class="task-top">
+                        <span class="task-day">DÍA 5 AL 7</span>
+                        <span class="task-tag tag-track3">TRACK 3: EMBUDO</span>
+                    </div>
+                    <h4 class="task-headline">Conexión de Webhooks Telegram + ManyChat</h4>
+                    <p class="task-details">Probar el disparador 'Comenta IA' en Instagram/Facebook para que el bot de Telegram entregue la Bóveda JSON en 3 segundos.</p>
+                    <div class="task-footer">
+                        <span class="status-indicator"><span class="dot-pulse dot-blue"></span> PROGRAMADO</span>
+                        <button class="check-btn" onclick="toggleTask(this)">⭕</button>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- WEEK 2: LANZAMIENTO VIRAL & CAPTACIÓN -->
+        <section class="column-week">
+            <div class="column-header">
+                <div class="column-title">
+                    <span style="color:var(--primary);">● SEMANA 2</span>
+                    <span>Lanzamiento Viral & Leads</span>
+                </div>
+                <span class="column-badge">DÍAS 8 AL 14</span>
+            </div>
+
+            <div class="tasks-stack">
+                <!-- Task 5 -->
+                <article class="task-card-glass">
+                    <div class="task-top">
+                        <span class="task-day">DÍA 8 & 9</span>
+                        <span class="task-tag tag-track1">TRACK 1: PUBLICACIÓN</span>
+                    </div>
+                    <h4 class="task-headline">Despliegue del Primer Reel con 'The Golden 30'</h4>
+                    <p class="task-details">Publicar video de Clínicas con comentario fijado y respuesta activa en los primeros 30 min para detonar el algoritmo.</p>
+                    <div class="task-footer">
+                        <span class="status-indicator"><span class="dot-pulse dot-blue"></span> PROGRAMADO</span>
+                        <button class="check-btn" onclick="toggleTask(this)">⭕</button>
+                    </div>
+                </article>
+
+                <!-- Task 6 -->
+                <article class="task-card-glass">
+                    <div class="task-top">
+                        <span class="task-day">DÍA 10 & 11</span>
+                        <span class="task-tag tag-track3">TRACK 3: TRIAJE BANT</span>
+                    </div>
+                    <h4 class="task-headline">Activación del Triaje Automático con Gemini 2.5</h4>
+                    <p class="task-details">Monitorear los primeros 100 usuarios en Telegram; separar estudiantes (Comunidad) de dueños de negocio (Leads B2B).</p>
+                    <div class="task-footer">
+                        <span class="status-indicator"><span class="dot-pulse dot-blue"></span> PROGRAMADO</span>
+                        <button class="check-btn" onclick="toggleTask(this)">⭕</button>
+                    </div>
+                </article>
+
+                <!-- Task 7 -->
+                <article class="task-card-glass">
+                    <div class="task-top">
+                        <span class="task-day">DÍA 12 AL 14</span>
+                        <span class="task-tag tag-track4">TRACK 4: B2B LEADS</span>
+                    </div>
+                    <h4 class="task-headline">Primeras 5 Auditorías High-Ticket Agendadas</h4>
+                    <p class="task-details">El bot de Telegram envía enlaces de Cal.com a leads calificados para sesiones de diagnóstico de $1,800 USD.</p>
+                    <div class="task-footer">
+                        <span class="status-indicator"><span class="dot-pulse dot-blue"></span> PROGRAMADO</span>
+                        <button class="check-btn" onclick="toggleTask(this)">⭕</button>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- WEEK 3: ESCALADO & PRIMER CIERRE B2B -->
+        <section class="column-week">
+            <div class="column-header">
+                <div class="column-title">
+                    <span style="color:var(--accent-gold);">● SEMANA 3</span>
+                    <span>Masterclass & Cierres</span>
+                </div>
+                <span class="column-badge">DÍAS 15 AL 21</span>
+            </div>
+
+            <div class="tasks-stack">
+                <!-- Task 8 -->
+                <article class="task-card-glass">
+                    <div class="task-top">
+                        <span class="task-day">DÍA 15 & 16</span>
+                        <span class="task-tag tag-track2">TRACK 2: MASTERCLASS</span>
+                    </div>
+                    <h4 class="task-headline">Emisión de la Masterclass 3D en Vivo</h4>
+                    <p class="task-details">Proyectar `PRESENTACION_3D_MASTERCLASS_UNIVERSIDAD_IA.html` en streaming con EUSEXUA como co-presentadora.</p>
+                    <div class="task-footer">
+                        <span class="status-indicator"><span class="dot-pulse dot-blue"></span> PROGRAMADO</span>
+                        <button class="check-btn" onclick="toggleTask(this)">⭕</button>
+                    </div>
+                </article>
+
+                <!-- Task 9 -->
+                <article class="task-card-glass">
+                    <div class="task-top">
+                        <span class="task-day">DÍA 17 AL 19</span>
+                        <span class="task-tag tag-track4">TRACK 4: CIERRE $</span>
+                    </div>
+                    <h4 class="task-headline">Firma de los Primeros 2 Clientes High-Ticket</h4>
+                    <p class="task-details">Cierre de 2 contratos de implementación de agentes ($1,800 - $2,500 USD c/u) con soporte y retainer mensual de $500 USD.</p>
+                    <div class="task-footer">
+                        <span class="status-indicator"><span class="dot-pulse dot-blue"></span> PROGRAMADO</span>
+                        <button class="check-btn" onclick="toggleTask(this)">⭕</button>
+                    </div>
+                </article>
+
+                <!-- Task 10 -->
+                <article class="task-card-glass">
+                    <div class="task-top">
+                        <span class="task-day">DÍA 20 & 21</span>
+                        <span class="task-tag tag-track3">TRACK 3: ESCALADO</span>
+                    </div>
+                    <h4 class="task-headline">Activación de Pauta de Retargeting en Meta</h4>
+                    <p class="task-details">Invertir las ganancias del primer cliente ($100 USD) en amplificar los videos más virales hacia públicos similares.</p>
+                    <div class="task-footer">
+                        <span class="status-indicator"><span class="dot-pulse dot-blue"></span> PROGRAMADO</span>
+                        <button class="check-btn" onclick="toggleTask(this)">⭕</button>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        function toggleTask(btn) {
+            const card = btn.closest('.task-card-glass');
+            if (card.classList.contains('done')) {
+                card.classList.remove('done');
+                btn.innerText = '⭕';
+                card.querySelector('.status-indicator').innerHTML = '<span class="dot-pulse dot-blue"></span> PENDIENTE';
+            } else {
+                card.classList.add('done');
+                card.classList.remove('in-progress');
+                btn.innerText = '✅';
+                card.querySelector('.status-indicator').innerHTML = '<span class="dot-pulse dot-green"></span> COMPLETADO';
+            }
+        }
+    </script>
+</body>
+</html>
