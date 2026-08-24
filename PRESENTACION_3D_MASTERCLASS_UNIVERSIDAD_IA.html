@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔮 MASTERCLASS 3D: UNIVERSIDAD DE INTELIGENCIA ARTIFICIAL</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-deep: #030508;
+            --primary: #8b5cf6;
+            --primary-glow: #a855f7;
+            --accent-teal: #14b8a6;
+            --accent-cyan: #06b6d4;
+            --accent-gold: #facc15;
+            --accent-rose: #f43f5e;
+            --accent-emerald: #10b981;
+            --glass-bg: rgba(13, 18, 32, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            perspective: 1400px;
+            scroll-behavior: smooth;
+        }
+
+        /* 3D Scene Viewport */
+        #viewport-3d {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            transform-style: preserve-3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Ambient Particle Canvas */
+        #bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* The Glowing 3D Neon Cylinder Core */
+        .neon-cylinder-stage {
+            position: absolute;
+            width: 180px;
+            height: 650px;
+            transform-style: preserve-3d;
+            transform: rotateX(15deg) rotateY(0deg);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .cylinder-core {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, 
+                rgba(139, 92, 246, 0) 0%, 
+                rgba(139, 92, 246, 0.8) 25%, 
+                rgba(20, 184, 166, 0.95) 50%, 
+                rgba(6, 182, 212, 0.8) 75%, 
+                rgba(139, 92, 246, 0) 100%);
+            border-radius: 90px;
+            filter: blur(28px);
+            box-shadow: 
+                0 0 80px rgba(139, 92, 246, 0.7),
+                0 0 140px rgba(20, 184, 166, 0.6);
+            opacity: 0.85;
+            animation: corePulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes corePulse {
+            0% { transform: scale(0.92); opacity: 0.7; }
+            100% { transform: scale(1.08); opacity: 0.95; filter: blur(34px); }
+        }
+
+        .cylinder-rings {
+            position: absolute;
+            inset: -40px -60px;
+            border-radius: 50%;
+            border: 2px dashed rgba(20, 184, 166, 0.4);
+            transform: rotateX(75deg);
+            animation: ringRotate 12s linear infinite;
+        }
+
+        .cylinder-rings:nth-child(2) {
+            top: 30%;
+            border-color: rgba(139, 92, 246, 0.5);
+            animation: ringRotate 8s linear infinite reverse;
+        }
+
+        .cylinder-rings:nth-child(3) {
+            top: 70%;
+            border-color: rgba(250, 204, 21, 0.5);
+            animation: ringRotate 16s linear infinite;
+        }
+
+        @keyframes ringRotate {
+            from { transform: rotateX(75deg) rotateZ(0deg); }
+            to { transform: rotateX(75deg) rotateZ(360deg); }
+        }
+
+        /* Top Presenter HUD Controls */
+        .presenter-hud {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(3, 5, 8, 0.75);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .brand-hud {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 900;
+            font-size: 1.15rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hud-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+
+        .btn-hud {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-hud:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 16px var(--primary-glow);
+            transform: translateY(-1px);
+        }
+
+        .slide-counter {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            color: #c084fc;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+
+        /* Presentation Scroll Track Container */
+        .presentation-scroll-track {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 120px 24px 200px;
+            gap: 180px;
+        }
+
+        /* Master 3D Glass Slide Container */
+        .slide-3d-card {
+            width: 100%;
+            max-width: 1050px;
+            min-height: 560px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(8, 12, 22, 0.9) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 48px;
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            box-shadow: 
+                0 30px 80px rgba(0, 0, 0, 0.8),
+                0 0 40px rgba(139, 92, 246, 0.15),
+                inset 0 1px 2px rgba(255, 255, 255, 0.15);
+            transform-style: preserve-3d;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            opacity: 0.3;
+            transform: scale(0.88) translateY(60px) rotateX(12deg);
+        }
+
+        .slide-3d-card.active-slide {
+            opacity: 1;
+            transform: scale(1.04) translateY(0) rotateX(0deg);
+            border-color: rgba(139, 92, 246, 0.6);
+            box-shadow: 
+                0 35px 90px rgba(0, 0, 0, 0.9),
+                0 0 60px rgba(139, 92, 246, 0.35),
+                inset 0 1px 3px rgba(255, 255, 255, 0.25);
+        }
+
+        /* Slide Headers and Badges */
+        .slide-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 18px;
+            background: rgba(139, 92, 246, 0.18);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            color: #d8b4fe;
+        }
+
+        .slide-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -0.03em;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 20%, #c084fc 60%, var(--accent-teal) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-description {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 36px;
+            max-width: 820px;
+        }
+
+        /* Slide Internal Grid Layouts */
+        .slide-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .slide-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .slide-grid-5 {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+        }
+
+        .feature-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 18px;
+            padding: 22px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-box:hover {
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .feature-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-main);
+        }
+
+        .feature-desc {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Interactive Live Demonstrations Inside Slide */
+        .live-demo-panel {
+            background: #020408;
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .demo-node-chain {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .demo-node {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--glass-border);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        .demo-node.active-node {
+            border-color: var(--accent-teal);
+            color: #5eead4;
+            box-shadow: 0 0 16px rgba(20, 184, 166, 0.4);
+        }
+
+        .demo-arrow {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Teleprompter Notes Drawer (Toggleable for Leo) */
+        .teleprompter-drawer {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 380px;
+            background: rgba(8, 12, 22, 0.92);
+            border: 1px solid var(--primary);
+            border-radius: 18px;
+            padding: 20px;
+            backdrop-filter: blur(20px);
+            z-index: 90;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            display: none;
+            font-size: 0.88rem;
+            line-height: 1.55;
+        }
+
+        .teleprompter-drawer.visible {
+            display: block;
+            animation: slideUpPrompt 0.3s ease-out;
+        }
+
+        @keyframes slideUpPrompt {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .teleprompter-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            color: var(--accent-gold);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Bottom Slide Navigator */
+        .bottom-nav {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            background: rgba(8, 12, 22, 0.85);
+            border: 1px solid var(--glass-border);
+            border-radius: 999px;
+            padding: 8px 18px;
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+        }
+
+        .btn-nav-arrow {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-nav-arrow:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Special Card Accent Themes */
+        .theme-kids { border-color: rgba(244, 63, 94, 0.4); }
+        .theme-students { border-color: rgba(6, 182, 212, 0.4); }
+        .theme-pro { border-color: rgba(250, 204, 21, 0.4); }
+        .theme-seniors { border-color: rgba(16, 185, 129, 0.4); }
+        .theme-b2b { border-color: rgba(139, 92, 246, 0.4); }
+    </style>
+</head>
+<body>
+
+    <!-- Particle Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- 3D Cylindrical Core Viewport -->
+    <div id="viewport-3d">
+        <div class="neon-cylinder-stage" id="cylinder-stage">
+            <div class="cylinder-core"></div>
+            <div class="cylinder-rings"></div>
+            <div class="cylinder-rings"></div>
+            <div class="cylinder-rings"></div>
+        </div>
+    </div>
+
+    <!-- Master HUD Presenter Topbar -->
+    <header class="presenter-hud">
+        <div class="brand-hud">
+            <span style="font-size:1.4rem;">🔮</span>
+            <span>UNIVERSIDAD DE <span style="color:var(--primary);">INTELIGENCIA ARTIFICIAL</span></span>
+        </div>
+
+        <div class="hud-actions">
+            <span class="slide-counter" id="hud-slide-indicator">DIAPOSITIVA 1 / 8</span>
+            <button class="btn-hud" onclick="toggleTeleprompter()">
+                <span>📝</span> Notas de Leo [T]
+            </button>
+            <button class="btn-hud" onclick="toggleFullScreen()">
+                <span>⛶</span> Pantalla Completa [F]
+            </button>
+            <a href="landing.html" target="_blank" class="btn-hud" style="text-decoration:none; background:var(--accent-teal); color:#000; font-weight:700;">
+                <span>🌐</span> Landing
+            </a>
+        </div>
+    </header>
+
+    <!-- Slide Scroll Projection Track -->
+    <main class="presentation-scroll-track" id="slides-container">
+
+        <!-- SLIDE 1: INTRODUCCIÓN & BIENVENIDA -->
+        <article class="slide-3d-card active-slide" data-slide="1" data-notes="Apertura con alta energía. Presentar a EUSEXUA y romper el hielo: no se necesita saber programar. El objetivo es que todos dominen la IA hoy.">
+            <span class="slide-pill">⚡ APERTURA MAGISTRAL</span>
+            <h1 class="slide-title">Bienvenido a la Era de la <br><span class="gradient-text">Inteligencia Artificial Práctica</span></h1>
+            <p class="slide-description">
+                El código ya no es una barrera. Hoy aprenderás cómo orquestar modelos de lenguaje, visión artificial y automatizaciones para resolver problemas reales en minutos.
+            </p>
+
+            <div class="slide-grid-3">
+                <div class="feature-box">
+                    <span class="feature-icon">🎙️</span>
+                    <h3 class="feature-title">EUSEXUA Host</h3>
+                    <p class="feature-desc">Avatar interactivo con voz de ElevenLabs y procesamiento cognitivo en tiempo real.</p>
+                </div>
+                <div class="feature-box">
+                    <span class="feature-icon">⚡</span>
+                    <h3 class="feature-title">Coste $0 en Licencias</h3>
+                    <p class="feature-desc">Despliegue con n8n auto-alojado y Google Gemini 2.5 (2 Millones de Tokens gratis).</p>
+                </div>
+                <div class="feature-box">
+                    <span class="feature-icon">🌐</span>
+                    <h3 class="feature-title">Para Todos los Públicos</h3>
+                    <p class="feature-desc">Desde niños y estudiantes hasta profesionistas y abuelas restaurando su legado.</p>
+                </div>
+            </div>
+        </article>
+
+        <!-- SLIDE 2: EL GRAN CAMBIO DE PARADIGMA -->
+        <article class="slide-3d-card" data-slide="2" data-notes="Explicar por qué las herramientas viejas cobran $300/mes por nada. Gemini 2.5 tiene 2 millones de tokens y n8n es ilimitado.">
+            <span class="slide-pill" style="border-color:var(--accent-teal); color:var(--accent-teal);">🔄 EL CAMBIO DE PARADIGMA</span>
+            <h2 class="slide-title">De Pagar $300/mes a <br><span class="gradient-text">Orquestar a Coste Cero</span></h2>
+            <p class="slide-description">
+                La mayoría de las personas se quedaron atrapadas en suscripciones costosas que cobran por cada mensaje. La nueva arquitectura te da soberanía absoluta.
+            </p>
+
+            <div class="slide-grid-2">
+                <div class="feature-box" style="border-color:rgba(239,68,68,0.3); background:rgba(239,68,68,0.04);">
+                    <span class="feature-icon">❌</span>
+                    <h3 class="feature-title" style="color:#f87171;">El Stack Legacy (2023-2024)</h3>
+                    <p class="feature-desc">
+                        Zapier + ManyChat + OpenAI GPT-4.<br>
+                        • $250 a $500 USD al mes en comisiones.<br>
+                        • Límite de contexto de 128k tokens.<br>
+                        • Bloqueos constantes y pérdida de clientes.
+                    </p>
+                </div>
+                <div class="feature-box" style="border-color:rgba(20,184,166,0.4); background:rgba(20,184,166,0.06);">
+                    <span class="feature-icon">✅</span>
+                    <h3 class="feature-title" style="color:var(--accent-teal);">El Stack 2026 (Academia AAA)</h3>
+                    <p class="feature-desc">
+                        n8n Self-Hosted + Google Gemini 2.5.<br>
+                        • $0 en licencias (ejecuciones ilimitadas).<br>
+                        • 2 Millones de tokens de memoria nativa.<br>
+                        • Control total en tu propio servidor o PC.
+                    </p>
+                </div>
+            </div>
+        </article>
+
+        <!-- SLIDE 3: EL ENJAMBRE DE 8 AGENTES -->
+        <article class="slide-3d-card" data-slide="3" data-notes="Mostrar la arquitectura del enjambre. Cada agente hace un trabajo específico y se pasan la estafeta sin intervención humana.">
+            <span class="slide-pill" style="border-color:var(--accent-gold); color:var(--accent-gold);">🤖 ARQUITECTURA DE ENJAMBRE</span>
+            <h2 class="slide-title">Un Ejército de <br><span class="gradient-text">8 Agentes Autónomos</span></h2>
+            <p class="slide-description">
+                Un agente solo chatea; un **enjambre** opera una empresa completa. Cada modelo cumple un rol con herramientas y memoria compartida.
+            </p>
+
+            <div class="live-demo-panel">
+                <div class="demo-node-chain">
+                    <div class="demo-node active-node">👑 Agente 0: Orquestador</div>
+                    <span class="demo-arrow">➔</span>
+                    <div class="demo-node">🔍 Agente 1: Scraper</div>
+                    <span class="demo-arrow">➔</span>
+                    <div class="demo-node">✍️ Agente 3: Creativo</div>
+                    <span class="demo-arrow">➔</span>
+                    <div class="demo-node active-node">💬 Agente 5: Telegram SDR</div>
+                    <span class="demo-arrow">➔</span>
+                    <div class="demo-node">💼 Agente 6: B2B Closer</div>
+                </div>
+                <div style="font-size:0.75rem; color:var(--text-muted); line-height:1.6;">
+                    Status: <span style="color:var(--accent-teal);">● ONLINE</span> | Memoria Vectorial: <span style="color:#c084fc;">PostgreSQL</span> | Latencia Media: <span style="color:#5eead4;">312ms</span> | Costo por Lead: <span style="color:var(--accent-gold);">$0.0004 USD</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- SLIDE 4: LAS 5 VERTICALES DE LA UNIVERSIDAD -->
+        <article class="slide-3d-card" data-slide="4" data-notes="Aquí es donde explicamos que la IA no es solo para programadores. Tocamos niños, estudiantes, doctores/abogados, abuelas y agencias.">
+            <span class="slide-pill" style="border-color:#38bdf8; color:#38bdf8;">🏛️ MULTI-UNIVERSOS DE APRENDIZAJE</span>
+            <h2 class="slide-title">La Universidad Para <br><span class="gradient-text">Todas las Generaciones</span></h2>
+            <p class="slide-description">
+                No hay un solo camino. Adaptamos las herramientas para cada etapa de la vida y necesidad profesional con guardrails específicos.
+            </p>
+
+            <div class="slide-grid-5">
+                <div class="feature-box theme-kids">
+                    <span class="feature-icon">🧒</span>
+                    <h4 class="feature-title">Niños</h4>
+                    <p class="feature-desc" style="font-size:0.75rem;">Cuentos, dibujo y lógica sin pantallas pasivas.</p>
+                </div>
+                <div class="feature-box theme-students">
+                    <span class="feature-icon">🎓</span>
+                    <h4 class="feature-title">Jóvenes</h4>
+                    <p class="feature-desc" style="font-size:0.75rem;">Currículum blindado y certificaciones.</p>
+                </div>
+                <div class="feature-box theme-pro">
+                    <span class="feature-icon">⚖️</span>
+                    <h4 class="feature-title">Profesionales</h4>
+                    <p class="feature-desc" style="font-size:0.75rem;">Triaje médico, contratos y finanzas.</p>
+                </div>
+                <div class="feature-box theme-seniors">
+                    <span class="feature-icon">👵</span>
+                    <h4 class="feature-title">Abuelas Tech</h4>
+                    <p class="feature-desc" style="font-size:0.75rem;">Restauración de fotos y legado familiar.</p>
+                </div>
+                <div class="feature-box theme-b2b">
+                    <span class="feature-icon">🚀</span>
+                    <h4 class="feature-title">Agencias B2B</h4>
+                    <p class="feature-desc" style="font-size:0.75rem;">Implementaciones de $1,500 – $3,000 USD.</p>
+                </div>
+            </div>
+        </article>
+
+        <!-- SLIDE 5: ABUELAS TECH & LEGADO FAMILIAR -->
+        <article class="slide-3d-card" data-slide="5" data-notes="Tocar la fibra sensible: las fotos viejas se pudren en cajas. Con IA las restauramos, les damos color y grabamos sus anécdotas en una bóveda digital eterna.">
+            <span class="slide-pill" style="border-color:var(--accent-emerald); color:var(--accent-emerald);">👵 EL LEGADO FAMILIAR</span>
+            <h2 class="slide-title">De Cajas de Fotos Viejas a <br><span class="gradient-text">Bóvedas Digitales Eternas</span></h2>
+            <p class="slide-description">
+                El tiempo avanza y los recuerdos en papel se deterioran. Enseñamos a los adultos mayores a digitalizar, colorear y narrar la historia de su familia con IA.
+            </p>
+
+            <div class="slide-grid-3">
+                <div class="feature-box">
+                    <span class="feature-icon">📷</span>
+                    <h3 class="feature-title">Escaneo sin Reflejos</h3>
+                    <p class="feature-desc">Digitalización desde el celular sin escáneres costosos.</p>
+                </div>
+                <div class="feature-box">
+                    <span class="feature-icon">✨</span>
+                    <h3 class="feature-title">Restauración HD</h3>
+                    <p class="feature-desc">Eliminación de manchas, dobleces y recuperación de color con 1 clic.</p>
+                </div>
+                <div class="feature-box">
+                    <span class="feature-icon">🎙️</span>
+                    <h3 class="feature-title">Fotos que Hablan</h3>
+                    <p class="feature-desc">Notas de voz de la abuela integradas en el álbum digital privado.</p>
+                </div>
+            </div>
+        </article>
+
+        <!-- SLIDE 6: EL MODELO DE AGENCIA B2B -->
+        <article class="slide-3d-card" data-slide="6" data-notes="Presentar los números del negocio: clínicas e inmobiliarias pagan $1,500-$3,000 USD por un bot SDR que atiende 24/7 y no deja ir prospectos.">
+            <span class="slide-pill" style="border-color:var(--accent-gold); color:var(--accent-gold);">💼 MONETIZACIÓN HIGH-TICKET</span>
+            <h2 class="slide-title">Cómo Vender Agentes por <br><span class="gradient-text">$1,500 – $3,000 USD</span></h2>
+            <p class="slide-description">
+                Las empresas pierden miles de dólares por no contestar mensajes a las 11 PM. Tú les construyes el sistema en 7 días y cobras honorarios de implementación + mantenimiento mensual.
+            </p>
+
+            <div class="slide-grid-3">
+                <div class="feature-box">
+                    <span class="feature-icon">🏥</span>
+                    <h3 class="feature-title">Clínicas Médicas</h3>
+                    <p class="feature-desc">Agendamiento 24/7 y triaje preliminar. Ticket: <strong>$1,800 USD</strong>.</p>
+                </div>
+                <div class="feature-box">
+                    <span class="feature-icon">🏢</span>
+                    <h3 class="feature-title">Inmobiliarias</h3>
+                    <p class="feature-desc">Calificación BANT y envío de fichas técnicas. Ticket: <strong>$2,500 USD</strong>.</p>
+                </div>
+                <div class="feature-box">
+                    <span class="feature-icon">⚖️</span>
+                    <h3 class="feature-title">Despachos Legales</h3>
+                    <p class="feature-desc">Recolección de documentos y filtro de casos. Ticket: <strong>$2,200 USD</strong>.</p>
+                </div>
+            </div>
+        </article>
+
+        <!-- SLIDE 7: DEMO EN VIVO N8N & GEMINI 2.5 -->
+        <article class="slide-3d-card" data-slide="7" data-notes="Momento de abrir n8n en pantalla compartida o disparar un mensaje de Telegram para que vean cómo responde en 2 segundos.">
+            <span class="slide-pill" style="border-color:var(--primary-glow); color:#d8b4fe;">⚡ DEMOSTRACIÓN EN VIVO</span>
+            <h2 class="slide-title">El Agente en Acción: <br><span class="gradient-text">Velocidad de Respuesta &lt; 2s</span></h2>
+            <p class="slide-description">
+                Observa cómo el flujo recibe el mensaje, consulta la memoria de 2 Millones de tokens, califica la intención del cliente y envía el payload a Discord.
+            </p>
+
+            <div class="live-demo-panel">
+                <div style="color:var(--accent-teal); font-size:0.85rem; margin-bottom:8px;">// Evento: Telegram Inbound Webhook</div>
+                <pre style="color:#93c5fd; font-size:0.8rem; line-height:1.5;">{
+  "user": "@prospecto_vip",
+  "mensaje": "Quiero automatizar la atención de mi clínica dental",
+  "gemini_2_5_eval": "CALIFICADO · ALTO VALOR",
+  "accion": "Agendando cita en Google Calendar + Embed en #leads-vip",
+  "tiempo_ejecucion": "1.2 segundos",
+  "coste_api": "$0.00000 USD (Tier Gratuito)"
+}</pre>
+            </div>
+        </article>
+
+        <!-- SLIDE 8: CIERRE & LLAMADO A LA ACCIÓN -->
+        <article class="slide-3d-card" data-slide="8" data-notes="Cierre con fuerza. Darles la bienvenida a La Guarida en Discord y entregarles la Bóveda de Workflows JSON.">
+            <span class="slide-pill" style="border-color:var(--accent-teal); color:var(--accent-teal);">🚀 TU PRÓXIMO PASO</span>
+            <h2 class="slide-title">Entra a la <br><span class="gradient-text">Comunidad & Bóveda JSON</span></h2>
+            <p class="slide-description">
+                El conocimiento sin acción no sirve de nada. Descarga los flujos de n8n listos para importar y empieza a construir tu primer agente hoy mismo.
+            </p>
+
+            <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:20px;">
+                <a href="https://t.me/AcademiaIA_Bot" target="_blank" class="btn-hud" style="padding:16px 32px; font-size:1rem; background:var(--accent-teal); color:#000; font-weight:800; text-decoration:none; border-radius:12px;">
+                    🤖 Descargar Workflows en Telegram
+                </a>
+                <a href="index.html" target="_blank" class="btn-hud" style="padding:16px 32px; font-size:1rem; background:var(--primary); color:#fff; font-weight:800; text-decoration:none; border-radius:12px;">
+                    💻 Abrir Dashboard Interactivo
+                </a>
+                <a href="SWARM_COMMAND_CENTER_5K.html" target="_blank" class="btn-hud" style="padding:16px 28px; font-size:1rem; text-decoration:none; border-radius:12px;">
+                    ⚡ Command Center 5K
+                </a>
+            </div>
+        </article>
+
+    </main>
+
+    <!-- Bottom Navigator -->
+    <div class="bottom-nav">
+        <button class="btn-nav-arrow" onclick="prevSlide()">▲</button>
+        <span style="font-family:'JetBrains Mono'; font-size:0.8rem; color:var(--text-muted);" id="bottom-counter">1 / 8</span>
+        <button class="btn-nav-arrow" onclick="nextSlide()">▼</button>
+    </div>
+
+    <!-- Teleprompter Drawer for Leo -->
+    <div class="teleprompter-drawer" id="teleprompter">
+        <div class="teleprompter-title">
+            <span>🎙️ NOTAS DE LEO (Teleprompter)</span>
+            <span style="cursor:pointer;" onclick="toggleTeleprompter()">✕</span>
+        </div>
+        <p id="prompt-content" style="color:#e2e8f0;">Apertura con alta energía. Presentar a EUSEXUA y romper el hielo.</p>
+    </div>
+
+    <script>
+        // Particle Background Canvas
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        for (let i = 0; i < 70; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                color: Math.random() > 0.5 ? 'rgba(139, 92, 246, 0.4)' : 'rgba(20, 184, 166, 0.4)'
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // 3D Cylinder Scroll Rotation & Active Slide Detection
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide-3d-card');
+        const cylinder = document.getElementById('cylinder-stage');
+        const hudIndicator = document.getElementById('hud-slide-indicator');
+        const bottomCounter = document.getElementById('bottom-counter');
+        const promptContent = document.getElementById('prompt-content');
+
+        function updateSlideStates() {
+            const scrollPos = window.scrollY + window.innerHeight / 2;
+            let activeIdx = 0;
+
+            slides.forEach((slide, idx) => {
+                const rect = slide.getBoundingClientRect();
+                const slideCenter = rect.top + window.scrollY + rect.height / 2;
+                
+                if (Math.abs(scrollPos - slideCenter) < rect.height / 1.5) {
+                    activeIdx = idx;
+                }
+            });
+
+            if (activeIdx !== currentSlideIndex) {
+                currentSlideIndex = activeIdx;
+                slides.forEach((s, i) => s.classList.toggle('active-slide', i === currentSlideIndex));
+                
+                // Rotate 3D Cylinder proportionally
+                const rotAngle = currentSlideIndex * 45;
+                const tiltAngle = 15 + (currentSlideIndex % 2 === 0 ? 5 : -5);
+                cylinder.style.transform = `rotateX(${tiltAngle}deg) rotateY(${rotAngle}deg)`;
+
+                // Update HUD
+                const text = `DIAPOSITIVA ${currentSlideIndex + 1} / ${slides.length}`;
+                hudIndicator.innerText = text;
+                bottomCounter.innerText = `${currentSlideIndex + 1} / ${slides.length}`;
+
+                // Update Notes
+                const notes = slides[currentSlideIndex].getAttribute('data-notes') || 'Sin notas.';
+                promptContent.innerText = notes;
+            }
+        }
+
+        window.addEventListener('scroll', updateSlideStates);
+
+        function scrollToSlide(idx) {
+            if (idx >= 0 && idx < slides.length) {
+                slides[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function nextSlide() {
+            scrollToSlide(currentSlideIndex + 1);
+        }
+
+        function prevSlide() {
+            scrollToSlide(currentSlideIndex - 1);
+        }
+
+        // Keybindings for Masterclass Projection
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key.toLowerCase() === 't') {
+                toggleTeleprompter();
+            } else if (e.key.toLowerCase() === 'f') {
+                toggleFullScreen();
+            }
+        });
+
+        function toggleTeleprompter() {
+            document.getElementById('teleprompter').classList.toggle('visible');
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
+            }
+        }
+    </script>
+</body>
+</html>

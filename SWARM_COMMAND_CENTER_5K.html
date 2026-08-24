@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ ENJAMBRE COMMAND CENTER 5K | 20 AGENTES + EUSEXUA AVATAR STUDIO</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-void: #04060a;
+            --bg-surface: #080c14;
+            --bg-card: rgba(13, 18, 30, 0.75);
+            --bg-card-hover: rgba(22, 30, 48, 0.9);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.45);
+            --accent-teal: #14b8a6;
+            --accent-teal-glow: rgba(20, 184, 166, 0.35);
+            --accent-cyan: #06b6d4;
+            --accent-gold: #facc15;
+            --accent-red: #ef4444;
+            --accent-green: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #8492a6;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-highlight: rgba(139, 92, 246, 0.35);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-void);
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(20, 184, 166, 0.06) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        /* 5K Master Topbar */
+        .topbar {
+            background: rgba(8, 12, 20, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand-badge {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-teal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .brand-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .telemetry-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+
+        .telemetry-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 10px var(--accent-green);
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        /* 5K Multi-Grid Dashboard Layout */
+        .dashboard-grid {
+            flex: 1;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 380px 1fr 420px;
+            gap: 24px;
+            max-width: 2560px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Generic Panel Container */
+        .panel {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            backdrop-filter: blur(16px);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 14px;
+        }
+
+        .panel-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-badge {
+            font-size: 0.72rem;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(139, 92, 246, 0.15);
+            color: #c084fc;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        /* =====================================================
+           COLUMN 1: EUSEXUA AVATAR & VOICE CONTROL ROOM
+        ===================================================== */
+        .avatar-preview-box {
+            background: #000;
+            border-radius: var(--radius-md);
+            height: 280px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .avatar-graphic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.85;
+        }
+
+        .avatar-hud-overlay {
+            position: absolute;
+            inset: 0;
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            pointer-events: none;
+            background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 40%, rgba(0,0,0,0.8) 100%);
+        }
+
+        .voice-engine-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .audio-wave-sim {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            height: 32px;
+            padding: 0 8px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 6px;
+        }
+
+        .wave-bar {
+            flex: 1;
+            background: var(--accent-teal);
+            height: 30%;
+            border-radius: 2px;
+            animation: waveBounce 1.2s ease-in-out infinite alternate;
+        }
+
+        @keyframes waveBounce {
+            0% { height: 15%; }
+            100% { height: 95%; }
+        }
+
+        /* =====================================================
+           COLUMN 2: 20 AGENTS SWARM MATRIX (4 SILOS)
+        ===================================================== */
+        .silo-tabs {
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+
+        .silo-tab {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .silo-tab.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .agents-scroll-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+            max-height: 520px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .agent-card-5k {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .agent-card-5k:hover {
+            border-color: var(--primary);
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+        }
+
+        .agent-card-5k.active-pulse {
+            border-color: var(--accent-teal);
+            box-shadow: 0 0 16px rgba(20, 184, 166, 0.15);
+        }
+
+        .agent-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .agent-role-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+        }
+
+        .agent-task-desc {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .agent-progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .agent-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent-teal));
+            border-radius: 2px;
+        }
+
+        /* =====================================================
+           COLUMN 3: HUMAN-IN-THE-LOOP APPROVAL DECK (FILTRO HUMANO)
+        ===================================================== */
+        .approval-queue {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            max-height: 420px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .review-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .review-card.pending {
+            border-color: var(--accent-gold);
+        }
+
+        .review-image-frame {
+            width: 100%;
+            height: 160px;
+            border-radius: var(--radius-sm);
+            background: #020408;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .review-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .btn-review {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .btn-approve {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: var(--accent-green);
+            color: #6ee7b7;
+        }
+        .btn-approve:hover { background: var(--accent-green); color: #000; }
+
+        .btn-reject {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: var(--accent-red);
+            color: #fca5a5;
+        }
+        .btn-reject:hover { background: var(--accent-red); color: #fff; }
+
+        .btn-edit {
+            background: rgba(139, 92, 246, 0.15);
+            border-color: var(--primary);
+            color: #c084fc;
+        }
+        .btn-edit:hover { background: var(--primary); color: #fff; }
+
+        /* Terminal Logs at Bottom of Grid */
+        .terminal-container {
+            grid-column: 1 / -1;
+            background: #020408;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            max-height: 180px;
+            overflow-y: auto;
+            color: #38bdf8;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .terminal-log-line {
+            margin-bottom: 4px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+        <div class="brand-group">
+            <div class="brand-badge">⚡</div>
+            <div>
+                <h1 class="brand-title">EUSEXUA COMMAND CENTER · 5K</h1>
+                <p style="font-size: 0.72rem; color: var(--text-muted);">Enjambre de 20 Agentes Autónomos + Estudio de Voz y Avatar</p>
+            </div>
+        </div>
+
+        <div class="telemetry-row">
+            <div class="telemetry-item">
+                <span class="status-dot"></span>
+                <span>20 AGENTES ACTIVOS</span>
+            </div>
+            <div class="telemetry-item">
+                <span style="color:var(--primary);">ELEVENLABS:</span>
+                <span style="color:#fff;">CREATOR ACTIVE</span>
+            </div>
+            <div class="telemetry-item">
+                <span style="color:var(--accent-teal);">HEYGEN STUDIO:</span>
+                <span style="color:#fff;">RENDER READY</span>
+            </div>
+            <div class="telemetry-item">
+                <span style="color:var(--accent-gold);">GEMINI 2.5:</span>
+                <span style="color:#fff;">2M CONTEXT</span>
+            </div>
+            <a href="landing.html" target="_blank" style="text-decoration:none; padding:6px 14px; background:var(--primary); color:#fff; border-radius:8px; font-weight:700; font-size:0.75rem;">🌐 Abrir Landing</a>
+        </div>
+    </header>
+
+    <!-- 5K DASHBOARD GRID -->
+    <main class="dashboard-grid">
+
+        <!-- COLUMN 1: EUSEXUA HOST & VOICE CONTROL ROOM -->
+        <section class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title"><span>🎙️</span> EUSEXUA Avatar Host</h2>
+                <span class="panel-badge">HEYGEN + 11LABS</span>
+            </div>
+
+            <!-- Avatar Preview Frame -->
+            <div class="avatar-preview-box">
+                <div style="text-align:center; padding:20px;">
+                    <span style="font-size:3.5rem; display:block; margin-bottom:8px;">👩‍💼</span>
+                    <strong style="color:var(--text-main); font-size:1.1rem; font-family:'Space Grotesk';">EUSEXUA</strong>
+                    <p style="font-size:0.75rem; color:var(--accent-teal); font-family:'JetBrains Mono'; margin-top:4px;">Directora de la Universidad de IA</p>
+                </div>
+                <div class="avatar-hud-overlay">
+                    <div style="display:flex; justify-content:space-between; font-size:0.7rem; font-family:'JetBrains Mono';">
+                        <span style="color:var(--accent-teal);">● LIVE HOST</span>
+                        <span style="color:#c084fc;">4K WEBINAR DECK</span>
+                    </div>
+                    <div style="font-size:0.75rem; font-family:'JetBrains Mono'; color:#facc15; background:rgba(0,0,0,0.6); padding:4px 8px; border-radius:4px;">
+                        Teleprompter: Bloque 3 (Live Workflow)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Voice Control Card -->
+            <div class="voice-engine-card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <strong style="font-size:0.85rem;">ElevenLabs Voice Stream</strong>
+                    <span style="font-size:0.72rem; color:var(--accent-teal); font-family:'JetBrains Mono';">140 WPM</span>
+                </div>
+                
+                <div class="audio-wave-sim">
+                    <div class="wave-bar" style="animation-delay:0.1s;"></div>
+                    <div class="wave-bar" style="animation-delay:0.4s;"></div>
+                    <div class="wave-bar" style="animation-delay:0.2s;"></div>
+                    <div class="wave-bar" style="animation-delay:0.6s;"></div>
+                    <div class="wave-bar" style="animation-delay:0.3s;"></div>
+                    <div class="wave-bar" style="animation-delay:0.5s;"></div>
+                    <div class="wave-bar" style="animation-delay:0.2s;"></div>
+                    <div class="wave-bar" style="animation-delay:0.7s;"></div>
+                </div>
+
+                <div style="font-size:0.78rem; color:var(--text-muted); font-style:italic;">
+                    "Bienvenidos a la Universidad de IA. Durante los próximos 45 minutos orquestaremos un ejército de agentes..."
+                </div>
+
+                <button onclick="playVoiceSample()" style="padding:10px; border-radius:8px; background:var(--primary); color:#fff; border:none; font-weight:700; font-size:0.8rem; cursor:pointer;">
+                    ▶️ Probar Síntesis de Voz
+                </button>
+            </div>
+        </section>
+
+        <!-- COLUMN 2: 20 AGENTS SWARM MATRIX (4 SILOS) -->
+        <section class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title"><span>🤖</span> Matriz del Enjambre (20 Agentes Autónomos)</h2>
+                <span class="panel-badge" id="silo-count-badge">5/20 VISIBLES</span>
+            </div>
+
+            <!-- Silo Tabs -->
+            <div class="silo-tabs">
+                <button class="silo-tab active" onclick="switchSilo('creative', this)">🎨 Agencia 1: Creativa & Voz (1-5)</button>
+                <button class="silo-tab" onclick="switchSilo('copy', this)">✍️ Agencia 2: Copy & Hooks (6-10)</button>
+                <button class="silo-tab" onclick="switchSilo('funnel', this)">📈 Agencia 3: Funnels & B2B (11-15)</button>
+                <button class="silo-tab" onclick="switchSilo('qa', this)">🛡️ Agencia 4: QA & Guardrails (16-20)</button>
+            </div>
+
+            <!-- Agents Dynamic Grid -->
+            <div class="agents-scroll-grid" id="agents-grid-target">
+                <!-- Rendered dynamically by JS -->
+            </div>
+        </section>
+
+        <!-- COLUMN 3: HUMAN-IN-THE-LOOP APPROVAL DECK (FILTRO HUMANO) -->
+        <section class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title"><span>👁️</span> Filtro Humano (Pre-Entrega)</h2>
+                <span class="panel-badge" style="background:rgba(250,204,21,0.15); color:var(--accent-gold); border-color:var(--accent-gold);">REVISIÓN HUMANA</span>
+            </div>
+
+            <p style="font-size:0.8rem; color:var(--text-muted); line-height:1.4;">
+                Inspecciona, aprueba o solicita ajustes a las imágenes y guiones generados antes de su publicación o entrega.
+            </p>
+
+            <!-- Review Cards Queue -->
+            <div class="approval-queue">
+                <!-- Card 1 -->
+                <div class="review-card pending">
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
+                        <strong>🖼️ Imagen para Reel #03 (Clínicas)</strong>
+                        <span style="color:var(--accent-gold); font-family:'JetBrains Mono';">PENDIENTE</span>
+                    </div>
+                    <div class="review-image-frame">
+                        <span style="font-size:2rem;">🏥</span>
+                        <div style="position:absolute; bottom:6px; left:8px; font-size:0.68rem; font-family:'JetBrains Mono'; background:rgba(0,0,0,0.7); padding:2px 6px; border-radius:4px;">
+                            Midjourney v6.1 · 1080x1920 (9:16)
+                        </div>
+                    </div>
+                    <div style="font-size:0.75rem; color:var(--text-muted);">
+                        Prompt: <em>"Cyber-doctor receiving AI triage notification on holographic display..."</em>
+                    </div>
+                    <div class="review-actions">
+                        <button class="btn-review btn-approve" onclick="approveAsset(this)">✅ Aprobar</button>
+                        <button class="btn-review btn-edit" onclick="requestEditAsset(this)">✏️ Ajustar</button>
+                        <button class="btn-review btn-reject" onclick="rejectAsset(this)">❌ Rechazar</button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="review-card pending">
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
+                        <strong>📝 Hook Verbal #08 (Real Estate)</strong>
+                        <span style="color:var(--accent-gold); font-family:'JetBrains Mono';">PENDIENTE</span>
+                    </div>
+                    <div style="background:rgba(0,0,0,0.4); padding:10px; border-radius:6px; font-size:0.8rem; color:#fff; font-family:'Space Grotesk';">
+                        "El backend exacto de n8n por el que una inmobiliaria nos pagó $3,000 USD..."
+                    </div>
+                    <div class="review-actions">
+                        <button class="btn-review btn-approve" onclick="approveAsset(this)">✅ Aprobar</button>
+                        <button class="btn-review btn-edit" onclick="requestEditAsset(this)">✏️ Ajustar</button>
+                        <button class="btn-review btn-reject" onclick="rejectAsset(this)">❌ Rechazar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TERMINAL LOGS (SPAN ENTIRE 5K WIDTH) -->
+        <div class="terminal-container" id="terminal-stream">
+            <div class="terminal-log-line" style="color:var(--accent-teal);">[00:00:01] EUSEXUA Core 5K Engine Initialized. Workspace resolution: 2560x1440+.</div>
+            <div class="terminal-log-line">[00:00:02] ElevenLabs API Connected (Voice Profile: EUSEXUA Master Keynote).</div>
+            <div class="terminal-log-line">[00:00:03] HeyGen Studio Pipeline Ready for 4K lip-sync rendering.</div>
+            <div class="terminal-log-line" style="color:var(--accent-gold);">[00:00:04] 20 Autonomous Agents synchronized in parallel loop. Human-in-the-Loop filter active.</div>
+        </div>
+
+    </main>
+
+    <script>
+        const swarmData = {
+            creative: [
+                { id: "01", name: "EUSEXUA Voice Synthesis", engine: "ElevenLabs API", desc: "Generación de audio de alta fidelidad, entonación y modulación de pausas.", status: "Generando audio...", progress: 85 },
+                { id: "02", name: "Lip-Sync & Video Animator", engine: "HeyGen Creator", desc: "Sincronización labial 4K y animación gestual para el avatar EUSEXUA.", status: "Standby render", progress: 60 },
+                { id: "03", name: "Visual Prompt Artist", engine: "Midjourney v6.1", desc: "Creación de fondos cyberpunk y diagramas técnicos en alta definición.", status: "Generando B-Roll", progress: 92 },
+                { id: "04", name: "Camera Choreographer", engine: "CapCut Motion Engine", desc: "Diseño de zooms (115%), transiciones whip pan y encuadres dinámicos.", status: "Alineando Safe Zones", progress: 75 },
+                { id: "05", name: "Motion & SFX Layering", engine: "Audio Master -14 LUFS", desc: "Inserción de pops, whooshes y compresión sidechain bajo la voz.", status: "Optimizando tracks", progress: 100 }
+            ],
+            copy: [
+                { id: "06", name: "Hook Master (0-3s)", engine: "Neuro-Copywriter", desc: "Redacción de las 52 fórmulas de ganchos virales para TikTok y Reels.", status: "Optimizando ganchos", progress: 90 },
+                { id: "07", name: "Webinar Keynote Writer", engine: "EUSEXUA Speech Engine", desc: "Estructuración del guion maestro de 45 min para la Universidad de IA.", status: "Completado", progress: 100 },
+                { id: "08", name: "Short-Form Adaptor", engine: "9:16 Script Splitter", desc: "Desglose de la masterclass en 20 micro-cápsulas de 50 segundos.", status: "Procesando nichos", progress: 65 },
+                { id: "09", name: "Thread & Carousel Architect", engine: "LinkedIn/X Engine", desc: "Creación de carruseles de 7 slides y posts de alta autoridad.", status: "En cola", progress: 40 },
+                { id: "10", name: "Email Sequence Drafter", engine: "Nurturing 14 Días", desc: "Redacción de 7 correos automatizados de bienvenida y venta B2B.", status: "Completado", progress: 100 }
+            ],
+            funnel: [
+                { id: "11", name: "Comment-to-DM Builder", engine: "ManyChat + Telegram", desc: "Disparadores automáticos de entrega de JSONs en menos de 5 segundos.", status: "Webhook activo", progress: 95 },
+                { id: "12", name: "BANT Qualification Scorer", engine: "Gemini 2.5 Flash", desc: "Filtrado en tiempo real de leads con presupuesto > $1,500 USD.", status: "Monitoreando chats", progress: 88 },
+                { id: "13", name: "High-Ticket Pipeline Closer", engine: "Cal.com / Sheets", desc: "Agendamiento automático de auditorías técnicas de viabilidad.", status: "Sincronizado", progress: 100 },
+                { id: "14", name: "Discord Community Architect", engine: "La Guarida VIP", desc: "Asignación de roles gamificados (@Lobo-Alfa) y onboarding.", status: "Bot operativo", progress: 85 },
+                { id: "15", name: "Media Buyer & Ads Strategist", engine: "Meta & TikTok Ads", desc: "Optimización de campañas para mantener CPL por debajo de $0.50 USD.", status: "Auditoría de pauta", progress: 70 }
+            ],
+            qa: [
+                { id: "16", name: "Guardrails & Ethics Auditor", engine: "AMDA Safety Shield", desc: "Aislamiento estricto de audiencias infantiles vs profesionales adultos.", status: "Escudo activo", progress: 100 },
+                { id: "17", name: "Visual Glitch Detector", engine: "Vision QA Inspector", desc: "Revisión automática de manos, texto y artefactos en imágenes IA.", status: "Inspeccionando lote", progress: 94 },
+                { id: "18", name: "Tone & Brand Watcher", engine: "EUSEXUA Brand Guard", desc: "Mantenimiento del tono irreverente, técnico y empático de la marca.", status: "Validado", progress: 100 },
+                { id: "19", name: "ROI & Metrics Telemetry", engine: "Live Calculator", desc: "Monitoreo de conversiones, margen neto (99.9%) y costo de APIs.", status: "Métricas al día", progress: 100 },
+                { id: "20", name: "Chief Swarm Orchestrator", engine: "Google Gemini 2.5 Pro", desc: "Supervisión ejecutiva y despacho de tareas asíncronas en paralelo.", status: "Orquestando enjambre", progress: 100 }
+            ]
+        };
+
+        let currentSilo = 'creative';
+
+        function switchSilo(siloKey, btnEl) {
+            currentSilo = siloKey;
+            document.querySelectorAll('.silo-tab').forEach(t => t.classList.remove('active'));
+            btnEl.classList.add('active');
+            renderSiloAgents();
+        }
+
+        function renderSiloAgents() {
+            const list = swarmData[currentSilo] || [];
+            const container = document.getElementById('agents-grid-target');
+            document.getElementById('silo-count-badge').innerText = `${list.length}/20 AGENTES`;
+
+            container.innerHTML = list.map(a => `
+                <div class="agent-card-5k active-pulse">
+                    <div class="agent-card-top">
+                        <strong class="agent-role-title">#${a.id} ${a.name}</strong>
+                        <span style="font-size:0.7rem; font-family:'JetBrains Mono'; color:var(--accent-teal);">${a.engine}</span>
+                    </div>
+                    <p class="agent-task-desc">${a.desc}</p>
+                    <div class="agent-progress-bar">
+                        <div class="agent-progress-fill" style="width:${a.progress}%;"></div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--text-muted); font-family:'JetBrains Mono';">
+                        <span>${a.status}</span>
+                        <span>${a.progress}%</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function approveAsset(btn) {
+            const card = btn.closest('.review-card');
+            card.style.borderColor = 'var(--accent-green)';
+            card.style.background = 'rgba(16, 185, 129, 0.1)';
+            btn.parentElement.innerHTML = '<span style="color:var(--accent-green); font-size:0.75rem; font-weight:700; width:100%; text-align:center;">✅ APROBADO POR EL USUARIO (Listo para Entrega)</span>';
+            appendLog('[HUMAN-FILTER] Asset aprobado por Leo. Listo para publicación.');
+        }
+
+        function rejectAsset(btn) {
+            const card = btn.closest('.review-card');
+            card.style.opacity = '0.5';
+            btn.parentElement.innerHTML = '<span style="color:var(--accent-red); font-size:0.75rem; font-weight:700; width:100%; text-align:center;">❌ RECHAZADO (Descartado del Flujo)</span>';
+            appendLog('[HUMAN-FILTER] Asset rechazado por el operador humano.');
+        }
+
+        function requestEditAsset(btn) {
+            const change = prompt('Escribe las correcciones exactas que deseas que el agente aplique a esta imagen/texto:');
+            if (change) {
+                btn.parentElement.innerHTML = `<span style="color:var(--primary); font-size:0.75rem; font-weight:700; width:100%; text-align:center;">✏️ RE-PROCESANDO CON AJUSTE: "${change}"</span>`;
+                appendLog(`[HUMAN-FILTER] Ajuste solicitado: "${change}". Agente re-procesando en bucle...`);
+            }
+        }
+
+        function appendLog(msg) {
+            const term = document.getElementById('terminal-stream');
+            const d = new Date().toTimeString().split(' ')[0];
+            const div = document.createElement('div');
+            div.className = 'terminal-log-line';
+            div.innerHTML = `[${d}] ${msg}`;
+            term.appendChild(div);
+            term.scrollTop = term.scrollHeight;
+        }
+
+        function playVoiceSample() {
+            appendLog('[VOICE-TEST] Ejecutando muestra de audio ElevenLabs con perfil de voz EUSEXUA.');
+            alert('🎙️ Reproduciendo muestra de voz EUSEXUA: "Hola a todos, soy EUSEXUA y les doy la bienvenida a la Universidad de Inteligencia Artificial."');
+        }
+
+        window.onload = function() {
+            renderSiloAgents();
+        }
+    </script>
+</body>
+</html>
