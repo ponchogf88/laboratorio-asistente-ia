@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Academia AAA — Construye y monetiza un enjambre de Agentes Autónomos con n8n y Google Gemini 2.5 a coste $0. Workflows JSON listos para importar.">
+    <title>⚡ Academia AAA | Laboratorio de Agentes Autónomos & n8n</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #060911;
+            --bg-surface: #0a0e17;
+            --bg-card: rgba(15, 23, 42, 0.65);
+            --bg-card-hover: rgba(30, 41, 59, 0.85);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.45);
+            --accent-teal: #14b8a6;
+            --accent-teal-glow: rgba(20, 184, 166, 0.35);
+            --accent-cyan: #06b6d4;
+            --accent-gold: #facc15;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-sub: #cbd5e1;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(139, 92, 246, 0.3);
+            --success: #10b981;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 22px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 85% 65%, rgba(20, 184, 166, 0.1) 0%, transparent 45%),
+                radial-gradient(circle at 50% 90%, rgba(6, 182, 212, 0.08) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.03em;
+        }
+
+        code, pre, .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-base); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(6, 9, 17, 0.82);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: -0.04em;
+        }
+
+        .brand-logo .logo-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-teal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: 0 0 16px var(--primary-glow);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid transparent;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            color: #fff;
+            box-shadow: 0 4px 20px var(--primary-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(139, 92, 246, 0.6);
+        }
+
+        .btn-teal {
+            background: linear-gradient(135deg, var(--accent-teal), #0d9488);
+            color: #061816;
+            font-weight: 700;
+            box-shadow: 0 4px 20px var(--accent-teal-glow);
+        }
+
+        .btn-teal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(20, 184, 166, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+        .hero-section {
+            padding: 150px 0 90px;
+            position: relative;
+            text-align: center;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(139, 92, 246, 0.12);
+            border: 1px solid rgba(139, 92, 246, 0.35);
+            padding: 6px 16px;
+            border-radius: 999px;
+            color: #c084fc;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            animation: pulseGlow 3s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+            50% { box-shadow: 0 0 20px 4px rgba(139, 92, 246, 0.2); }
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5.5vw, 4.4rem);
+            line-height: 1.08;
+            margin-bottom: 24px;
+            font-weight: 800;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 30%, #c084fc 70%, var(--accent-teal) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 780px;
+            margin: 0 auto 36px;
+            line-height: 1.6;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .stat-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 18px 14px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Section Global */
+        section {
+            padding: 90px 0;
+            position: relative;
+        }
+
+        .section-tag {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-teal);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .section-heading {
+            font-size: clamp(2rem, 3.8vw, 3rem);
+            margin-bottom: 16px;
+            font-weight: 800;
+            line-height: 1.15;
+        }
+
+        .section-sub {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin-bottom: 48px;
+        }
+
+        .center-header {
+            text-align: center;
+        }
+        .center-header .section-sub {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Comparison Table */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+
+        .stack-card {
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            position: relative;
+        }
+
+        .stack-card.legacy {
+            background: rgba(30, 20, 20, 0.4);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+        }
+
+        .stack-card.modern {
+            background: linear-gradient(145deg, rgba(20, 30, 45, 0.7), rgba(15, 23, 42, 0.9));
+            border: 1px solid rgba(20, 184, 166, 0.4);
+            box-shadow: 0 0 40px rgba(20, 184, 166, 0.15);
+        }
+
+        .stack-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .legacy .stack-badge {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .modern .stack-badge {
+            background: rgba(20, 184, 166, 0.15);
+            color: var(--accent-teal);
+            border: 1px solid rgba(20, 184, 166, 0.3);
+        }
+
+        .stack-title {
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+        }
+
+        .stack-price {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .legacy .stack-price { color: #f87171; }
+        .modern .stack-price { color: var(--accent-teal); }
+
+        .stack-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .stack-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.95rem;
+            color: var(--text-sub);
+        }
+
+        /* Swarm Agents Grid */
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 22px;
+        }
+
+        .agent-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 26px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agent-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            background: var(--bg-card-hover);
+            box-shadow: 0 12px 30px rgba(139, 92, 246, 0.15);
+        }
+
+        .agent-icon-badge {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .agent-num {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-teal);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .agent-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 4px 0 8px;
+        }
+
+        .agent-model {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .agent-desc {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Lead Magnet Box */
+        .magnet-banner {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(20, 184, 166, 0.15));
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: var(--radius-lg);
+            padding: 48px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            align-items: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .magnet-list {
+            list-style: none;
+            margin: 20px 0 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .magnet-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            color: var(--text-sub);
+        }
+
+        .code-preview-box {
+            background: #020617;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            font-size: 0.8rem;
+            color: #a5f3fc;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+            max-height: 280px;
+            overflow-y: auto;
+        }
+
+        /* High-Ticket B2B Packages */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .pkg-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s;
+        }
+
+        .pkg-card.featured {
+            border-color: var(--primary);
+            background: linear-gradient(160deg, rgba(30, 27, 75, 0.7), rgba(15, 23, 42, 0.9));
+            box-shadow: 0 0 35px var(--primary-glow);
+            transform: scale(1.03);
+        }
+
+        .pkg-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .pkg-name {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+
+        .pkg-price {
+            font-size: 2.2rem;
+            font-weight: 800;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-main);
+            margin: 12px 0 20px;
+        }
+
+        .pkg-price small {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .pkg-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 28px;
+            font-size: 0.9rem;
+            color: var(--text-sub);
+        }
+
+        .pkg-features li::before {
+            content: "✓ ";
+            color: var(--accent-teal);
+            font-weight: bold;
+        }
+
+        /* FAQ */
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 22px;
+        }
+
+        .faq-q {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .faq-a {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            background: #03060c;
+            padding: 60px 0 30px;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .footer-wrap {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            color: var(--text-main);
+            font-size: 1rem;
+            margin-bottom: 16px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-col a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: var(--accent-teal);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero-stats { grid-template-columns: 1fr 1fr; }
+            .comparison-grid, .magnet-banner, .packages-grid, .faq-grid { grid-template-columns: 1fr; }
+            .footer-wrap { grid-template-columns: 1fr 1fr; }
+            .nav-links { display: none; }
+            .pkg-card.featured { transform: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="container nav-wrap">
+            <a href="#" class="brand-logo">
+                <div class="logo-icon">⚡</div>
+                <span>ACADEMIA <span style="color:var(--primary);">AAA</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#stack">Stack $0</a></li>
+                <li><a href="#enjambre">8 Agentes</a></li>
+                <li><a href="#boveda">Bóveda JSON</a></li>
+                <li><a href="#b2b">Servicios B2B</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="index.html" class="btn btn-secondary btn-sm" target="_blank">💻 Dashboard</a>
+                <a href="https://t.me/AcademiaIA_Bot" class="btn btn-teal btn-sm" target="_blank">🤖 Bot Telegram</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero-section">
+        <div class="container">
+            <div class="badge-pill">
+                <span>🤖 MOTOR GOOGLE GEMINI 2.5 + N8N SELF-HOSTED</span>
+            </div>
+            
+            <h1 class="hero-title">
+                Construye tu Enjambre de <br>
+                <span class="gradient-text">Agentes Autónomos a Coste $0</span>
+            </h1>
+            
+            <p class="hero-desc">
+                Deja de pagar suscripciones mensuales de $300 en herramientas rígidas. Domina la arquitectura de 8 agentes de IA para captar prospectos, cualificar B2B y automatizar tus ventas 24/7 sin escribir código.
+            </p>
+            
+            <div class="hero-cta-group">
+                <a href="https://t.me/AcademiaIA_Bot" class="btn btn-teal" target="_blank" style="padding:14px 30px; font-size:1.05rem;">
+                    <span>🤖 Descargar Bóveda JSON en Telegram</span>
+                    <span>➔</span>
+                </a>
+                <a href="index.html" class="btn btn-primary" style="padding:14px 28px; font-size:1.05rem;">
+                    <span>⚡ Abrir Dashboard Interactivo</span>
+                </a>
+                <a href="https://discord.gg/academia-aaa-laboratorio" class="btn btn-secondary" target="_blank">
+                    <span>👾 Unirse a Discord</span>
+                </a>
+            </div>
+
+            <!-- Real-Time Metric Pills -->
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-value" style="color:var(--accent-teal);">$0 / mes</div>
+                    <div class="stat-label">Costo en Licencias SaaS</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" style="color:var(--primary);">2,000,000</div>
+                    <div class="stat-label">Tokens Ventana Contexto</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" style="color:var(--accent-cyan);">&lt; 350ms</div>
+                    <div class="stat-label">Latencia Inferencia Flash</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" style="color:var(--accent-gold);">8 Agentes</div>
+                    <div class="stat-label">Enjambre Orquestado</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 1: STACK COMPARISON -->
+    <section id="stack">
+        <div class="container">
+            <div class="center-header">
+                <span class="section-tag">EL CAMBIO DE PARADIGMA</span>
+                <h2 class="section-heading">Stack Clásico vs Arquitectura 2026</h2>
+                <p class="section-sub">Por qué las agencias y emprendedores están migrando masivamente de herramientas legacy a enjambres auto-alojados.</p>
+            </div>
+
+            <div class="comparison-grid">
+                <!-- Legacy -->
+                <div class="stack-card legacy">
+                    <span class="stack-badge">❌ STACK LEGACY (MANYCHAT + ZAPIER + SKOOL)</span>
+                    <h3 class="stack-title">El Modelo Fragmentado</h3>
+                    <div class="stack-price">$250 – $500 <span style="font-size:1rem;color:var(--text-muted);font-weight:400;">/ mes</span></div>
+                    <ul class="stack-list">
+                        <li>❌ Cobro por cada contacto y mensaje extra enviado</li>
+                        <li>❌ Modelos de IA desconectados con límites de contexto cortos (128k)</li>
+                        <li>❌ Bloqueos y restricciones de políticas en Meta / WhatsApp</li>
+                        <li>❌ Tus datos y clientes residen en servidores de terceros</li>
+                        <li>❌ Sin memoria persistente entre sesiones de chat</li>
+                    </ul>
+                </div>
+
+                <!-- Modern -->
+                <div class="stack-card modern">
+                    <span class="stack-badge">✅ STACK ACADEMIA AAA (N8N + GEMINI 2.5 + TELEGRAM)</span>
+                    <h3 class="stack-title">Enjambre Autónomo $0</h3>
+                    <div class="stack-price">$0 – $6 <span style="font-size:1rem;color:var(--text-muted);font-weight:400;">/ mes (sólo VPS opcional)</span></div>
+                    <ul class="stack-list">
+                        <li>✅ Ejecuciones y contactos 100% ilimitados en tu propio servidor</li>
+                        <li>✅ Google Gemini 2.5 con 2 Millones de Tokens de memoria nativa</li>
+                        <li>✅ Telegram Bot API sin censura ni comisiones ocultas</li>
+                        <li>✅ Total soberanía de datos y almacenamiento vectorial en PostgreSQL</li>
+                        <li>✅ Calificación determinista BANT y entrega de JSONs en 3 segundos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: 8 SWARM AGENTS -->
+    <section id="enjambre" style="background: rgba(10, 14, 23, 0.5);">
+        <div class="container">
+            <div class="center-header">
+                <span class="section-tag">SISTEMA MULTI-AGENTE</span>
+                <h2 class="section-heading">Los 8 Agentes Autónomos del Enjambre</h2>
+                <p class="section-sub">Cada agente cumple una función especializada dentro del ciclo operativo y comercial de la Academia.</p>
+            </div>
+
+            <div class="agents-grid">
+                <!-- Agent 0 -->
+                <div class="agent-item">
+                    <div class="agent-icon-badge">👑</div>
+                    <span class="agent-num">AGENTE 00</span>
+                    <h3 class="agent-name">Orquestador Maestro</h3>
+                    <span class="agent-model">Gemini 2.5 Pro</span>
+                    <p class="agent-desc">Director de operaciones. Canaliza leads, supervisa el enjambre y despacha alertas prioritarias.</p>
+                </div>
+
+                <!-- Agent 1 -->
+                <div class="agent-item">
+                    <div class="agent-icon-badge">🔍</div>
+                    <span class="agent-num">AGENTE 01</span>
+                    <h3 class="agent-name">Scraper & Trends</h3>
+                    <span class="agent-model">Gemini 2.5 Pro Vision</span>
+                    <p class="agent-desc">Analiza contenido viral y competidores en redes para detectar ganchos y objeciones del mercado.</p>
+                </div>
+
+                <!-- Agent 2 -->
+                <div class="agent-item">
+                    <div class="agent-icon-badge">📚</div>
+                    <span class="agent-num">AGENTE 02</span>
+                    <h3 class="agent-name">Arquitecto Pedagógico</h3>
+                    <span class="agent-model">Gemini 2.5 Pro</span>
+                    <p class="agent-desc">Estructura planes de lección, diagramas de flujo y empaqueta workflows JSON sin fricción.</p>
+                </div>
+
+                <!-- Agent 3 -->
+                <div class="agent-item">
+                    <div class="agent-icon-badge">✍️</div>
+                    <span class="agent-num">AGENTE 03</span>
+                    <h3 class="agent-name">Estudio Creativo Copy</h3>
+                    <span class="agent-model">Gemini 2.5 Flash</span>
+                    <p class="agent-desc">Genera guiones de Reels/TikToks, carruseles y copys de alta retención con fórmulas probadas.</p>
+                </div>
+
+                <!-- Agent 4 -->
+                <div class="agent-item">
+                    <div class="agent-icon-badge">📈</div>
+                    <span class="agent-num">AGENTE 04</span>
+                    <h3 class="agent-name">Growth & Media Buyer</h3>
+                    <span class="agent-model">Gemini 2.5 Flash</span>
+                    <p class="agent-desc">Optimiza campañas publicitarias en Meta y TikTok para mantener el CPL por debajo de $0.50.</p>
+                </div>
+
+                <!-- Agent 5 -->
+                <div class="agent-item">
+                    <div class="agent-icon-badge">💬</div>
+                    <span class="agent-num">AGENTE 05</span>
+                    <h3 class="agent-name">SDR Conversacional</h3>
+                    <span class="agent-model">Gemini 2.5 Flash (2M)</span>
+                    <p class="agent-desc">Bot de Telegram y WhatsApp. Atiende 24/7, responde audios, califica con BANT y agenda llamadas.</p>
+                </div>
+
+                <!-- Agent 6 -->
+                <div class="agent-item">
+                    <div class="agent-icon-badge">💼</div>
+                    <span class="agent-num">AGENTE 06</span>
+                    <h3 class="agent-name">Diagnóstico B2B</h3>
+                    <span class="agent-model">Gemini 2.5 Pro</span>
+                    <p class="agent-desc">Genera propuestas técnicas y cotizaciones automáticas para proyectos de $1,500 – $3,000 USD.</p>
+                </div>
+
+                <!-- Agent 7 -->
+                <div class="agent-item">
+                    <div class="agent-icon-badge">🛡️</div>
+                    <span class="agent-num">AGENTE 07</span>
+                    <h3 class="agent-name">Coach Discord</h3>
+                    <span class="agent-model">Gemini 2.5 Flash</span>
+                    <p class="agent-desc">Onboarding en comunidad, auto-asignación de roles gamificados y resolución de bugs técnicos de n8n.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: LEAD MAGNET / VAULT DOWNLOAD -->
+    <section id="boveda">
+        <div class="container">
+            <div class="magnet-banner">
+                <div>
+                    <span class="section-tag" style="color:var(--accent-gold);">RECURSO GRATUITO DESCARGABLE</span>
+                    <h2 style="font-size:2.2rem; margin-bottom:14px;">Descarga la Bóveda de Workflows n8n</h2>
+                    <p style="color:var(--text-sub);">
+                        Archivos <code style="color:var(--accent-teal); background:rgba(0,0,0,0.3); padding:2px 6px; border-radius:4px;">.json</code> listos para copiar y pegar en tu instancia de n8n. Sin configuraciones complejas.
+                    </p>
+
+                    <ul class="magnet-list">
+                        <li>⚡ <strong>Bot Telegram SDR:</strong> Calificación automática BANT con Gemini 2.5 Flash</li>
+                        <li>🔍 <strong>Lead Scraper B2B:</strong> Enriquecimiento de prospectos con búsqueda y Gemini Pro</li>
+                        <li>🎬 <strong>Generador de Guiones:</strong> De 1 idea de audio a 4 formatos virales</li>
+                        <li>🛡️ <strong>Auto-Moderador Discord:</strong> Bienvenida y roles automáticos</li>
+                    </ul>
+
+                    <a href="https://t.me/AcademiaIA_Bot" class="btn btn-teal" target="_blank" style="padding:14px 28px;">
+                        <span>📥 Obtener JSONs Gratis en Telegram (@AcademiaIA_Bot)</span>
+                    </a>
+                </div>
+
+                <div class="code-preview-box">
+                    <div style="color:var(--text-muted); margin-bottom:8px; font-size:0.75rem;">// workflow-telegram-gemini-sdr.json</div>
+<pre><code>{
+  "name": "Bot Telegram SDR - Gemini 2.5",
+  "nodes": [
+    { "type": "n8n.telegramTrigger" },
+    { 
+      "type": "langchain.geminiChat",
+      "model": "gemini-2.5-flash",
+      "memory": "2M_TOKENS" 
+    },
+    { 
+      "type": "n8n.code",
+      "eval": "BANT_QUALIFICATION" 
+    },
+    { "type": "n8n.discordEmbedVIP" }
+  ]
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: HIGH-TICKET B2B IMPLEMENTATION -->
+    <section id="b2b">
+        <div class="container">
+            <div class="center-header">
+                <span class="section-tag">SERVICIOS PARA EMPRESAS</span>
+                <h2 class="section-heading">Implementación de Agentes Llave en Mano</h2>
+                <p class="section-sub">Diseñamos y desplegamos infraestructuras de automatización en tu propio servidor corporativo.</p>
+            </div>
+
+            <div class="packages-grid">
+                <!-- Plan 1 -->
+                <div class="pkg-card">
+                    <div>
+                        <span class="pkg-badge" style="background:rgba(20,184,166,0.15); color:var(--accent-teal);">CLÍNICAS & SERVICIOS</span>
+                        <h3 class="pkg-name">Recepcionista IA 24/7</h3>
+                        <p style="font-size:0.88rem; color:var(--text-muted);">Para clínicas dentales, médicas y despachos.</p>
+                        <div class="pkg-price">$1,800 <small>USD (pago único)</small></div>
+                        <ul class="pkg-features">
+                            <li>Bot WhatsApp conectado a Google Calendar</li>
+                            <li>Calificación de síntomas y motivos de consulta</li>
+                            <li>Confirmación y recordatorios anti no-show</li>
+                            <li>Despliegue en VPS propio del cliente</li>
+                            <li>14 días de entrega garantizada</li>
+                        </ul>
+                    </div>
+                    <a href="https://t.me/AcademiaIA_Bot" class="btn btn-secondary btn-sm" target="_blank">Solicitar Diagnóstico</a>
+                </div>
+
+                <!-- Plan 2 (Featured) -->
+                <div class="pkg-card featured">
+                    <div>
+                        <span class="pkg-badge" style="background:rgba(139,92,246,0.3); color:#c084fc;">MÁS SOLICITADO · INMOBILIARIAS & B2B</span>
+                        <h3 class="pkg-name">Broker IA & SDR Pro</h3>
+                        <p style="font-size:0.88rem; color:var(--text-sub);">Para inmobiliarias, agencias y empresas de alto volumen.</p>
+                        <div class="pkg-price" style="color:var(--accent-teal);">$2,500 <small style="color:var(--text-sub);">USD (pago único)</small></div>
+                        <ul class="pkg-features">
+                            <li>Speed-to-lead en menos de 5 segundos</li>
+                            <li>Calificación BANT y filtrado de presupuesto</li>
+                            <li>Envío de fichas de propiedades / servicios</li>
+                            <li>Integración con CRM existente o Sheets</li>
+                            <li>Retainer de soporte: $300-$500/mes</li>
+                        </ul>
+                    </div>
+                    <a href="https://t.me/AcademiaIA_Bot" class="btn btn-teal btn-sm" target="_blank">Agendar Auditoría VIP</a>
+                </div>
+
+                <!-- Plan 3 -->
+                <div class="pkg-card">
+                    <div>
+                        <span class="pkg-badge" style="background:rgba(250,204,21,0.15); color:var(--accent-gold);">ENTERPRISE · AGENCIA IA</span>
+                        <h3 class="pkg-name">Enjambre Corporativo</h3>
+                        <p style="font-size:0.88rem; color:var(--text-muted);">Sistemas multi-agente para operaciones complejas.</p>
+                        <div class="pkg-price">$3,000+ <small>USD</small></div>
+                        <ul class="pkg-features">
+                            <li>Orquestador central con 4+ sub-agentes</li>
+                            <li>Base vectorial en PostgreSQL para RAG privado</li>
+                            <li>Agente redactor de contenido y reportería</li>
+                            <li>Monitoreo y SLAs empresariales</li>
+                            <li>Capacitación completa de equipo</li>
+                        </ul>
+                    </div>
+                    <a href="https://t.me/AcademiaIA_Bot" class="btn btn-secondary btn-sm" target="_blank">Hablar con Leo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: FAQ -->
+    <section id="faq" style="background: rgba(10, 14, 23, 0.4);">
+        <div class="container">
+            <div class="center-header">
+                <span class="section-tag">PREGUNTAS FRECUENTES</span>
+                <h2 class="section-heading">Todo lo que necesitas saber</h2>
+                <p class="section-sub">Claridad absoluta antes de iniciar tu camino en la automatización.</p>
+            </div>
+
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4 class="faq-q">¿Necesito saber programar en Python o JavaScript?</h4>
+                    <p class="faq-a">No. n8n utiliza una interfaz visual de nodos de arrastrar y soltar. Solo necesitas conectar los bloques y configurar los prompts de Gemini.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h4 class="faq-q">¿Por qué Google Gemini y no OpenAI GPT-4?</h4>
+                    <p class="faq-a">Gemini 2.5 ofrece una ventana de contexto de 2 Millones de tokens, comprensión multimodal nativa de audio/imágenes y un costo prácticamente nulo frente a otras APIs.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h4 class="faq-q">¿Cuánto cuesta mantener el servidor corriendo?</h4>
+                    <p class="faq-a">Si lo instalas en tu PC local: $0. Si contratas un servidor VPS en Hetzner o DigitalOcean para que opere 24/7 en la nube: aproximadamente $5 a $7 USD al mes.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h4 class="faq-q">¿Cómo descargo los flujos JSON gratuitos?</h4>
+                    <p class="faq-a">Simplemente entra a nuestro bot de Telegram (@AcademiaIA_Bot). El bot te entregará el archivo .json al instante para que lo importes en tu n8n.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-wrap">
+                <div class="footer-col">
+                    <a href="#" class="brand-logo" style="margin-bottom:14px;">
+                        <div class="logo-icon">⚡</div>
+                        <span>ACADEMIA AAA</span>
+                    </a>
+                    <p style="color:var(--text-muted); font-size:0.85rem; line-height:1.6;">
+                        El primer centro formativo hispano enfocado en la construcción de Agentes Autónomos con n8n y Google Gemini a coste cero.
+                    </p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Ecosistema</h4>
+                    <ul>
+                        <li><a href="index.html" target="_blank">Dashboard Interactivo</a></li>
+                        <li><a href="https://t.me/AcademiaIA_Bot" target="_blank">Bot Telegram SDR</a></li>
+                        <li><a href="https://discord.gg/academia-aaa-laboratorio" target="_blank">Comunidad Discord</a></li>
+                        <li><a href="https://github.com/ponchogf88/laboratorio-asistente-ia" target="_blank">GitHub Repository</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Recursos</h4>
+                    <ul>
+                        <li><a href="#boveda">Bóveda JSON n8n</a></li>
+                        <li><a href="#enjambre">Prompts de Agentes</a></li>
+                        <li><a href="index.html">Calculadora de ROI</a></li>
+                        <li><a href="#b2b">Consultoría B2B</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="https://t.me/AcademiaIA_Bot" target="_blank">Telegram Directo</a></li>
+                        <li><a href="https://github.com/ponchogf88" target="_blank">GitHub @ponchogf88</a></li>
+                        <li><span style="color:var(--text-muted);">Monterrey, México / Global</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>© 2026 Academia AAA · Laboratorio Asistente IA. Todos los derechos reservados.</span>
+                <span style="color:var(--accent-teal); font-family:'JetBrains Mono', monospace;">"Deja de operar, empieza a orquestar." 🐺</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

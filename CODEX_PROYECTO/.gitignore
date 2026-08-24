@@ -1,0 +1,19 @@
+# Local generation and QA artifacts
+.tmp_cohorte1/
+.DS_Store
+**/*.inspect.ndjson
+**/tmp/
+**/dist/
+**/node_modules/
+**/*.tar.gz
+work/site/
+
+# Local machine and deployment configuration
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Explicitly retain the authored deliverables under outputs/, including PPTX,
+# XLSX, SVG, PNG and HTML files.

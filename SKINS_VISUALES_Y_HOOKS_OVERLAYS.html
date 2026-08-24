@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 Laboratorio de Skins & HUDs Visuales | Academia AAA</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700;800&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #07090e;
+            --bg-panel: #0d121d;
+            --bg-card: rgba(18, 24, 38, 0.7);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.5);
+            --accent-teal: #14b8a6;
+            --accent-teal-glow: rgba(20, 184, 166, 0.4);
+            --accent-gold: #facc15;
+            --accent-red: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .badge-live {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(20, 184, 166, 0.15);
+            border: 1px solid var(--accent-teal);
+            color: var(--accent-teal);
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .badge-live::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent-teal);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-teal);
+        }
+
+        /* Layout */
+        .workspace {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 340px 1fr 340px;
+            gap: 20px;
+            padding: 24px;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Panels */
+        .panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .panel-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Skin Selectors */
+        .skin-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: var(--text-main);
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .skin-btn:hover {
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.15);
+            transform: translateX(4px);
+        }
+
+        .skin-btn.active {
+            border-color: var(--accent-teal);
+            background: rgba(20, 184, 166, 0.18);
+            box-shadow: 0 0 20px rgba(20, 184, 166, 0.2);
+        }
+
+        .skin-btn strong {
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .skin-btn span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Controls */
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-group label {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .control-input {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            outline: none;
+        }
+
+        .control-input:focus {
+            border-color: var(--primary);
+        }
+
+        /* Phone Simulator (9:16 Reel Stage) */
+        .stage-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .phone-mockup {
+            width: 380px;
+            height: 675px;
+            background: #000;
+            border-radius: 40px;
+            border: 10px solid #1e293b;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 40px var(--primary-glow);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Background Video Mock */
+        .phone-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, #131b2e 0%, #080c14 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .video-placeholder-content {
+            text-align: center;
+            opacity: 0.25;
+        }
+
+        .video-placeholder-content span {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* Safe Zones Overlay (Danger Zones) */
+        .safe-zone-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            display: none;
+            z-index: 50;
+        }
+
+        .safe-zone-overlay.show {
+            display: block;
+        }
+
+        .danger-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 90px;
+            background: rgba(239, 68, 68, 0.2);
+            border-bottom: 2px dashed rgba(239, 68, 68, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            color: #fca5a5;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .danger-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 140px;
+            background: rgba(239, 68, 68, 0.2);
+            border-top: 2px dashed rgba(239, 68, 68, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            color: #fca5a5;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .danger-right {
+            position: absolute;
+            top: 100px;
+            bottom: 150px;
+            right: 0;
+            width: 70px;
+            background: rgba(239, 68, 68, 0.15);
+            border-left: 2px dashed rgba(239, 68, 68, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            writing-mode: vertical-rl;
+            font-size: 0.65rem;
+            color: #fca5a5;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* =====================================================
+           SKIN 1: CYBER HUD (La Orca / Terminal IA)
+        ===================================================== */
+        .skin-hud {
+            position: absolute;
+            inset: 0;
+            padding: 24px 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Top HUD Bar */
+        .hud-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(10, 14, 23, 0.85);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 12px;
+            padding: 8px 12px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .hud-status {
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-teal);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hud-metric {
+            font-size: 0.72rem;
+            color: #c084fc;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Center Crosshair & Scanner */
+        .hud-corners {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%;
+            height: 55%;
+            border: 1px solid rgba(20, 184, 166, 0.25);
+            border-radius: 16px;
+            pointer-events: none;
+        }
+
+        .hud-corners::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px;
+            width: 16px; height: 16px;
+            border-top: 3px solid var(--accent-teal);
+            border-left: 3px solid var(--accent-teal);
+        }
+
+        .hud-corners::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; right: -2px;
+            width: 16px; height: 16px;
+            border-bottom: 3px solid var(--accent-teal);
+            border-right: 3px solid var(--accent-teal);
+        }
+
+        /* Bottom Live Stream Chat Box */
+        .hud-chat-bubble {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.85));
+            border: 1px solid rgba(139, 92, 246, 0.5);
+            border-radius: 14px;
+            padding: 14px 16px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            margin-bottom: 20px;
+        }
+
+        .hud-chat-author {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .hud-chat-text {
+            font-size: 0.92rem;
+            line-height: 1.4;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* =====================================================
+           SKIN 2: NOTIFICATION STORM (B2B Speed-to-Lead)
+        ===================================================== */
+        .skin-notifications {
+            position: absolute;
+            top: 60px;
+            left: 14px;
+            right: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 20;
+        }
+
+        .notif-card {
+            background: rgba(15, 23, 42, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            animation: slideInNotif 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideInNotif {
+            from { transform: translateY(-20px) scale(0.9); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .notif-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .notif-body {
+            flex: 1;
+        }
+
+        .notif-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .notif-title span {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .notif-msg {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* =====================================================
+           SKIN 3: VIRAL CAPTIONS (Hormozi / Word-Bounce)
+        ===================================================== */
+        .skin-captions {
+            position: absolute;
+            bottom: 180px;
+            left: 20px;
+            right: 20px;
+            text-align: center;
+            z-index: 15;
+        }
+
+        .caption-word {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 8px;
+            color: #fff;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.9);
+            animation: bounceWord 0.4s ease infinite alternate;
+        }
+
+        .caption-word.highlight-yellow {
+            background: var(--accent-gold);
+            color: #000;
+            text-shadow: none;
+            box-shadow: 0 0 20px rgba(250, 204, 21, 0.6);
+        }
+
+        .caption-word.highlight-green {
+            background: var(--accent-teal);
+            color: #000;
+            text-shadow: none;
+            box-shadow: 0 0 20px rgba(20, 184, 166, 0.6);
+        }
+
+        @keyframes bounceWord {
+            from { transform: scale(1); }
+            to { transform: scale(1.08); }
+        }
+
+        /* Right Action Tools */
+        .btn-action {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .css-code-box {
+            background: #020617;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            font-size: 0.74rem;
+            color: #38bdf8;
+            max-height: 180px;
+            overflow-y: auto;
+            font-family: 'JetBrains Mono', monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <span>🎬</span>
+            <span>STUDIO DE SKINS & HOOKS VISUALES</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:16px;">
+            <span class="badge-live">MOTOR CAPCUT / OBS / REELS 9:16</span>
+            <a href="landing.html" style="color:var(--text-muted); text-decoration:none; font-size:0.85rem;">🌐 Volver a Landing</a>
+        </div>
+    </header>
+
+    <main class="workspace">
+        <!-- Left Panel: Skin Selector -->
+        <aside class="panel">
+            <h3 class="panel-title"><span>🎨</span> Selecciona el Skin</h3>
+
+            <button class="skin-btn active" onclick="setSkin('hud')">
+                <strong>🤖 Skin 1: Cyber-HUD Terminal <span>9:16</span></strong>
+                <span>Visor futurista, métricas de tokens en vivo y chat flotante.</span>
+            </button>
+
+            <button class="skin-btn" onclick="setSkin('notifs')">
+                <strong>🔔 Skin 2: Notification Storm <span>iOS</span></strong>
+                <span>Alertas de Stripe ($1,800), Telegram y leads calificados.</span>
+            </button>
+
+            <button class="skin-btn" onclick="setSkin('captions')">
+                <strong>⚡ Skin 3: Hormozi Word-Bounce <span>Viral</span></strong>
+                <span>Subtítulos magnéticos con resaltado de impacto.</span>
+            </button>
+
+            <button class="skin-btn" onclick="toggleDangerZones()">
+                <strong>🛡️ Toggle: Danger Zones Safe Area <span>Overlay</span></strong>
+                <span>Ver límites para no tapar texto con UI de Reels/TikTok.</span>
+            </button>
+
+            <hr style="border-color:var(--border);">
+
+            <div class="control-group">
+                <label>Texto del Hook (Gancho 0-3s):</label>
+                <input type="text" id="input-hook" class="control-input" value="A las 3 AM este agente cerró $1,800" oninput="updateCustomText()">
+            </div>
+
+            <div class="control-group">
+                <label>Métrica / Status superior:</label>
+                <input type="text" id="input-metric" class="control-input" value="GEMINI 2.5 • 2M CONTEXT • $0" oninput="updateCustomText()">
+            </div>
+        </aside>
+
+        <!-- Center: Phone Stage (9:16) -->
+        <div class="stage-container">
+            <div class="phone-mockup">
+                <!-- Video Simulator Background -->
+                <div class="phone-bg">
+                    <div class="video-placeholder-content">
+                        <span>📹</span>
+                        <p style="font-size:0.9rem; font-weight:700;">[ TU VIDEO DE CÁMARA AQUÍ ]</p>
+                        <p style="font-size:0.75rem;">CapCut / Premiere Overlay 9:16</p>
+                    </div>
+                </div>
+
+                <!-- Danger Zones Overlay -->
+                <div class="safe-zone-overlay" id="danger-overlay">
+                    <div class="danger-top">⚠️ ZONA PELIGROSA SUPERIOR (Header / Búsqueda)</div>
+                    <div class="danger-right">⚠️ DANGER (Likes, Comentarios, Compartir)</div>
+                    <div class="danger-bottom">⚠️ ZONA PELIGROSA INFERIOR (Audio, Caption, Nombre)</div>
+                </div>
+
+                <!-- Active Skin Render Target -->
+                <div id="skin-render-target">
+                    <!-- Skin 1 HUD by default -->
+                    <div class="skin-hud" id="hud-element">
+                        <div class="hud-header">
+                            <span class="hud-status" id="render-metric">● AGENTE ACTIVO</span>
+                            <span class="hud-metric">LATENCIA: 310ms</span>
+                        </div>
+
+                        <div class="hud-corners"></div>
+
+                        <div class="hud-chat-bubble">
+                            <div class="hud-chat-author">⚡ GOOGLE GEMINI 2.5 FLASH</div>
+                            <div class="hud-chat-text" id="render-hook">"A las 3 AM este agente cerró un cliente de $1,800 mientras dormía."</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Export & Prompts -->
+        <aside class="panel">
+            <h3 class="panel-title"><span>📦</span> Código y Assets</h3>
+
+            <button class="btn-action" onclick="copyCSS()">
+                <span>📋</span> Copiar CSS del Overlay
+            </button>
+
+            <button class="btn-action" style="background:linear-gradient(135deg, var(--accent-teal), #0d9488); color:#000;" onclick="alert('Descargando especificación de resolución 1080x1920 para CapCut/Premiere...')">
+                <span>⬇️</span> Exportar Guía CapCut (1080x1920)
+            </button>
+
+            <div class="control-group">
+                <label>CSS de Capa Transparente (OBS / Web Browser Source):</label>
+                <div class="css-code-box" id="css-export-box">/* Overlay Transparente 9:16 */
+.hud-overlay {
+  position: absolute;
+  width: 1080px;
+  height: 1920px;
+  background: transparent;
+  border: 2px solid #14b8a6;
+  font-family: 'Space Grotesk';
+}</div>
+            </div>
+
+            <div style="background:rgba(20,184,166,0.08); border:1px solid rgba(20,184,166,0.25); border-radius:10px; padding:12px; font-size:0.78rem; color:var(--text-muted); line-height:1.5;">
+                <strong style="color:var(--accent-teal);">💡 Regla de Oro del Hook Visual:</strong><br>
+                El 70% de usuarios mira Reels sin sonido. El Skin debe comunicar la promesa de valor visualmente antes de que activen el audio.
+            </div>
+        </aside>
+    </main>
+
+    <script>
+        let currentSkin = 'hud';
+        let showDanger = false;
+
+        function setSkin(skinName) {
+            currentSkin = skinName;
+            document.querySelectorAll('.skin-btn').forEach(b => b.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            renderCurrentSkin();
+        }
+
+        function toggleDangerZones() {
+            showDanger = !showDanger;
+            document.getElementById('danger-overlay').classList.toggle('show', showDanger);
+        }
+
+        function updateCustomText() {
+            const hook = document.getElementById('input-hook').value;
+            const metric = document.getElementById('input-metric').value;
+            
+            const hookTarget = document.getElementById('render-hook');
+            const metricTarget = document.getElementById('render-metric');
+            
+            if(hookTarget) hookTarget.innerText = `"${hook}"`;
+            if(metricTarget) metricTarget.innerText = `● ${metric}`;
+        }
+
+        function renderCurrentSkin() {
+            const target = document.getElementById('skin-render-target');
+            const hook = document.getElementById('input-hook').value;
+            const metric = document.getElementById('input-metric').value;
+
+            if (currentSkin === 'hud') {
+                target.innerHTML = `
+                    <div class="skin-hud">
+                        <div class="hud-header">
+                            <span class="hud-status" id="render-metric">● ${metric}</span>
+                            <span class="hud-metric">LATENCIA: 310ms</span>
+                        </div>
+                        <div class="hud-corners"></div>
+                        <div class="hud-chat-bubble">
+                            <div class="hud-chat-author">⚡ GOOGLE GEMINI 2.5 FLASH</div>
+                            <div class="hud-chat-text" id="render-hook">"${hook}"</div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSkin === 'notifs') {
+                target.innerHTML = `
+                    <div class="skin-notifications">
+                        <div class="notif-card" style="border-color:rgba(16,185,129,0.4);">
+                            <div class="notif-icon" style="background:#10b981; color:#000;">💳</div>
+                            <div class="notif-body">
+                                <div class="notif-title">Stripe <span>Ahora</span></div>
+                                <div class="notif-msg"><strong>+$1,800.00 USD</strong> recibido de Cliente B2B</div>
+                            </div>
+                        </div>
+                        <div class="notif-card" style="border-color:rgba(139,92,246,0.4);">
+                            <div class="notif-icon" style="background:#8b5cf6; color:#fff;">🤖</div>
+                            <div class="notif-body">
+                                <div class="notif-title">@AcademiaIA_Bot <span>Hace 1m</span></div>
+                                <div class="notif-msg">Lead calificado BANT: High-Ticket ($3,000)</div>
+                            </div>
+                        </div>
+                        <div class="notif-card" style="border-color:rgba(250,204,21,0.4);">
+                            <div class="notif-icon" style="background:#facc15; color:#000;">📅</div>
+                            <div class="notif-body">
+                                <div class="notif-title">Google Calendar <span>Hace 3m</span></div>
+                                <div class="notif-msg">Nueva Auditoría Técnica agendada</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentSkin === 'captions') {
+                target.innerHTML = `
+                    <div class="skin-captions">
+                        <div class="caption-word highlight-yellow">ESTE AGENTE</div>
+                        <div class="caption-word highlight-green" style="margin-top:8px;">CERRÓ $1,800</div>
+                        <div class="caption-word" style="background:rgba(0,0,0,0.8); margin-top:8px;">MIENTRAS DORMÍA</div>
+                    </div>
+                `;
+            }
+        }
+
+        function copyCSS() {
+            const box = document.getElementById('css-export-box').innerText;
+            navigator.clipboard.writeText(box).then(() => {
+                alert('¡CSS copiado al portapapeles! 📋');
+            });
+        }
+    </script>
+</body>
+</html>

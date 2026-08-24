@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">AMDA Orbit Mark</title>
+  <desc id="desc">An orbital intelligence mark with a luminous core and two intersecting rings.</desc>
+  <defs>
+    <linearGradient id="core" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF7D1"/>
+      <stop offset="0.45" stop-color="#FFC65C"/>
+      <stop offset="1" stop-color="#D88916"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E5CCFF"/>
+      <stop offset="0.46" stop-color="#8E56FF"/>
+      <stop offset="1" stop-color="#4B8FFF"/>
+    </linearGradient>
+    <radialGradient id="field" cx="50%" cy="45%" r="60%">
+      <stop offset="0" stop-color="#41266F"/>
+      <stop offset="1" stop-color="#0B0B14"/>
+    </radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="240" height="240" rx="68" fill="url(#field)"/>
+  <rect x="9" y="9" width="238" height="238" rx="67" fill="none" stroke="#DCCBFF" stroke-opacity=".42" stroke-width="2"/>
+  <circle cx="128" cy="128" r="46" fill="url(#core)" filter="url(#glow)"/>
+  <ellipse cx="128" cy="128" rx="92" ry="39" fill="none" stroke="url(#ring)" stroke-width="12" transform="rotate(-18 128 128)" filter="url(#glow)"/>
+  <ellipse cx="128" cy="128" rx="87" ry="33" fill="none" stroke="#CFAFFF" stroke-opacity=".44" stroke-width="2" transform="rotate(61 128 128)"/>
+  <circle cx="202" cy="95" r="10" fill="#CFB6FF"/>
+  <circle cx="203" cy="94" r="4" fill="#FFFFFF" fill-opacity=".75"/>
+</svg>

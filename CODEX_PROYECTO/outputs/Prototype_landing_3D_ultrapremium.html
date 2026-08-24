@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Laboratorio IA · Dirección visual 3D</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+    :root { --ink:#f8f7ff; --muted:#b8b3c8; --bg:#08080e; --surface:rgba(18,16,35,.58); --line:rgba(224,209,255,.2); --accent:#8650ff; --accent2:#ffd05a; --halo:rgba(119,71,255,.45); --button:#8650ff; --button-ink:#fff; --ease:cubic-bezier(.22,1,.36,1); }
+    * { box-sizing:border-box; }
+    html { background:var(--bg); }
+    body { min-height:100svh; margin:0; overflow-x:hidden; color:var(--ink); font-family:Inter,Arial,sans-serif; background:radial-gradient(900px 600px at 50% -20%, var(--halo), transparent 68%),var(--bg); }
+    .grain { position:fixed; inset:0; z-index:5; pointer-events:none; opacity:.05; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E"); }
+    .shell { width:min(1320px,calc(100% - 40px)); margin:0 auto; padding:22px 0 72px; position:relative; z-index:1; }
+    header { display:flex; align-items:center; justify-content:space-between; padding:10px 0; }
+    .brand { display:flex; align-items:center; gap:10px; font-family:'Space Grotesk',sans-serif; letter-spacing:-.04em; font-weight:700; }
+    .brand img { width:30px; height:30px; border-radius:9px; }
+    .nav { display:flex; align-items:center; gap:24px; color:var(--muted); font-size:13px; }
+    .nav a { color:inherit; text-decoration:none; }
+    .nav a:hover { color:var(--ink); }
+    .tiny-cta { border:1px solid var(--line); background:rgba(255,255,255,.06); color:var(--ink); padding:10px 15px; border-radius:999px; font:600 13px Inter; }
+    .hero { min-height:calc(100svh - 124px); display:grid; grid-template-columns:minmax(0,1.04fr) minmax(420px,.96fr); align-items:center; gap:32px; }
+    .eyebrow { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); background:rgba(255,255,255,.045); border-radius:999px; padding:8px 11px; color:#ded4f6; font-size:11px; letter-spacing:.1em; text-transform:uppercase; }
+    .eyebrow i { width:7px; height:7px; border-radius:50%; background:var(--accent2); box-shadow:0 0 16px var(--accent2); }
+    h1 { max-width:690px; margin:20px 0 20px; font:600 clamp(52px,6.1vw,92px)/.91 'Space Grotesk',sans-serif; letter-spacing:-.075em; }
+    h1 em { color:var(--accent2); font-style:normal; }
+    .copy { max-width:570px; margin:0; color:var(--muted); font-size:17px; line-height:1.6; }
+    .actions { display:flex; flex-wrap:wrap; align-items:center; gap:13px; margin-top:30px; }
+    .primary { border:0; border-radius:15px; padding:15px 20px; background:var(--button); color:var(--button-ink); box-shadow:0 12px 36px color-mix(in srgb,var(--button),transparent 60%); font:700 14px Inter; transition:transform 150ms var(--ease),filter 150ms ease; }
+    .primary:hover { filter:brightness(1.08); transform:translateY(-2px); }.primary:active{transform:scale(.97)}
+    .note { color:var(--muted); font-size:12px; }
+    .stage { min-height:570px; perspective:1200px; display:grid; place-items:center; position:relative; }
+    .orbital { width:min(500px,86vw); aspect-ratio:1; position:relative; transform-style:preserve-3d; will-change:transform; transition:transform 700ms var(--ease); }
+    .core { position:absolute; inset:26%; border-radius:50%; background:radial-gradient(circle at 33% 30%,#fff9d9 0 4%,var(--accent2) 12%,#d78d22 38%,#452567 70%,transparent 72%); box-shadow:0 0 50px 11px color-mix(in srgb,var(--accent2),transparent 62%),0 0 140px 36px var(--halo); transform:translateZ(48px); }
+    .ring { position:absolute; border:1px solid color-mix(in srgb,var(--accent),#fff 20%); border-radius:50%; inset:17% -4%; transform:rotateX(70deg) rotateZ(-15deg); box-shadow:0 0 44px color-mix(in srgb,var(--accent),transparent 78%),inset 0 0 23px color-mix(in srgb,var(--accent),transparent 70%); }
+    .ring.r2 { inset:8% 1%; border-color:color-mix(in srgb,var(--accent2),#fff 35%); transform:rotateY(68deg) rotateZ(22deg); opacity:.78; }.ring.r3 { inset:2%; opacity:.28; transform:rotateX(49deg) rotateY(24deg) rotateZ(-20deg); }
+    .sat { position:absolute; top:19%; right:17%; width:27px; aspect-ratio:1; border-radius:50%; background:linear-gradient(135deg,#fff,var(--accent)); box-shadow:0 0 30px var(--accent); transform:translateZ(65px); }
+    .dashboard { position:absolute; width:76%; bottom:0; left:11%; padding:14px; border:1px solid var(--line); border-radius:23px; background:linear-gradient(135deg,rgba(31,27,56,.78),rgba(11,10,21,.44)); backdrop-filter:blur(18px); box-shadow:0 35px 90px rgba(0,0,0,.46),inset 0 1px 0 rgba(255,255,255,.12); transform:rotateX(8deg) translateZ(90px); }
+    .dash-head { display:flex; align-items:center; justify-content:space-between; font:600 11px Inter; color:#eae4fb; }.live { color:#9dffcb; } .dash-line { margin:12px 0 10px; height:52px; border-radius:12px; background:linear-gradient(120deg,transparent 0 3%,var(--accent) 3% 4%,transparent 4% 16%,var(--accent2) 16% 17%,transparent 17% 34%,var(--accent) 34% 36%,transparent 36% 58%,var(--accent2) 58% 59%,transparent 59%); opacity:.8; }
+    .dash-cells { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }.dash-cells span{height:30px;border-radius:9px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08)}
+    .palette { margin-top:34px; border-top:1px solid var(--line); padding-top:20px; display:flex; justify-content:space-between; gap:18px; align-items:center; }.palette p{margin:0;color:var(--muted);font-size:12px;line-height:1.4}.palette strong{display:block;margin-bottom:4px;color:var(--ink);font-size:13px}.swatches{display:flex;gap:8px}.swatches button{width:29px;height:29px;border-radius:50%;border:2px solid rgba(255,255,255,.22);cursor:pointer;transition:transform 160ms var(--ease),border-color 160ms ease}.swatches button:hover,.swatches button[aria-pressed='true']{transform:scale(1.18);border-color:#fff}.v{background:linear-gradient(135deg,#8450ff,#ffd05a)}.c{background:linear-gradient(135deg,#4388ff,#a7f2ff)}.r{background:linear-gradient(135deg,#d95bff,#ffb65c)}
+    @media (max-width:880px){.nav a{display:none}.hero{grid-template-columns:1fr;padding-top:50px}.stage{min-height:440px;order:-1}.dashboard{bottom:20px}.shell{width:min(100% - 28px,1320px)}h1{font-size:clamp(48px,13vw,76px)}}
+    @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}.orbital{transform:none!important}}
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+  <main class="shell">
+    <header><div class="brand"><img src="Icono_orbital_vectorial.svg" alt="Ícono orbital conceptual" /> <span>TU MARCA</span></div><nav class="nav"><a href="#metodo">Método</a><a href="#sesiones">Sesiones</a><a href="#resultado">Resultado</a><button class="tiny-cta">Lista de espera</button></nav></header>
+    <section class="hero">
+      <div><div class="eyebrow"><i></i> Cohorte fundadora · En línea</div><h1>Convierte tu curiosidad por la IA en un <em>sistema propio.</em></h1><p class="copy">Un laboratorio práctico para configurar un asistente personal, organizar tus herramientas y convertir aprendizaje real en evidencia aplicable a tu carrera, negocio o práctica profesional.</p><div class="actions"><button class="primary">Quiero entrar al laboratorio ↗</button><span class="note">5 sesiones · 90 min por sesión · cupo limitado</span></div></div>
+      <div class="stage" aria-label="Representación visual de un sistema de inteligencia artificial"><div class="orbital" id="orbital"><div class="ring"></div><div class="ring r2"></div><div class="ring r3"></div><div class="core"></div><div class="sat"></div><div class="dashboard"><div class="dash-head"><span>SISTEMA PERSONAL · IA</span><span class="live">● ACTIVO</span></div><div class="dash-line"></div><div class="dash-cells"><span></span><span></span><span></span></div></div></div></div>
+    </section>
+    <section class="palette"><p><strong>Dirección de interfaz</strong>Minimalista, elegante, glassmorphism con profundidad real.</p><div class="swatches" aria-label="Cambiar combinación de color"><button class="v" data-theme="violet" aria-label="Orbital Violet" aria-pressed="true"></button><button class="c" data-theme="cobalt" aria-label="Midnight Cobalt" aria-pressed="false"></button><button class="r" data-theme="rose" aria-label="Obsidian Rose" aria-pressed="false"></button></div></section>
+  </main>
+  <script>
+    const root=document.documentElement,orb=document.querySelector('#orbital');
+    const themes={violet:{'--bg':'#08080e','--surface':'rgba(18,16,35,.58)','--line':'rgba(224,209,255,.2)','--accent':'#8650ff','--accent2':'#ffd05a','--halo':'rgba(119,71,255,.45)','--button':'#8650ff','--button-ink':'#fff'},cobalt:{'--bg':'#06101f','--surface':'rgba(11,29,53,.62)','--line':'rgba(190,224,255,.2)','--accent':'#4388ff','--accent2':'#a7f2ff','--halo':'rgba(22,184,221,.35)','--button':'#4388ff','--button-ink':'#fff'},rose:{'--bg':'#120915','--surface':'rgba(32,16,39,.62)','--line':'rgba(255,215,247,.2)','--accent':'#d95bff','--accent2':'#ffb65c','--halo':'rgba(150,53,176,.43)','--button':'#d95bff','--button-ink':'#19051e'}};
+    document.querySelectorAll('[data-theme]').forEach(b=>b.addEventListener('click',()=>{Object.entries(themes[b.dataset.theme]).forEach(([k,v])=>root.style.setProperty(k,v));document.querySelectorAll('[data-theme]').forEach(x=>x.setAttribute('aria-pressed',x===b));}));
+    if(!matchMedia('(prefers-reduced-motion: reduce)').matches && matchMedia('(hover: hover)').matches){document.querySelector('.stage').addEventListener('pointermove',e=>{const r=e.currentTarget.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;orb.style.transform=`rotateX(${y*-10}deg) rotateY(${x*14}deg)`});document.querySelector('.stage').addEventListener('pointerleave',()=>orb.style.transform='rotateX(0) rotateY(0)');}
+  </script>
+</body>
+</html>

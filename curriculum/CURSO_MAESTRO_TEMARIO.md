@@ -46,7 +46,6 @@
 * **Lección 4.1:** Orquestación de Enjambres (Multi-Agent Swarms): Agentes coordinadores con **Gemini 2.5 Flash** enrutando tareas en paralelo a agentes especialistas.
 * **Lección 4.2:** Monitorización, observabilidad de flujos en n8n y optimización de latencia/costos de tokens.
 * **Lección 4.3:** Caso de Éxito Final: Operación de una empresa 100% automatizada con agentes autónomos, comunidad activa y ventas recurrentes.
-* **Lección 4.4 (Masterclass Especial de Productividad Extrema):** **"Organiza toda tu semana en 15 minutos con la CLI"** — Cómo usar la terminal de comandos asistida por Gemini para calendarizar reuniones, priorizar tareas en Notion/Todoist y disparar flujos en lote *de jalón* con 1 solo comando.
 
 ---
 

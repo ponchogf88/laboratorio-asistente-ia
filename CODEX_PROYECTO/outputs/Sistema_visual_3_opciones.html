@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sistema visual - Tres direcciones</title>
+  <style>
+    :root { font-family: "Space Grotesk", "Arial", sans-serif; color: #f8f7ff; background:#08080e; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:radial-gradient(circle at 50% -10%, #2a1b4e 0, #08080e 42%); }
+    main { width:min(1440px, calc(100% - 48px)); margin:0 auto; padding:56px 0 80px; }
+    .intro { max-width:780px; margin:0 0 42px; }
+    .kicker { color:#d4bcff; letter-spacing:.16em; text-transform:uppercase; font-size:12px; font-weight:700; }
+    h1 { margin:10px 0; font-size:clamp(40px, 7vw, 88px); line-height:.94; letter-spacing:-.065em; }
+    .intro p { color:#b9b6c7; font-size:18px; line-height:1.55; max-width:660px; }
+    .grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; }
+    .option { overflow:hidden; min-width:0; border:1px solid var(--stroke); background:var(--bg); border-radius:28px; box-shadow:0 28px 90px rgba(0,0,0,.28); }
+    .option-head { min-height:260px; position:relative; padding:28px; overflow:hidden; background:radial-gradient(circle at 76% 32%, var(--halo), transparent 28%), linear-gradient(135deg, var(--surface), var(--bg)); }
+    .option-head::after { content:""; position:absolute; width:260px; height:100px; border:2px solid var(--accent); border-radius:50%; right:-65px; top:80px; transform:rotate(-24deg); opacity:.78; }
+    .option-number { font-family:Arial,sans-serif; font-size:12px; font-weight:700; letter-spacing:.14em; color:var(--muted); }
+    .option h2 { font-size:34px; letter-spacing:-.055em; margin:20px 0 8px; max-width:270px; line-height:1; }
+    .option .tagline { color:var(--muted); line-height:1.35; max-width:260px; }
+    .orb { position:absolute; right:32px; bottom:30px; width:90px; height:90px; border-radius:50%; background:radial-gradient(circle at 38% 35%, var(--gold), var(--gold) 15%, transparent 16%), radial-gradient(circle at 50% 50%, var(--halo) 0, var(--surface) 62%, transparent 64%); box-shadow:0 0 32px var(--halo); border:1px solid var(--stroke); }
+    .body { padding:24px; }
+    .body h3 { font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:0 0 14px; }
+    .swatches { display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; }
+    .swatch { border-radius:14px; min-height:74px; border:1px solid rgba(255,255,255,.1); padding:9px; display:flex; align-items:flex-end; font-family:Arial,sans-serif; font-size:10px; font-weight:700; color:#fff; text-shadow:0 1px 3px rgba(0,0,0,.65); }
+    .type { margin-top:22px; padding:16px; border-radius:18px; background:var(--surface); border:1px solid var(--stroke); }
+    .type b { display:block; font-size:29px; letter-spacing:-.06em; }
+    .type span { color:var(--muted); font-size:13px; }
+    .cta { width:100%; margin-top:18px; border:0; border-radius:999px; padding:14px 18px; background:var(--accent); color:var(--ctaText); font-weight:800; font-family:inherit; font-size:14px; }
+    .light { margin-top:12px; padding:16px; border-radius:18px; background:var(--lightbg); color:var(--lightink); border:1px solid var(--lightstroke); }
+    .light strong { display:block; font-size:18px; letter-spacing:-.04em; }
+    .light span { color:var(--lightmuted); font-size:12px; }
+    .recommend { display:inline-block; padding:6px 10px; margin-top:14px; border-radius:999px; background:rgba(255,255,255,.11); border:1px solid rgba(255,255,255,.16); color:#fff; font:700 10px Arial,sans-serif; letter-spacing:.1em; }
+    .note { margin:34px 0 0; padding:22px; border-left:2px solid #9b6cff; color:#c5c1d4; background:rgba(255,255,255,.035); border-radius:0 18px 18px 0; line-height:1.5; }
+    @media (max-width:980px) { .grid { grid-template-columns:1fr; } .option-head { min-height:220px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="intro">
+      <div class="kicker">Sistema visual de curso</div>
+      <h1>Tres formas de hacer que tu curso se sienta inevitable.</h1>
+      <p>No son tres degradados morados. Son tres personalidades completas con un modo oscuro dominante y una versión light funcional para documentos, certificados y materiales educativos.</p>
+    </section>
+    <section class="grid">
+      <article class="option" style="--bg:#09090F;--surface:#131124;--stroke:#3C315A;--accent:#8450FF;--ctaText:#FFFFFF;--halo:#5F37C8;--gold:#FFD05A;--muted:#C8B8ED;--lightbg:#F8F6FF;--lightink:#171224;--lightmuted:#655C77;--lightstroke:#DED6F3;">
+        <div class="option-head"><div class="option-number">OPCION 01</div><h2>Orbital Violet</h2><p class="tagline">Inteligencia espacial, lujo técnico y un acento dorado que significa logro.</p><div class="orb"></div><span class="recommend">RECOMENDADA</span></div>
+        <div class="body"><h3>Dark system</h3><div class="swatches"><div class="swatch" style="background:#09090F">#09090F</div><div class="swatch" style="background:#131124">#131124</div><div class="swatch" style="background:#8450FF">#8450FF</div><div class="swatch" style="background:#FFD05A;color:#271700">#FFD05A</div></div><div class="type"><b>Space Grotesk</b><span>Inter para interfaces y datos.</span></div><button class="cta">Entrar al laboratorio</button><div class="light"><strong>Light mode: Papel lunar</strong><span>#F8F6FF · tinta #171224 · violeta #6B35E8</span></div></div>
+      </article>
+      <article class="option" style="--bg:#06101F;--surface:#0B1D35;--stroke:#25466D;--accent:#4388FF;--ctaText:#FFFFFF;--halo:#16B8DD;--gold:#A7F2FF;--muted:#B7D4F9;--lightbg:#F5FAFF;--lightink:#0C1B32;--lightmuted:#5C718D;--lightstroke:#D5E7F8;">
+        <div class="option-head"><div class="option-number">OPCION 02</div><h2>Midnight Cobalt</h2><p class="tagline">Más ejecutivo, preciso y tecnológico. Ideal si quieres hablar a empresas, consultores y builders.</p><div class="orb"></div></div>
+        <div class="body"><h3>Dark system</h3><div class="swatches"><div class="swatch" style="background:#06101F">#06101F</div><div class="swatch" style="background:#0B1D35">#0B1D35</div><div class="swatch" style="background:#4388FF">#4388FF</div><div class="swatch" style="background:#A7F2FF;color:#06101F">#A7F2FF</div></div><div class="type"><b>Space Grotesk</b><span>IBM Plex Sans para interfaces densas.</span></div><button class="cta">Crear mi sistema</button><div class="light"><strong>Light mode: Archivo técnico</strong><span>#F5FAFF · tinta #0C1B32 · azul #216CF3</span></div></div>
+      </article>
+      <article class="option" style="--bg:#120915;--surface:#201027;--stroke:#57335F;--accent:#D95BFF;--ctaText:#19051E;--halo:#9635B0;--gold:#FFB65C;--muted:#E2BCEB;--lightbg:#FFF7FC;--lightink:#251026;--lightmuted:#745E77;--lightstroke:#F0D9EA;">
+        <div class="option-head"><div class="option-number">OPCION 03</div><h2>Obsidian Rose</h2><p class="tagline">Más cultural, magnética y creator-first. Para una marca que quiere sentirse como movimiento.</p><div class="orb"></div></div>
+        <div class="body"><h3>Dark system</h3><div class="swatches"><div class="swatch" style="background:#120915">#120915</div><div class="swatch" style="background:#201027">#201027</div><div class="swatch" style="background:#D95BFF">#D95BFF</div><div class="swatch" style="background:#FFB65C;color:#2A1300">#FFB65C</div></div><div class="type"><b>Space Grotesk</b><span>Inter Tight para posts y campañas.</span></div><button class="cta">Quiero mi asistente</button><div class="light"><strong>Light mode: Rose signal</strong><span>#FFF7FC · tinta #251026 · magenta #B52ED8</span></div></div>
+      </article>
+    </section>
+    <p class="note"><strong>Recomendación:</strong> Orbital Violet toma la atmósfera de la referencia que compartiste y aguanta curso, dashboard, certificados, videos y consultoría. Midnight Cobalt es la alternativa si quieres que la línea B2B pese más. Obsidian Rose es la alternativa si la marca personal y los videos son el frente principal.</p>
+  </main>
+</body>
+</html>

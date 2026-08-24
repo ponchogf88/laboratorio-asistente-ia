@@ -1,19 +1,65 @@
-# Credenciales y variables de entorno sensibles
+# =====================================================
+# SECRETOS Y CREDENCIALES — nunca subir a git
+# =====================================================
 .env
-*.env
 .env.local
+.env.production
+*.key
+credentials.json
+service-account.json
+secrets/
 
-# Python
+# =====================================================
+# DEPENDENCIAS DE PAQUETES
+# =====================================================
+node_modules/
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
+*.pyc
+*.pyo
+.venv/
 venv/
-ENV/
+env/
 
-# Sistema y logs
-*.log
+# =====================================================
+# SISTEMA OPERATIVO
+# =====================================================
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+desktop.ini
+
+# =====================================================
+# EDITORES E IDEs
+# =====================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# =====================================================
+# BUILDS Y TEMPORALES
+# =====================================================
+dist/
+build/
+*.log
+*.tmp
+*.cache
+.cache/
+
+# =====================================================
+# N8N
+# =====================================================
+.n8n/
+n8n-data/
+
+# =====================================================
+# ARCHIVOS DE TRABAJO TEMPORALES
+# =====================================================
+scratch/
+temp/
+tmp/
