@@ -1,6 +1,4 @@
-# =====================================================
-# SECRETOS Y CREDENCIALES — nunca subir a git
-# =====================================================
+# Secretos y credenciales
 .env
 .env.local
 .env.production
@@ -9,9 +7,7 @@ credentials.json
 service-account.json
 secrets/
 
-# =====================================================
-# DEPENDENCIAS DE PAQUETES
-# =====================================================
+# Python y JavaScript
 node_modules/
 __pycache__/
 *.pyc
@@ -19,10 +15,12 @@ __pycache__/
 .venv/
 venv/
 env/
+.pytest_cache/
+*.db
+*.db-shm
+*.db-wal
 
-# =====================================================
-# SISTEMA OPERATIVO
-# =====================================================
+# Sistema operativo y editores
 .DS_Store
 .DS_Store?
 ._*
@@ -31,35 +29,23 @@ env/
 ehthumbs.db
 Thumbs.db
 desktop.ini
-
-# =====================================================
-# EDITORES E IDEs
-# =====================================================
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# =====================================================
-# BUILDS Y TEMPORALES
-# =====================================================
+# Builds y temporales
 dist/
 build/
 *.log
 *.tmp
 *.cache
 .cache/
-
-# =====================================================
-# N8N
-# =====================================================
-.n8n/
-n8n-data/
-
-# =====================================================
-# ARCHIVOS DE TRABAJO TEMPORALES
-# =====================================================
 scratch/
 temp/
 tmp/
+
+# n8n
+.n8n/
+n8n-data/
