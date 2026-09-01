@@ -1,27 +1,26 @@
-"""API de eventos para leads, pagos verificados y onboarding."""
+"""API de eventos para pago, matrícula y onboarding auditable."""
 
 import hmac
-import logging
 import os
 from typing import Literal
 from uuid import uuid4
 
 from dotenv import load_dotenv
-from fastapi import BackgroundTasks, FastAPI, Header, HTTPException, Request, status
+from fastapi import BackgroundTasks, FastAPI, Header, HTTPException, Query, Request, status
 from pydantic import BaseModel, Field
 import stripe
 import uvicorn
 
 from automation_engine.config import Settings
-from automation_engine.skool_onboarding import dispatch_lead, dispatch_student_onboarding
+from automation_engine.skool_onboarding import dispatch_lead
 from automation_engine.storage import EventStore
 
 load_dotenv()
-logger = logging.getLogger(__name__)
 
-SUPPORTED_STRIPE_EVENTS = {"checkout.session.completed"}
-TIER_BY_AMOUNT = {2700: "tripwire", 29700: "bootcamp", 199700: "accelerator"}
-ALLOWED_TIERS = set(TIER_BY_AMOUNT.values())
+SUPPORTED_STRIPE_EVENTS = {
+    "checkout.session.completed",
+    "checkout.session.async_payment_succeeded",
+}
 
 
 class LeadInbound(BaseModel):
@@ -30,7 +29,7 @@ class LeadInbound(BaseModel):
     email: str | None = Field(default=None, max_length=254)
     phone: str | None = Field(default=None, max_length=40)
     instagram_handle: str | None = Field(default=None, max_length=80)
-    interest: str = Field(default="general_ai_course", max_length=120)
+    interest: str = Field(default="laboratorio-ia-piloto", max_length=120)
     budget: str | None = Field(default=None, max_length=80)
 
 
@@ -38,31 +37,40 @@ def _authorized(provided: str | None, expected: str | None) -> bool:
     return bool(provided and expected and hmac.compare_digest(provided, expected))
 
 
+def _require_internal_secret(provided: str | None, settings: Settings) -> None:
+    if not settings.internal_webhook_secret:
+        raise HTTPException(status_code=503, detail="Autenticación interna no configurada")
+    if not _authorized(provided, settings.internal_webhook_secret):
+        raise HTTPException(status_code=401, detail="Webhook no autorizado")
+
+
 def _payment_from_session(session: dict) -> dict:
     customer = session.get("customer_details") or {}
-    amount_minor = int(session.get("amount_total") or 0)
     metadata = session.get("metadata") or {}
-    requested_tier = str(metadata.get("tier") or "").strip().lower()
-    tier = requested_tier if requested_tier in ALLOWED_TIERS else TIER_BY_AMOUNT.get(amount_minor, "unmapped")
     return {
         "payment_id": str(session.get("payment_intent") or session.get("id") or ""),
         "checkout_session_id": str(session.get("id") or ""),
+        "payment_link": str(session.get("payment_link") or ""),
         "customer_name": customer.get("name"),
         "customer_email": customer.get("email"),
         "customer_phone": customer.get("phone"),
-        "tier": tier,
-        "amount_minor": amount_minor,
+        "product_code": str(metadata.get("product_code") or "unmapped").strip().lower(),
+        "amount_minor": int(session.get("amount_total") or 0),
         "currency": str(session.get("currency") or "").upper(),
+        "payment_status": str(session.get("payment_status") or "unknown").lower(),
     }
 
 
-def create_app(settings: Settings | None = None, store: EventStore | None = None) -> FastAPI:
+def create_app(
+    settings: Settings | None = None,
+    store: EventStore | None = None,
+) -> FastAPI:
     settings = settings or Settings.from_env()
     store = store or EventStore(settings.database_path)
     app = FastAPI(
         title="Laboratorio Asistente IA — Automation Engine",
-        description="Recepción segura y trazable de leads y pagos para la cohorte.",
-        version="1.1.0",
+        description="Pago verificado, matrícula única y onboarding auditable.",
+        version="1.2.0",
     )
 
     @app.get("/")
@@ -72,6 +80,12 @@ def create_app(settings: Settings | None = None, store: EventStore | None = None
             "status": "online",
             "environment": settings.environment,
             "ready_for_production": settings.production_ready,
+            "offer": {
+                "product_code": settings.product_code,
+                "amount_minor": settings.product_amount_minor,
+                "currency": settings.product_currency,
+                "delivery": "classroom_join_link",
+            },
             "components": settings.component_status(),
         }
 
@@ -81,13 +95,10 @@ def create_app(settings: Settings | None = None, store: EventStore | None = None
         background_tasks: BackgroundTasks,
         x_webhook_secret: str | None = Header(default=None, alias="X-Webhook-Secret"),
     ) -> dict:
-        if settings.internal_webhook_secret and not _authorized(
-            x_webhook_secret, settings.internal_webhook_secret
-        ):
-            raise HTTPException(status_code=401, detail="Webhook no autorizado")
-        if settings.is_production and not settings.internal_webhook_secret:
-            raise HTTPException(status_code=503, detail="Autenticación del webhook no configurada")
-
+        if settings.internal_webhook_secret:
+            _require_internal_secret(x_webhook_secret, settings)
+        elif settings.is_production:
+            raise HTTPException(status_code=503, detail="Autenticación interna no configurada")
         payload = lead.model_dump()
         payload["lead_id"] = f"lead_{uuid4().hex}"
         store.record_lead(payload["lead_id"], payload)
@@ -95,7 +106,11 @@ def create_app(settings: Settings | None = None, store: EventStore | None = None
         return {"status": "accepted", "lead_id": payload["lead_id"]}
 
     @app.post("/webhook/stripe", status_code=status.HTTP_202_ACCEPTED)
-    @app.post("/webhook/stripe-payment", status_code=status.HTTP_202_ACCEPTED, include_in_schema=False)
+    @app.post(
+        "/webhook/stripe-payment",
+        status_code=status.HTTP_202_ACCEPTED,
+        include_in_schema=False,
+    )
     async def receive_stripe_payment(
         request: Request,
         background_tasks: BackgroundTasks,
@@ -103,8 +118,8 @@ def create_app(settings: Settings | None = None, store: EventStore | None = None
     ) -> dict:
         if not settings.stripe_webhook_secret:
             raise HTTPException(status_code=503, detail="Stripe webhook no configurado")
-        if settings.is_production and not settings.onboarding_webhook_url:
-            raise HTTPException(status_code=503, detail="Onboarding no configurado")
+        if settings.is_production and not settings.production_ready:
+            raise HTTPException(status_code=503, detail="Onboarding productivo incompleto")
         if not stripe_signature:
             raise HTTPException(status_code=400, detail="Falta Stripe-Signature")
 
@@ -117,6 +132,11 @@ def create_app(settings: Settings | None = None, store: EventStore | None = None
             raise HTTPException(status_code=400, detail="Firma de Stripe inválida") from exc
 
         event_data = event.to_dict() if hasattr(event, "to_dict") else dict(event)
+        if settings.is_production and event_data.get("livemode") is not True:
+            raise HTTPException(
+                status_code=400,
+                detail="Un evento de Stripe Test Mode no puede aprovisionar producción",
+            )
         event_type = str(event_data.get("type") or "")
         if event_type not in SUPPORTED_STRIPE_EVENTS:
             return {"status": "ignored", "event_type": event_type}
@@ -140,16 +160,32 @@ def create_app(settings: Settings | None = None, store: EventStore | None = None
         if not created:
             return {"status": "duplicate", "event_id": event_id}
 
-        needs_review = not payment["customer_email"] or payment["tier"] == "unmapped"
-        if not needs_review:
-            background_tasks.add_task(dispatch_student_onboarding, payment, settings)
-        else:
-            logger.warning("Pago requiere revisión manual (event_id=%s)", event_id)
+        if payment["payment_status"] != "paid":
+            return {"status": "awaiting_payment", "event_id": event_id}
+
+        product_matches = payment["product_code"] == settings.product_code
+        link_matches = bool(settings.stripe_payment_link_id) and (
+            payment["payment_link"] == settings.stripe_payment_link_id
+        )
+        offer_matches = all(
+            (
+                product_matches or link_matches,
+                payment["amount_minor"] == settings.product_amount_minor,
+                payment["currency"] == settings.product_currency,
+                bool(payment["customer_email"]),
+            )
+        )
+        if not offer_matches:
+            return {
+                "status": "accepted",
+                "event_id": event_id,
+                "onboarding": "manual_review",
+            }
 
         return {
             "status": "accepted",
             "event_id": event_id,
-            "onboarding": "manual_review" if needs_review else "queued",
+            "access": "success_page",
         }
 
     return app
