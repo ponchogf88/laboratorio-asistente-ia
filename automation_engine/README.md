@@ -1,111 +1,42 @@
-# Automation Engine - Fase 1B
+# Automation Engine — Piloto simple
 
-Motor auditable para una sola oferta:
-
-- **Producto:** Laboratorio en vivo + plantillas.
-- **Código:** `laboratorio-ia-piloto`.
-- **Precio:** MXN $1,000, pago único.
-- **Entrega:** invitación a Google Classroom.
-
-## Garantías del flujo
-
-- Verifica `Stripe-Signature` sobre el cuerpo original.
-- Sólo crea matrícula cuando Stripe reporta `payment_status=paid`.
-- Exige producto, monto y moneda exactos.
-- Un `payment_id` produce como máximo una matrícula y un job.
-- Reintenta onboarding a los 5 minutos, 30 minutos y 2 horas.
-- Después de cuatro fallos marca la matrícula `failed` y emite una alerta.
-- Registra evidencia separada de invitación y membresía activa.
-- Nunca considera una invitación de Classroom como acceso ya aceptado.
-
-## Estados
-
-`enrollments.status`:
+El piloto valida una sola experiencia:
 
 ```text
-pending -> onboarding_requested -> invited -> active
-                              \-> failed
+Payment Link de Stripe → webhook firmado → pago registrado → success.html → Google Classroom
 ```
 
-`onboarding_jobs.status`:
+- Producto: `laboratorio-ia-piloto`.
+- Cobro: MXN $1,000, pago único.
+- Entrega: botón directo al Google Classroom después del checkout.
 
-```text
-received -> processing -> delivered
-                      \-> failed -> retry
-```
+No requiere n8n, Google Cloud ni OAuth para funcionar.
 
-## Inicio local
+## Qué valida el motor
 
-Requiere Python 3.10 o superior.
+- Firma original `Stripe-Signature`.
+- Pago con estado `paid`.
+- Producto, monto y moneda exactos.
+- Un evento duplicado no duplica el registro del pago.
+- Eventos Test Mode no pueden operar producción.
+
+## Configuración mínima
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r automation_engine/requirements-dev.txt
 cp automation_engine/.env.example .env
 uvicorn automation_engine.orchestrator:app --reload
 ```
 
-Abre `http://localhost:8000/health` para confirmar la oferta y la preparación por componente.
+Configura en Stripe Test Mode un endpoint hacia `/webhook/stripe` y suscríbelo a `checkout.session.completed` y `checkout.session.async_payment_succeeded`.
+
+El Payment Link debe cobrar MXN $1,000 y llevar `metadata.product_code=laboratorio-ia-piloto`. Configura su URL de éxito para volver a `landing_portal/success.html` del sitio desplegado.
+
+## Importante
+
+El botón de Classroom entrega el enlace del aula después del checkout; no prueba una membresía ni impide por sí mismo que alguien reenvíe el enlace. El piloto mide pago y llegada al aula. La matrícula automática y la evidencia de aceptación se retoman sólo si las ventas validan la oferta.
 
 ## Pruebas
 
 ```bash
 python -m pytest -q
 ```
-
-## Contrato Stripe
-
-El Payment Link de prueba debe:
-
-1. Cobrar exactamente `100000` centavos de MXN.
-2. Ser de pago único.
-3. Recopilar correo electrónico.
-4. Incluir `metadata.product_code=laboratorio-ia-piloto`.
-5. Enviar `checkout.session.completed` y `checkout.session.async_payment_succeeded` al endpoint `/webhook/stripe`.
-
-Stripe copia la metadata del Payment Link a la Checkout Session. Consulta la [documentación oficial de metadata](https://docs.stripe.com/metadata) y la [verificación de firmas](https://docs.stripe.com/webhooks/signature).
-
-## Contrato n8n
-
-El motor envía al workflow 03:
-
-```json
-{
-  "event": "student.onboarding.requested",
-  "event_key": "student.onboarding.requested:pi_123",
-  "enrollment_id": "enr_123",
-  "payment_id": "pi_123",
-  "email": "alumno@example.com",
-  "product_code": "laboratorio-ia-piloto",
-  "course_id": "123456789"
-}
-```
-
-Respuesta aceptada:
-
-```json
-{
-  "status": "delivered",
-  "delivery_state": "invited",
-  "external_id": "invitation_123"
-}
-```
-
-Si el usuario ya era miembro, `delivery_state` será `active`. Cualquier respuesta sin `external_id` se trata como fallo y se reintenta.
-
-## Procesamiento y reconciliación
-
-- `POST /internal/onboarding/process`: procesa jobs vencidos; debe ejecutarse periódicamente.
-- `GET /internal/onboarding/invited`: lista invitaciones aún no confirmadas.
-- `POST /webhook/onboarding-membership`: registra evidencia de membresía activa.
-
-Los tres endpoints requieren `X-Webhook-Secret`.
-
-## Workflows incluidos
-
-- `03_google_classroom_onboarding.json`: comprueba membresía/invitación antes de crear otra.
-- `04_google_classroom_membership_reconciliation.json`: confirma cada cinco minutos quién ya aceptó.
-- `05_operational_alerts_telegram.json`: notifica fallos terminales.
-
-Consulta [PHASE_1B_SETUP.md](../workflows/PHASE_1B_SETUP.md) para importación, credenciales y prueba de salida.

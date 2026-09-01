@@ -12,12 +12,7 @@ import stripe
 import uvicorn
 
 from automation_engine.config import Settings
-from automation_engine.skool_onboarding import (
-    DeliveryFunction,
-    deliver_onboarding,
-    dispatch_lead,
-    process_one_job,
-)
+from automation_engine.skool_onboarding import dispatch_lead
 from automation_engine.storage import EventStore
 
 load_dotenv()
@@ -36,14 +31,6 @@ class LeadInbound(BaseModel):
     instagram_handle: str | None = Field(default=None, max_length=80)
     interest: str = Field(default="laboratorio-ia-piloto", max_length=120)
     budget: str | None = Field(default=None, max_length=80)
-
-
-class MembershipConfirmation(BaseModel):
-    enrollment_id: str = Field(min_length=8, max_length=80)
-    status: Literal["active"]
-    external_reference: str = Field(min_length=1, max_length=200)
-    course_id: str = Field(min_length=1, max_length=200)
-    email: str = Field(min_length=3, max_length=254)
 
 
 def _authorized(provided: str | None, expected: str | None) -> bool:
@@ -76,7 +63,6 @@ def _payment_from_session(session: dict) -> dict:
 def create_app(
     settings: Settings | None = None,
     store: EventStore | None = None,
-    delivery: DeliveryFunction = deliver_onboarding,
 ) -> FastAPI:
     settings = settings or Settings.from_env()
     store = store or EventStore(settings.database_path)
@@ -97,7 +83,7 @@ def create_app(
                 "product_code": settings.product_code,
                 "amount_minor": settings.product_amount_minor,
                 "currency": settings.product_currency,
-                "delivery": "google_classroom",
+                "delivery": "classroom_join_link",
             },
             "components": settings.component_status(),
         }
@@ -191,68 +177,11 @@ def create_app(
                 "onboarding": "manual_review",
             }
 
-        enrollment = store.create_enrollment_once(payment)
-        onboarding_status = enrollment["status"]
-        if onboarding_status == "onboarding_requested":
-            background_tasks.add_task(
-                process_one_job,
-                store,
-                settings,
-                enrollment["id"],
-                delivery,
-            )
-            onboarding_status = "queued"
         return {
             "status": "accepted",
             "event_id": event_id,
-            "enrollment_id": enrollment["id"],
-            "onboarding": onboarding_status,
+            "access": "success_page",
         }
-
-    @app.post("/internal/onboarding/process")
-    def process_due_onboarding(
-        limit: int = Query(default=20, ge=1, le=100),
-        x_webhook_secret: str | None = Header(default=None, alias="X-Webhook-Secret"),
-    ) -> dict:
-        _require_internal_secret(x_webhook_secret, settings)
-        results = []
-        for _ in range(limit):
-            result = process_one_job(store, settings, delivery=delivery)
-            if result["status"] == "idle":
-                break
-            results.append(result)
-        return {"processed": len(results), "results": results}
-
-    @app.get("/internal/onboarding/invited")
-    def list_invited(
-        limit: int = Query(default=50, ge=1, le=200),
-        x_webhook_secret: str | None = Header(default=None, alias="X-Webhook-Secret"),
-    ) -> dict:
-        _require_internal_secret(x_webhook_secret, settings)
-        return {
-            "course_id": settings.google_classroom_course_id,
-            "enrollments": store.invited_enrollments(limit),
-        }
-
-    @app.post("/webhook/onboarding-membership")
-    def confirm_classroom_membership(
-        confirmation: MembershipConfirmation,
-        x_webhook_secret: str | None = Header(default=None, alias="X-Webhook-Secret"),
-    ) -> dict:
-        _require_internal_secret(x_webhook_secret, settings)
-        if confirmation.course_id != settings.google_classroom_course_id:
-            raise HTTPException(status_code=409, detail="Curso inesperado")
-        current = store.enrollment(confirmation.enrollment_id)
-        if not current or current["email"].lower() != confirmation.email.lower():
-            raise HTTPException(status_code=404, detail="Matrícula no encontrada")
-        changed = store.confirm_membership(
-            confirmation.enrollment_id,
-            confirmation.external_reference,
-            confirmation.model_dump(),
-        )
-        if not changed:
-            raise HTTPException(status_code=409, detail="Transición de estado inválida")
-        return {"status": "active", "enrollment_id": confirmation.enrollment_id}
 
     return app
 
