@@ -1,0 +1,246 @@
+{
+  "name": "03 - Google Classroom Onboarding (Fase 1B)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "student-onboarding",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "f1b-webhook",
+      "name": "Webhook autenticado",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-900, 120],
+      "webhookId": "student-onboarding-phase-1b",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ON_IMPORT",
+          "name": "Laboratorio Onboarding Bearer"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body ?? $input.first().json;\nconst required = ['event_key','enrollment_id','payment_id','email','product_code','course_id'];\nfor (const field of required) {\n  if (!body[field]) throw new Error(`missing_${field}`);\n}\nif (body.event !== 'student.onboarding.requested') throw new Error('unexpected_event');\nif (body.product_code !== 'laboratorio-ia-piloto') throw new Error('unexpected_product');\nreturn [{ json: { ...body, email: String(body.email).trim().toLowerCase() } }];"
+      },
+      "id": "f1b-validate",
+      "name": "Validar contrato",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-680, 120]
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://classroom.googleapis.com/v1/courses/' + encodeURIComponent($json.course_id) + '/students/' + encodeURIComponent($json.email) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleOAuth2Api",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "f1b-member-get",
+      "name": "¿Ya es alumno?",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-450, 120],
+      "credentials": {
+        "googleOAuth2Api": {
+          "id": "REPLACE_ON_IMPORT",
+          "name": "Google Classroom OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {"caseSensitive": true, "leftValue": "", "typeValidation": "strict"},
+          "conditions": [
+            {
+              "id": "member-status",
+              "leftValue": "={{ $json.statusCode }}",
+              "rightValue": 200,
+              "operator": {"type": "number", "operation": "equals"}
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f1b-member-if",
+      "name": "Membresía existente",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [-220, 120]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'delivered', delivery_state: 'active', external_id: $json.body?.userId ?? $('Validar contrato').first().json.email, idempotent: true } }}",
+        "options": {"responseCode": 200}
+      },
+      "id": "f1b-member-response",
+      "name": "Responder membresía existente",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [20, -40]
+    },
+    {
+      "parameters": {
+        "url": "https://classroom.googleapis.com/v1/invitations",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {"name": "userId", "value": "={{ $('Validar contrato').first().json.email }}"},
+            {"name": "courseId", "value": "={{ $('Validar contrato').first().json.course_id }}"}
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {"fullResponse": true, "neverError": true}
+          }
+        }
+      },
+      "id": "f1b-invite-list",
+      "name": "Buscar invitación existente",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [20, 200],
+      "credentials": {
+        "googleOAuth2Api": {
+          "id": "REPLACE_ON_IMPORT",
+          "name": "Google Classroom OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {"caseSensitive": true, "leftValue": "", "typeValidation": "strict"},
+          "conditions": [
+            {
+              "id": "invite-exists",
+              "leftValue": "={{ Array.isArray($json.body?.invitations) && $json.body.invitations.length > 0 }}",
+              "rightValue": true,
+              "operator": {"type": "boolean", "operation": "true", "singleValue": true}
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f1b-invite-if",
+      "name": "Invitación existente",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [250, 200]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'delivered', delivery_state: 'invited', external_id: $json.body.invitations[0].id, idempotent: true } }}",
+        "options": {"responseCode": 200}
+      },
+      "id": "f1b-invite-existing-response",
+      "name": "Responder invitación existente",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [500, 100]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://classroom.googleapis.com/v1/invitations",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { courseId: $('Validar contrato').first().json.course_id, userId: $('Validar contrato').first().json.email, role: 'STUDENT' } }}",
+        "options": {
+          "response": {
+            "response": {"fullResponse": true, "neverError": true}
+          }
+        }
+      },
+      "id": "f1b-invite-create",
+      "name": "Crear invitación Classroom",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [500, 300],
+      "credentials": {
+        "googleOAuth2Api": {
+          "id": "REPLACE_ON_IMPORT",
+          "name": "Google Classroom OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {"caseSensitive": true, "leftValue": "", "typeValidation": "strict"},
+          "conditions": [
+            {
+              "id": "create-status",
+              "leftValue": "={{ $json.statusCode }}",
+              "rightValue": 200,
+              "operator": {"type": "number", "operation": "equals"}
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f1b-create-if",
+      "name": "Invitación creada",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [730, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'delivered', delivery_state: 'invited', external_id: $json.body.id, idempotent: false } }}",
+        "options": {"responseCode": 200}
+      },
+      "id": "f1b-create-success",
+      "name": "Responder invitación creada",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [970, 220]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'failed', error: $json.body?.error?.status ?? 'classroom_request_failed', message: $json.body?.error?.message ?? 'Google Classroom rechazó la invitación' } }}",
+        "options": {"responseCode": 502}
+      },
+      "id": "f1b-create-failure",
+      "name": "Responder fallo verificable",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [970, 380]
+    }
+  ],
+  "connections": {
+    "Webhook autenticado": {"main": [[{"node": "Validar contrato", "type": "main", "index": 0}]]},
+    "Validar contrato": {"main": [[{"node": "¿Ya es alumno?", "type": "main", "index": 0}]]},
+    "¿Ya es alumno?": {"main": [[{"node": "Membresía existente", "type": "main", "index": 0}]]},
+    "Membresía existente": {"main": [[{"node": "Responder membresía existente", "type": "main", "index": 0}], [{"node": "Buscar invitación existente", "type": "main", "index": 0}]]},
+    "Buscar invitación existente": {"main": [[{"node": "Invitación existente", "type": "main", "index": 0}]]},
+    "Invitación existente": {"main": [[{"node": "Responder invitación existente", "type": "main", "index": 0}], [{"node": "Crear invitación Classroom", "type": "main", "index": 0}]]},
+    "Crear invitación Classroom": {"main": [[{"node": "Invitación creada", "type": "main", "index": 0}]]},
+    "Invitación creada": {"main": [[{"node": "Responder invitación creada", "type": "main", "index": 0}], [{"node": "Responder fallo verificable", "type": "main", "index": 0}]]}
+  },
+  "active": false,
+  "settings": {"executionOrder": "v1"},
+  "versionId": "phase-1b-google-classroom-onboarding"
+}

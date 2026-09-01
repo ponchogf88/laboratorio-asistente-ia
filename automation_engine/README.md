@@ -1,16 +1,38 @@
-# Automation Engine
+# Automation Engine - Fase 1B
 
-Base segura y comprobable para recibir leads, verificar pagos de Stripe y disparar el onboarding mediante n8n, Make o Zapier.
+Motor auditable para una sola oferta:
 
-## Qué cambia
+- **Producto:** Laboratorio en vivo + plantillas.
+- **Código:** `laboratorio-ia-piloto`.
+- **Precio:** MXN $1,000, pago único.
+- **Entrega:** invitación a Google Classroom.
 
-- Verifica la firma `Stripe-Signature` sobre el cuerpo original de la solicitud.
-- Procesa únicamente `checkout.session.completed`.
-- Evita onboarding duplicado con un registro idempotente en SQLite.
-- Protege el webhook de leads con `X-Webhook-Secret`.
-- Persiste leads, pagos y eventos para auditoría.
-- Reporta `ready_for_production=false` hasta que la configuración mínima exista.
-- Deja de simular invitaciones o mensajes exitosos.
+## Garantías del flujo
+
+- Verifica `Stripe-Signature` sobre el cuerpo original.
+- Sólo crea matrícula cuando Stripe reporta `payment_status=paid`.
+- Exige producto, monto y moneda exactos.
+- Un `payment_id` produce como máximo una matrícula y un job.
+- Reintenta onboarding a los 5 minutos, 30 minutos y 2 horas.
+- Después de cuatro fallos marca la matrícula `failed` y emite una alerta.
+- Registra evidencia separada de invitación y membresía activa.
+- Nunca considera una invitación de Classroom como acceso ya aceptado.
+
+## Estados
+
+`enrollments.status`:
+
+```text
+pending -> onboarding_requested -> invited -> active
+                              \-> failed
+```
+
+`onboarding_jobs.status`:
+
+```text
+received -> processing -> delivered
+                      \-> failed -> retry
+```
 
 ## Inicio local
 
@@ -24,7 +46,7 @@ cp automation_engine/.env.example .env
 uvicorn automation_engine.orchestrator:app --reload
 ```
 
-Abre `http://localhost:8000/docs` para probar la API y `http://localhost:8000/health` para revisar el estado de configuración.
+Abre `http://localhost:8000/health` para confirmar la oferta y la preparación por componente.
 
 ## Pruebas
 
@@ -32,40 +54,58 @@ Abre `http://localhost:8000/docs` para probar la API y `http://localhost:8000/he
 python -m pytest -q
 ```
 
-## Configurar Stripe
+## Contrato Stripe
 
-1. Crea un endpoint de webhook que apunte a `https://TU_DOMINIO/webhook/stripe`.
-2. Suscríbelo solamente a `checkout.session.completed`.
-3. Copia su signing secret en `STRIPE_WEBHOOK_SECRET`.
-4. Agrega `metadata[tier]` con `tripwire`, `bootcamp` o `accelerator` a cada Checkout Session/Payment Link.
-5. Usa Stripe CLI para reenviar eventos durante desarrollo:
+El Payment Link de prueba debe:
 
-```bash
-stripe listen --forward-to localhost:8000/webhook/stripe
-stripe trigger checkout.session.completed
-```
+1. Cobrar exactamente `100000` centavos de MXN.
+2. Ser de pago único.
+3. Recopilar correo electrónico.
+4. Incluir `metadata.product_code=laboratorio-ia-piloto`.
+5. Enviar `checkout.session.completed` y `checkout.session.async_payment_succeeded` al endpoint `/webhook/stripe`.
 
-Stripe puede reenviar un evento, por eso el `event.id` se registra antes de programar el onboarding. Consulta la [guía oficial de firmas](https://docs.stripe.com/webhooks/signature) y las [buenas prácticas de webhooks](https://docs.stripe.com/webhooks).
+Stripe copia la metadata del Payment Link a la Checkout Session. Consulta la [documentación oficial de metadata](https://docs.stripe.com/metadata) y la [verificación de firmas](https://docs.stripe.com/webhooks/signature).
 
-## Conectar onboarding
+## Contrato n8n
 
-`ONBOARDING_WEBHOOK_URL` debe ser un webhook autenticado de n8n, Make o Zapier. Recibirá:
+El motor envía al workflow 03:
 
 ```json
 {
   "event": "student.onboarding.requested",
-  "payment": {
-    "payment_id": "pi_...",
-    "customer_email": "alumno@example.com",
-    "tier": "bootcamp",
-    "amount_minor": 29700,
-    "currency": "MXN"
-  }
+  "event_key": "student.onboarding.requested:pi_123",
+  "enrollment_id": "enr_123",
+  "payment_id": "pi_123",
+  "email": "alumno@example.com",
+  "product_code": "laboratorio-ia-piloto",
+  "course_id": "123456789"
 }
 ```
 
-Configura `ONBOARDING_WEBHOOK_TOKEN` si el destino acepta `Authorization: Bearer ...`. En producción, la API rechaza pagos temporalmente si el destino de onboarding no está configurado, de modo que Stripe pueda reintentar el evento.
+Respuesta aceptada:
 
-## Estado real
+```json
+{
+  "status": "delivered",
+  "delivery_state": "invited",
+  "external_id": "invitation_123"
+}
+```
 
-Esta base deja listo el ingreso seguro de eventos. Todavía faltan para un lanzamiento completo: desplegar la API, crear el flujo receptor de onboarding, configurar Payment Links reales, ejecutar una compra de prueba y definir monitoreo/alertas.
+Si el usuario ya era miembro, `delivery_state` será `active`. Cualquier respuesta sin `external_id` se trata como fallo y se reintenta.
+
+## Procesamiento y reconciliación
+
+- `POST /internal/onboarding/process`: procesa jobs vencidos; debe ejecutarse periódicamente.
+- `GET /internal/onboarding/invited`: lista invitaciones aún no confirmadas.
+- `POST /webhook/onboarding-membership`: registra evidencia de membresía activa.
+
+Los tres endpoints requieren `X-Webhook-Secret`.
+
+## Workflows incluidos
+
+- `03_google_classroom_onboarding.json`: comprueba membresía/invitación antes de crear otra.
+- `04_google_classroom_membership_reconciliation.json`: confirma cada cinco minutos quién ya aceptó.
+- `05_operational_alerts_telegram.json`: notifica fallos terminales.
+
+Consulta [PHASE_1B_SETUP.md](../workflows/PHASE_1B_SETUP.md) para importación, credenciales y prueba de salida.

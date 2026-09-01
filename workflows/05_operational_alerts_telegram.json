@@ -1,0 +1,50 @@
+{
+  "name": "05 - Operational Alerts Telegram (Fase 1B)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "operational-alerts",
+        "authentication": "headerAuth",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "f1b-alert-webhook",
+      "name": "Alerta autenticada",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-300, 120],
+      "webhookId": "operational-alerts-phase-1b",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ON_IMPORT",
+          "name": "Laboratorio Alert Bearer"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.ADMIN_CHAT_ID }}",
+        "text": "=🚨 *Fallo de onboarding*\n\nMatrícula: `{{ $json.body.enrollment_id }}`\nPago: `{{ $json.body.payment_id }}`\nIntentos: {{ $json.body.attempts }}\nError: {{ $json.body.error }}",
+        "additionalFields": {"parse_mode": "Markdown"}
+      },
+      "id": "f1b-alert-telegram",
+      "name": "Notificar administrador",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [-40, 120],
+      "credentials": {
+        "telegramApi": {
+          "id": "REPLACE_ON_IMPORT",
+          "name": "Laboratorio Telegram Bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Alerta autenticada": {"main": [[{"node": "Notificar administrador", "type": "main", "index": 0}]]}
+  },
+  "active": false,
+  "settings": {"executionOrder": "v1"},
+  "versionId": "phase-1b-operational-alerts"
+}

@@ -1,0 +1,132 @@
+{
+  "name": "04 - Google Classroom Membership Reconciliation (Fase 1B)",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.AUTOMATION_ENGINE_URL + '/internal/onboarding/process?limit=20' }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "f1b-process-retries",
+      "name": "Procesar reintentos vencidos",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-410, 40],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ON_IMPORT",
+          "name": "Laboratorio Internal Secret"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {"interval": [{"field": "minutes", "minutesInterval": 5}]}
+      },
+      "id": "f1b-schedule",
+      "name": "Cada 5 minutos",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-620, 160]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.AUTOMATION_ENGINE_URL + '/internal/onboarding/invited?limit=50' }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "f1b-get-invited",
+      "name": "Obtener invitaciones pendientes",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-400, 160],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ON_IMPORT",
+          "name": "Laboratorio Internal Secret"
+        }
+      }
+    },
+    {
+      "parameters": {"fieldToSplitOut": "enrollments", "options": {}},
+      "id": "f1b-split",
+      "name": "Una matrícula por item",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [-180, 160]
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://classroom.googleapis.com/v1/courses/' + encodeURIComponent($('Obtener invitaciones pendientes').first().json.course_id) + '/students/' + encodeURIComponent($json.email) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleOAuth2Api",
+        "options": {"response": {"response": {"fullResponse": true, "neverError": true}}}
+      },
+      "id": "f1b-check-member",
+      "name": "Confirmar membresía Classroom",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [50, 160],
+      "credentials": {
+        "googleOAuth2Api": {
+          "id": "REPLACE_ON_IMPORT",
+          "name": "Google Classroom OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {"caseSensitive": true, "leftValue": "", "typeValidation": "strict"},
+          "conditions": [
+            {"id": "member-found", "leftValue": "={{ $json.statusCode }}", "rightValue": 200, "operator": {"type": "number", "operation": "equals"}}
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f1b-member-confirmed",
+      "name": "Alumno ya activo",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [280, 160]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.AUTOMATION_ENGINE_URL + '/webhook/onboarding-membership' }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { enrollment_id: $('Una matrícula por item').item.json.id, status: 'active', external_reference: $json.body?.userId ?? $('Una matrícula por item').item.json.email, course_id: $('Obtener invitaciones pendientes').first().json.course_id, email: $('Una matrícula por item').item.json.email } }}",
+        "options": {}
+      },
+      "id": "f1b-callback",
+      "name": "Registrar evidencia activa",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [520, 80],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ON_IMPORT",
+          "name": "Laboratorio Internal Secret"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Cada 5 minutos": {"main": [[{"node": "Procesar reintentos vencidos", "type": "main", "index": 0}]]},
+    "Procesar reintentos vencidos": {"main": [[{"node": "Obtener invitaciones pendientes", "type": "main", "index": 0}]]},
+    "Obtener invitaciones pendientes": {"main": [[{"node": "Una matrícula por item", "type": "main", "index": 0}]]},
+    "Una matrícula por item": {"main": [[{"node": "Confirmar membresía Classroom", "type": "main", "index": 0}]]},
+    "Confirmar membresía Classroom": {"main": [[{"node": "Alumno ya activo", "type": "main", "index": 0}]]},
+    "Alumno ya activo": {"main": [[{"node": "Registrar evidencia activa", "type": "main", "index": 0}], []]}
+  },
+  "active": false,
+  "settings": {"executionOrder": "v1"},
+  "versionId": "phase-1b-google-classroom-reconciliation"
+}

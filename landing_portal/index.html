@@ -58,13 +58,13 @@
     </div>
     <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
       <a href="#programa" class="hover:text-white transition">Temario</a>
-      <a href="#acreditacion" class="hover:text-white transition">Doble Acreditación</a>
+      <a href="#acreditacion" class="hover:text-white transition">Evidencias</a>
       <a href="#simulador" class="hover:text-white transition">Demo en Vivo</a>
       <a href="#inscripcion" class="hover:text-white transition">Inscripción</a>
       <a href="#legal" class="hover:text-white transition">Términos</a>
     </div>
     <a href="#inscripcion" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-sm font-bold shadow-lg shadow-emerald-600/30 transition-all">
-      Asegurar Lugar Piloto ($1,000 MXN)
+      Ver Oferta Piloto · MXN $1,000
     </a>
   </nav>
 
@@ -80,14 +80,14 @@
     </h1>
     
     <p class="mt-6 text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto font-normal leading-relaxed">
-      Aprende a construir, desplegar y operar agentes autónomos con <strong>n8n, Claude 3.5 y WhatsApp</strong> en un taller práctico en vivo. Sal con tu sistema operando y respaldo oficial de competencias.
+      Aprende a construir, desplegar y operar agentes autónomos con <strong>n8n, IA generativa y automatización</strong> en un taller práctico en vivo. Sal con plantillas reutilizables y evidencia de lo que construiste.
     </p>
 
     <!-- BADGE DE PRECIO PILOTO -->
     <div class="mt-8 inline-block p-4 rounded-2xl bg-slate-900/90 border border-slate-700 shadow-2xl">
       <div class="flex items-center justify-center gap-4">
         <div class="text-left">
-          <span class="text-xs text-slate-400 block line-through">Precio Regular: $3,500 MXN</span>
+          <span class="text-xs text-slate-400 block">Pago único · Oferta piloto validada</span>
           <span class="text-3xl font-black text-emerald-400">MXN $1,000</span>
           <span class="text-xs text-slate-300 font-mono ml-2">· Cupo Piloto (12 Lugares)</span>
         </div>
@@ -195,7 +195,7 @@
             <h4 class="font-bold text-white text-base">Sesión 1: Tu Servidor de Automatización Propio ($5/mes)</h4>
             <span class="text-xs text-slate-400 font-mono">90 Min</span>
           </div>
-          <p class="text-xs text-slate-400 mt-1">Configuración de n8n en VPS con Docker. Conexión con Claude 3.5 Sonnet y OpenAI sin límites de ejecuciones.</p>
+          <p class="text-xs text-slate-400 mt-1">Configuración de n8n en VPS con Docker. Conexión configurable con modelos de IA y control de ejecuciones.</p>
         </div>
       </div>
 
@@ -245,72 +245,50 @@
     </div>
   </section>
 
-  <!-- PASARELA DE PAGO E INSCRIPCIÓN -->
+  <!-- OFERTA ÚNICA Y CHECKOUT VERIFICABLE -->
   <section id="inscripcion" class="py-16 px-6 max-w-4xl mx-auto">
     <div class="card-glass p-8 md:p-12 rounded-3xl border-2 border-brand-500 shadow-2xl relative bg-brand-card/90">
       <div class="text-center mb-8">
-        <span class="px-4 py-1 rounded-full bg-emerald-950 text-emerald-400 text-xs font-bold font-mono uppercase tracking-wider border border-emerald-700">
-          Inscripción Abierta · Cohorte 1
+        <span id="checkoutBadge" class="px-4 py-1 rounded-full bg-amber-950 text-amber-400 text-xs font-bold font-mono uppercase tracking-wider border border-amber-700">
+          Checkout pendiente de activación
         </span>
-        <h3 class="text-3xl font-extrabold text-white mt-3">Asegura tu Lugar en el Grupo Piloto</h3>
-        <p class="text-slate-400 text-sm mt-1">Inversión única de validación: <strong>MXN $1,000</strong> (Solo 12 participantes).</p>
+        <h3 class="text-3xl font-extrabold text-white mt-3">Laboratorio en Vivo + Plantillas</h3>
+        <p class="text-slate-400 text-sm mt-1">Un solo producto · Pago único de <strong>MXN $1,000</strong> · 12 participantes.</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <!-- Opcion SPEI -->
         <div class="p-5 rounded-2xl bg-slate-900 border border-slate-700 text-center">
-          <i data-lucide="banknote" class="w-6 h-6 text-emerald-400 mx-auto mb-2"></i>
-          <h4 class="font-bold text-white text-sm">Transferencia SPEI</h4>
-          <p class="text-[11px] text-slate-400 mt-1">Sin comisiones adicionales · Depósito directo a cuenta CLABE.</p>
-          <button onclick="showSPEI()" class="mt-3 px-4 py-1.5 rounded-lg bg-emerald-950 text-emerald-400 text-xs font-bold border border-emerald-800 w-full hover:bg-emerald-900">
-            Ver Datos Bancarios
-          </button>
+          <i data-lucide="badge-check" class="w-6 h-6 text-emerald-400 mx-auto mb-2"></i>
+          <h4 class="font-bold text-white text-sm">Pago verificado</h4>
+          <p class="text-[11px] text-slate-400 mt-1">Stripe confirma firma, producto, monto, moneda y estado pagado.</p>
         </div>
 
-        <!-- Opcion Mercado Pago -->
         <div class="p-5 rounded-2xl bg-slate-900 border border-slate-700 text-center">
-          <i data-lucide="credit-card" class="w-6 h-6 text-sky-400 mx-auto mb-2"></i>
-          <h4 class="font-bold text-white text-sm">Mercado Pago</h4>
-          <p class="text-[11px] text-slate-400 mt-1">Tarjetas Débito/Crédito, OXXO y Meses sin intereses.</p>
-          <a href="https://mpago.la/pos/YOUR_LINK" target="_blank" class="mt-3 block px-4 py-1.5 rounded-lg bg-sky-950 text-sky-400 text-xs font-bold border border-sky-800 w-full hover:bg-sky-900 text-center">
-            Pagar con Mercado Pago
-          </a>
+          <i data-lucide="graduation-cap" class="w-6 h-6 text-cyan-400 mx-auto mb-2"></i>
+          <h4 class="font-bold text-white text-sm">Google Classroom</h4>
+          <p class="text-[11px] text-slate-400 mt-1">Recibirás una invitación. El acceso se marca activo sólo cuando la aceptes.</p>
         </div>
 
-        <!-- Opcion Stripe -->
         <div class="p-5 rounded-2xl bg-slate-900 border border-slate-700 text-center">
-          <i data-lucide="globe" class="w-6 h-6 text-indigo-400 mx-auto mb-2"></i>
-          <h4 class="font-bold text-white text-sm">Stripe / USD</h4>
-          <p class="text-[11px] text-slate-400 mt-1">Tarjetas internacionales (Visa, Mastercard, Amex).</p>
-          <a href="https://buy.stripe.com/YOUR_LINK" target="_blank" class="mt-3 block px-4 py-1.5 rounded-lg bg-indigo-950 text-indigo-400 text-xs font-bold border border-indigo-800 w-full hover:bg-indigo-900 text-center">
-            Pagar con Stripe ($50 USD)
-          </a>
+          <i data-lucide="file-check-2" class="w-6 h-6 text-purple-400 mx-auto mb-2"></i>
+          <h4 class="font-bold text-white text-sm">Evidencia auditable</h4>
+          <p class="text-[11px] text-slate-400 mt-1">Pago, matrícula, invitación y membresía quedan registrados por separado.</p>
         </div>
       </div>
 
-      <!-- DETALLE SPEI OCULTO -->
-      <div id="speiBox" class="p-5 rounded-2xl bg-slate-950 border border-emerald-700/50 mb-8">
-        <h5 class="text-xs font-mono text-emerald-400 uppercase font-bold mb-2">Datos para Transferencia Interbancaria (SPEI):</h5>
-        <div class="text-xs space-y-1 font-mono text-slate-300">
-          <p><strong>Banco:</strong> BBVA México</p>
-          <p><strong>Cuenta CLABE:</strong> 012 180 01572067147 6</p>
-          <p><strong>Cuenta:</strong> 157 206 7147</p>
-          <p><strong>Beneficiario:</strong> Jesus Alfonso Gutierrez Flores</p>
-          <p><strong>Monto:</strong> $1,000.00 MXN (Precio Fundador)</p>
-          <p><strong>Concepto:</strong> [Tu Nombre] - Piloto IA</p>
-        </div>
-        <p class="text-[11px] text-slate-400 mt-3">Al realizar la transferencia, envía tu comprobante por WhatsApp para darte acceso inmediato al grupo y a los materiales.</p>
-        <div class="mt-4">
-          <a href="../kit_lanzamiento/tarjeta_pago_bbva.html" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-cyan-400 hover:text-cyan-300 underline font-semibold">
-            💳 Ver Tarjeta Interactiva de Pago con Código QR ➔
-          </a>
-        </div>
+      <div class="p-6 rounded-2xl bg-slate-950 border border-indigo-700/50 mb-6 text-center">
+        <button id="checkoutButton" type="button" onclick="startCheckout()" disabled class="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-slate-700 text-slate-400 font-bold text-sm cursor-not-allowed transition w-full md:w-auto">
+          <i data-lucide="lock-keyhole" class="w-5 h-5"></i>
+          Checkout todavía no configurado
+        </button>
+        <p id="checkoutStatus" class="text-xs text-amber-300 mt-4" role="status" aria-live="polite">
+          No se realizará ningún cobro hasta instalar un Payment Link real de Stripe Test Mode.
+        </p>
       </div>
 
-      <!-- BOTON CONTACTO DIRECTO -->
       <div class="text-center">
         <a href="https://wa.me/528130516527?text=Hola%20Alfonso,%20quiero%20asegurar%20mi%20lugar%20para%20la%20Cohorte%201%20del%20Laboratorio%20IA" target="_blank" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-600/30 transition">
-          <i data-lucide="message-circle" class="w-5 h-5"></i> Enviar Comprobante / Dudas por WhatsApp
+          <i data-lucide="message-circle" class="w-5 h-5"></i> Avisarme cuando abra el checkout
         </a>
       </div>
     </div>
@@ -340,11 +318,32 @@
     </div>
   </footer>
 
+  <script src="./checkout-config.js"></script>
   <script>
     lucide.createIcons();
-    function showSPEI() {
-      const box = document.getElementById("speiBox");
-      box.scrollIntoView({ behavior: 'smooth' });
+
+    const checkoutUrl = String(window.LAB_CHECKOUT_URL || "").trim();
+    const checkoutButton = document.getElementById("checkoutButton");
+    const checkoutStatus = document.getElementById("checkoutStatus");
+    const checkoutBadge = document.getElementById("checkoutBadge");
+
+    if (checkoutUrl.startsWith("https://buy.stripe.com/")) {
+      checkoutButton.disabled = false;
+      checkoutButton.className = "inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-lg shadow-indigo-600/30 transition w-full md:w-auto";
+      checkoutButton.innerHTML = '<i data-lucide="credit-card" class="w-5 h-5"></i> Pagar MXN $1,000 con Stripe';
+      checkoutStatus.textContent = "Serás redirigido al checkout seguro de Stripe.";
+      checkoutStatus.className = "text-xs text-emerald-300 mt-4";
+      checkoutBadge.textContent = "Inscripción activa · Cohorte 1";
+      checkoutBadge.className = "px-4 py-1 rounded-full bg-emerald-950 text-emerald-400 text-xs font-bold font-mono uppercase tracking-wider border border-emerald-700";
+      lucide.createIcons();
+    }
+
+    function startCheckout() {
+      if (!checkoutUrl.startsWith("https://buy.stripe.com/")) {
+        checkoutStatus.textContent = "Checkout no disponible. No se realizó ningún cobro.";
+        return;
+      }
+      window.location.assign(checkoutUrl);
     }
   </script>
 </body>
