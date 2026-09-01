@@ -15,14 +15,14 @@ INTERNAL_SECRET = "internal-test-secret"
 
 
 def _client(tmp_path, **overrides):
-    values = {"environment": "development", "database_path": str(tmp_path / "events.db"), "internal_webhook_secret": INTERNAL_SECRET, "stripe_webhook_secret": STRIPE_SECRET, "classroom_join_url": "https://classroom.google.com/c/example"}
+    values = {"environment": "development", "database_path": str(tmp_path / "events.db"), "internal_webhook_secret": INTERNAL_SECRET, "stripe_webhook_secret": STRIPE_SECRET, "stripe_payment_link_id": "plink_live_laboratorio", "classroom_join_url": "https://classroom.google.com/c/example"}
     values.update(overrides)
     settings = Settings(**values)
     return TestClient(create_app(settings, EventStore(settings.database_path))), settings
 
 
 def _stripe_payload(event_id="evt_001", event_type="checkout.session.completed", **changes):
-    session = {"id": "cs_test_001", "payment_intent": "pi_test_001", "payment_status": "paid", "amount_total": 100000, "currency": "mxn", "metadata": {"product_code": "laboratorio-ia-piloto"}, "customer_details": {"name": "Persona de Prueba", "email": "test@example.com"}}
+    session = {"id": "cs_test_001", "payment_intent": "pi_test_001", "payment_link": "plink_live_laboratorio", "payment_status": "paid", "amount_total": 100000, "currency": "mxn", "metadata": {}, "customer_details": {"name": "Persona de Prueba", "email": "test@example.com"}}
     session.update(changes)
     return {"id": event_id, "type": event_type, "data": {"object": session}}
 

@@ -20,6 +20,7 @@ class Settings:
     product_code: str = "laboratorio-ia-piloto"
     product_amount_minor: int = 100_000
     product_currency: str = "MXN"
+    stripe_payment_link_id: str | None = None
     classroom_join_url: str | None = None
 
     def __post_init__(self) -> None:
@@ -40,6 +41,7 @@ class Settings:
             product_code=os.getenv("PRODUCT_CODE", "laboratorio-ia-piloto").strip(),
             product_amount_minor=int(os.getenv("PRODUCT_AMOUNT_MINOR", "100000")),
             product_currency=os.getenv("PRODUCT_CURRENCY", "MXN").strip().upper(),
+            stripe_payment_link_id=_clean(os.getenv("STRIPE_PAYMENT_LINK_ID")),
             classroom_join_url=_clean(os.getenv("CLASSROOM_JOIN_URL")),
         )
 
@@ -53,6 +55,7 @@ class Settings:
             (
                 self.internal_webhook_secret,
                 self.stripe_webhook_secret,
+                self.stripe_payment_link_id,
                 self.classroom_join_url,
             )
         )
@@ -61,6 +64,7 @@ class Settings:
         return {
             "lead_webhook_auth": bool(self.internal_webhook_secret),
             "stripe_signature_verification": bool(self.stripe_webhook_secret),
+            "payment_link_allowlist": bool(self.stripe_payment_link_id),
             "lead_delivery": bool(self.lead_webhook_url),
             "classroom_link": bool(self.classroom_join_url),
         }

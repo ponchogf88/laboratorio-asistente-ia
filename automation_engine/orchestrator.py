@@ -50,6 +50,7 @@ def _payment_from_session(session: dict) -> dict:
     return {
         "payment_id": str(session.get("payment_intent") or session.get("id") or ""),
         "checkout_session_id": str(session.get("id") or ""),
+        "payment_link": str(session.get("payment_link") or ""),
         "customer_name": customer.get("name"),
         "customer_email": customer.get("email"),
         "customer_phone": customer.get("phone"),
@@ -162,9 +163,13 @@ def create_app(
         if payment["payment_status"] != "paid":
             return {"status": "awaiting_payment", "event_id": event_id}
 
+        product_matches = payment["product_code"] == settings.product_code
+        link_matches = bool(settings.stripe_payment_link_id) and (
+            payment["payment_link"] == settings.stripe_payment_link_id
+        )
         offer_matches = all(
             (
-                payment["product_code"] == settings.product_code,
+                product_matches or link_matches,
                 payment["amount_minor"] == settings.product_amount_minor,
                 payment["currency"] == settings.product_currency,
                 bool(payment["customer_email"]),

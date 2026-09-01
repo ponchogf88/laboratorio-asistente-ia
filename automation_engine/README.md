@@ -16,7 +16,7 @@ No requiere n8n, Google Cloud ni OAuth para funcionar.
 
 - Firma original `Stripe-Signature`.
 - Pago con estado `paid`.
-- Producto, monto y moneda exactos.
+- Payment Link autorizado, monto y moneda exactos.
 - Un evento duplicado no duplica el registro del pago.
 - Eventos Test Mode no pueden operar producción.
 
@@ -29,7 +29,7 @@ uvicorn automation_engine.orchestrator:app --reload
 
 Configura en Stripe Test Mode un endpoint hacia `/webhook/stripe` y suscríbelo a `checkout.session.completed` y `checkout.session.async_payment_succeeded`.
 
-El Payment Link debe cobrar MXN $1,000 y llevar `metadata.product_code=laboratorio-ia-piloto`. Configura su URL de éxito para volver a `landing_portal/success.html` del sitio desplegado.
+El Payment Link Live existente debe cobrar MXN $1,000. El agente de navegador debe obtener su ID `plink_...` y guardarlo sólo como `STRIPE_PAYMENT_LINK_ID` en el despliegue. Así el motor permite exclusivamente ese Link, aun si no tiene metadata. Configura su URL de éxito para volver a `landing_portal/success.html` del sitio desplegado.
 
 ## Importante
 
